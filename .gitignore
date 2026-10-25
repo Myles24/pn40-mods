@@ -1,0 +1,23 @@
+# personal data and disk images (tracks, waypoints, maps, location logs)
+/dumps/
+/internal drive/
+/nmea_logs/
+/sdcard/
+# DeLorme base data and maps from the update package (307 MB)
+/update/0/
+# superseded images: new_fields.png and new_graph.png replace them
+/new_fields.bmp
+/elevation_graph.jpg
+
+# Ghidra project and decompiler output: regenerate with re/analyze.sh + re/run_export.sh
+/re/proj/
+/re/proj_*/
+/re/out/decomp*.c
+/re/out/functions_*.tsv
+/re/out/*.log
+
+# build output and local rollback copies
+/mods/out/
+/mods/baseline_*/
+__pycache__/
+*.pyc

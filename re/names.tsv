@@ -1,0 +1,664 @@
+# addr	name	comment   (functions and data; applied by ghidra_scripts/pn40_names.py)
+# --- startup / OS20 ---
+300816a0	reset_handler	vector table reset entry
+30081480	crt_start	mode stacks, copy .data, zero .bss, run constructors, call main
+30081d64	main	starts watchdog, UI, NMEA, WAAS... (see strings)
+301fc4a8	task_init	OS20 task_init(func, param, stack, stack_size, task_t*, tdesc_t*, prio, name, flags)
+301fa9a0	time_now	OS20 time_now(): ticks, 3.25 MHz
+301fa818	ticks_per_ms	3250
+301fa838	ticks_per_sec	3250000 (26 MHz / 8)
+301fb8b8	time_plus	time_plus(a, b)
+301fb8c0	time_minus	time_minus(a, b)
+301fb8c8	time_after	time_after(a, b) -> a > b
+301fb8dc	task_delay	task_delay(ticks)
+301faffc	task_delay_until	task_delay_until(time)
+301fbb4c	mutex_lock	OS20 mutex/semaphore wait
+301fb088	mutex_unlock	OS20 mutex/semaphore signal
+301fb1dc	memory_allocate	OS20 memory_allocate(partition, size)
+301fb204	partition_init	partition_init(partition, base, size, blocksize)
+301883a0	heap_init	creates the heap partitions from the table at 304d0890 / 304d08d8
+301fac1c	kernel_init	kernel_init(26 = MHz), sets 003f5170
+# --- libc ---
+30189890	malloc	malloc(size)
+30189748	free	free(p)
+30187e80	fopen	fopen(path, mode); not reentrant (static path buffer 001995f4)
+30187904	fwrite	fwrite(ptr, size, n, f)
+30187db8	fclose	fclose(f)
+3018902c	stat	stat(path, buf) -> 0 if exists
+3018a60c	mkdir	mkdir(path, mode)
+3018a1b4	path_normalize	builds full path in static buffer 001995f4
+301956d0	fs_open	low-level open, FS lock held
+30196d6c	fs_lock	FS global lock
+30196d44	fs_unlock	FS global unlock
+30432740	memset	memset(d, c, n)
+304326e0	memcpy	memcpy(d, s, n)
+30432680	strlen	strlen(s)
+30432d2c	snprintf	snprintf(buf, n, fmt, ...)
+30432d6c	sprintf	sprintf(buf, fmt, ...)
+30432de4	sscanf	sscanf(s, fmt, ...)
+# --- device / misc ---
+300b966c	get_datetime	get_datetime(&mon, &day, &year2000, &h, &m, &s)
+300d0050	usb_export_state	0 = SD exported to PC, 1 = internal exported, 2 = none
+301c8cc8	gps_week_expand	10-bit week -> full week (rollover fix patched here)
+# --- NMEA (ST GPS library) ---
+301518e4	NMEA_start	NMEA_start(port, msg_mask, ?, double)
+3014ff24	nmea_output_task	"NMEA output Process" (prio 8, stack 0x76c)
+30151720	nmea_input_task	"NMEA input Process"
+3014b564	nmea_send	nmea_send(buf, len): mutex 003ebfcc, writes to enabled ports
+3014b3d4	nmea_checksum	XOR of sentence body
+# --- UI task ---
+3008608c	ui_task	"UI task": prio 3, 64 KB stack
+30085e14	ui_main_loop	polls events every 1 ms, posts periodic event type 2 every 5 ms
+300e6744	ui_get_event	ui_get_event(event*): event->type 0 = none
+300e6638	ui_dispatch_event	ui_dispatch_event(event*)
+30085b10	ui_before_dispatch	called with 1 before each dispatch
+300862d8	ui_key_filter	global key handling (events 0x3f1, 0x3f5, 0x5e9); screenshot on 0x3f1 + combo
+30084b4c	take_screenshot	SD:/screenshots/screencap-<date>.bmp
+30086c80	write_bmp	write_bmp(path, image): 24-bit BMP from RGB565 image struct
+# --- input ---
+301a3678	input_controller_task	"InputController task": polls 13 keys every 10 ms, posts {key_idx, pressed} to queue 003ecda4
+301a3308	key_is_down	key_is_down(key_idx 0-12)
+301a356c	input_queue_pop	next {key_idx, pressed} from the InputController queue, or 0
+300e4da4	ui_translate_keys	key_idx -> event code: press 0x3e8+k, release 0x5dc+k (k = logical key 1-13)
+300e4934	ui_global_filter	first stage of dispatch: key repeat, power/backlight, screenshot; result 0xb = consumed
+# --- dispatch ---
+300939d0	ui_dispatch_to_app	sends an event to the app object [003f0c2c]
+3009bc30	app_dispatch_layers	topmost non-null layer of the app object gets the event (+4,+8,+0xc,+0x10,+0x14,+0x18,+0x24,+0x1c,+0x20)
+300e3b70	ui_handle_result	acts on a handler result {code, param}; code 10 = not handled
+300e639c	ui_dispatch_late	third dispatch stage (after the app layers)
+300e6870	evq_pop	evq_pop(out, queue)
+300e68ec	evq_push	evq_push(queue, event)
+300e67a4	evq_init	evq_init(queue, storage, capacity)
+300e67dc	evq_full	queue full?
+3015aafc	gpio_read	gpio_read(pin, &value)
+# --- graphics (re/notes/graphics.md) ---
+00053b5c	ui_screen_dirty	set by result 0x7D4; ui_main_loop then calls win_update(g_screen_win)
+00053b60	ui_dirty_win	popup window to update at end of loop iteration
+000e435c	g_screen_win	window* of the main 176x220 screen surface (buffer 0010a068)
+000e4368	popup_buf	shared buffer of all type-1 popup windows (0x12E80 bytes)
+000f71e8	shadow_buf_data	176x220 RGB565
+0010a068	screen_buf_data	176x220 RGB565 (main back buffer)
+00364240	mapgfx_surface	map engine current window*
+00364244	mapgfx_fg	map engine fg colour
+003ea630	lcd_orientation	0 normal / 2 flipped
+003ea634	backlight_level	last level passed to backlight_set_level
+003ea638	lcd_bus_count	counter of panel register writes (debug)
+003ebd74	pwl_reg	-> 0x101E8100 backlight PWM register
+003ef6e8	sprite_cursor1	12x12 map cursor (type 1)
+003ef700	sprite_cursor3	24x24 map cursor (type 3)
+003ef718	sprite_cursor4	24x24 map cursor (type 4)
+003ef730	font_13b	13 px bold
+003ef748	sprite_cursor2	24x24 map cursor (type 2)
+003ef760	font_16b	16 px bold
+003ef778	win_table	16 window/surface structs x 0x38
+003efaf8	font_10b	10 px bold
+003efb10	font_sym16	16x16 symbol font, 17 glyphs
+003efb28	font_9b	9 px bold (small)
+003efb40	font_23b	23 px bold
+003efb58	font_10	10 px regular (line 10)
+003f2348	font_table	14 font* used by UI code (globals 003f2348..003f237c)
+003f23a4	color_scheme_table	5 ptrs to u16[8]: Spring, Summer, Autumn, Winter, Midnight
+00460534	mapgfx_font	map engine current font* (init font_10)
+00460538	mapgfx_bg	map engine bg / halo colour
+00460874	screen_buf	-> 0010a068 (0x00030054 during boot splash)
+00460878	lcd_cmd_port	-> 0x38020000 (register index + value port)
+0046087c	lcd_data_port	-> 0x38000000 (GRAM data window, any addr < 0x38020000)
+00460880	lcd_shadow_buf	-> 000f71e8: save-under buffer of what is on the panel under a popup
+3009c450	map_cursor_sprite	map cursor type 1-4 -> sprite descriptor
+300ba344	ui_draw_frame	(win, x1, y1, x2, y2, selected, ...) bevelled frame in theme colours
+300c5bf0	gfx_init	lcd_init + gfx_init_tables + shadow/screen buffers + screen window -> 000e435c
+300d0090	theme_color	theme_color(settings, idx): colour idx 0-7 of current scheme (Midnight if auto+after sunset)
+300d00e4	theme_color6	black (text) in day schemes; 63 callers
+300d00fc	theme_color7	
+300d0114	theme_color0	lightest fill
+300d012c	theme_color4	darkest
+300d0144	theme_color2	frame/outline
+300d015c	theme_color5	white (0xFFFF) in day schemes
+300d018c	theme_color3	
+300d01a4	theme_scheme_index	effective scheme 0-4
+300e3a64	ui_result_redraw	handles result 0x7D4 (flush win/screen) and 0x7D5 (redraw page)
+3015a8f0	gpio_set_mode	gpio_set_mode(pin, mode 1=GPIO/2-4=alt, dir/val...)
+3015ab4c	gpio_set	writes bit to GPIO block +4 (set)
+3015ab7c	gpio_clear	writes bit to GPIO block +8 (clear)
+3032d058	mapgfx_set_fg	fg colour -> 00364244 (+ half-bright 00364254)
+3032d084	mapgfx_set_bg	bg/halo colour -> 00460538
+3032d100	mapgfx_set_clip	clip rect -> 00364248,0036424c,0046052c,00460530
+3032d144	mapgfx_set_halo	text halo mode -> 00364250
+3032d180	mapgfx_get_pixel	(x, y)
+3032d1c0	mapgfx_blit	(x, y, bitmap) clipped to map clip
+3032d364	mapgfx_draw_char	(x, y, rotation, ch)
+3032d4c4	mapgfx_draw_text	(x, y, str, len)
+3032d9c4	mapgfx_hline	(y, x1, x2) in fg
+3032dae8	mapgfx_vline	(x, y1, y2) in fg
+3032dbe8	mapgfx_set_surface	map engine Gfx port: current win -> 00364240
+3032dc20	mapgfx_rgb	rgb_to_565 wrapper
+30424eb4	lcd_set_orientation	0 = normal (coords mirrored 0xAF-x/0xDB-y), 2 = flipped 180 deg; stored at 003ea630
+30424ec8	lcd_get_orientation	returns 003ea630
+30424ed4	gfx_init_tables	clears window table 003ef778, fills font + cursor-sprite descriptors
+304250f4	lcd_read_rect	lcd_read_rect(lcd_x, lcd_y, buf_x, buf_y, w, h): read panel GRAM into *00460880 (stride 176)
+30425230	lcd_write_from_shadow	(src_x, src_y, lcd_x, lcd_y, w, h): push *00460880 region to panel (popup close)
+304253f0	win_destroy	(win, 0): type-1 popup -> restores panel from shadow; frees slot
+30425434	win_clear_overlap	zero overlap codes (+4) of all windows
+30425454	backlight_get_level	returns 003ea634
+30425708	lcd_hline_direct	(x1, x2, y, color) straight to panel (window border)
+304257f4	lcd_vline_direct	(x, y1, y2, color) straight to panel (window border)
+304258e0	win_create	(type, buf, x1, y1, x2, y2, buf_w, buf_h, border, unused, border_color) -> win*; type 1 = popup (saves panel under it)
+30425d50	lcd_fill_rect_direct	(x1, y1, x2, y2, color) straight to panel
+30425e64	gfx_put_pixel	(win, x, y, color) -> 0 / -1
+30425e98	gfx_vline	(win, x, y1, y2, color) inclusive
+304261a4	gfx_circle	(win, cx, cy, r, color) outline
+304262ac	font_get_glyph	(font, ch) -> glyph ptr or 0
+304262cc	font_glyph_width_raw	(font, ch) without cp1252 mapping
+30426394	rgb_to_565	(r, g, b) 8-bit each -> RGB565
+304263ac	rgb565_to_rgb	(c, &r, &g, &b)
+304263d0	lcd_capture_screen	(image*): sets 176x220 and reads whole panel into image+0x34 (screenshot)
+30426414	font_char_width	(font, ch) -> pixel width (0 for \n \r \0)
+30426430	font_fit_chars	(font, str, maxw) -> first char that does not fit
+30426488	font_text_fits	(font, str, maxw) -> bool
+304264a0	font_wrap_line	(font, str, maxw) -> start of next line (word wrap)
+304265a8	font_width_until	(font, str, ndelim, delims)
+30426620	font_line_width	width up to first '\n'
+30426634	font_string_width	(font, str) = sum(w)+n-1
+30426648	font_string_width_ex	(font, str, halo, spacing)
+30426694	font_string_width_1	font_string_width_ex(font, str, 1, 1)
+304266b4	gfx_draw_char_ex	(win, font, x, y, ch, fg, halo_color, halo_w, rotation 0-3)
+30426a48	gfx_draw_string_halo	(win, font, x, y, str, fg, halo) halo width 1
+30426ad8	gfx_draw_string_halo_centered	(win, font, x, y, width, str, fg, halo)
+30426b60	gfx_hline	(win, x1, x2, y, color) inclusive
+30426c28	gfx_fill_polygon	(win, pts, color) convex fill, u16 pairs terminated by 0xFFFF
+304272a4	gfx_fill_circle	(win, cx, cy, r, color)
+30427414	gfx_thick_line	(win, x1, y1, x2, y2, width, color) round caps, uses gfx_fill_polygon
+3042792c	gfx_fill_rect	(win, x1, y1, x2, y2, color) inclusive; 101 call sites
+3042799c	gfx_draw_glyph	(win, font, x, y, ch, fg, bg); bg==fg -> transparent
+30427bc8	gfx_draw_char	(win, font, x, y, ch, fg, bg) cp1252-mapped -> width
+30427c1c	gfx_draw_string_cursor	(win, font, x, y, str, fg, bg, cursor_idx, max_chars) handles \n
+30427e54	gfx_draw_string	(win, font, x, y, str, fg, bg) -> end x
+30427ee4	gfx_draw_string_ellipsis	(win, font, x, y, maxw, str, fg, bg, cursor_idx) truncates with "..."
+3042809c	gfx_draw_string_centered	(win, font, x, y, width, str, fg, bg, cursor_idx)
+3042813c	gfx_draw_string_ex	(win, font, x, y, str, fg, halo_color, halo_w, spacing, rotation)
+30428460	gfx_draw_string_ex_fit	gfx_draw_string_ex truncated to maxw with "..."
+30428580	gfx_draw_char_1bpp	raw-bitmap font path of gfx_draw_text
+304286a4	gfx_draw_text	(win, font, x, y, str, fg, bg): 1bpp raw font if font+0xC==0 else gfx_draw_string
+30428750	gfx_rect	(win, x1, y1, x2, y2, color) outline
+304287ec	gfx_line	(win, x1, y1, x2, y2, color) Bresenham
+30428974	gfx_polygon	(win, pts, color) closed polyline, pts = {s16 x,y}... terminated by -1
+30428a04	lcd_off	fills panel white, reg 0x80=0 (display off), backlight pin 13 low
+30428a6c	backlight_set_level	0 = off (GPIO13 low), 1-254 = PWM duty, >=255 = full on (GPIO13 high)
+30428b10	lcd_init	PWL backlight init (0x101E8100), panel power/OTP sequence, regs 0x10..0x18, display on (reg 0x80=1)
+30428cb8	sprite_erase	(win, sprite*): restore saved background
+30428d3c	sprite_draw	(win, sprite*, x, y): save background into sprite buffer, draw with key 0x1010
+30428e20	gfx_copy_rect	(src_win, dst_win, sx, sy, dx, dy, w, h)
+30428eac	win_copy_to_shadow	(win, src_x, src_y, dst_x, dst_y, w, h) into *00460880
+30428f2c	win_push_rect_to_lcd	(win, src_x, src_y, lcd_x, lcd_y, w, h): set panel window then stream pixels
+3042907c	win_update	win_update(win): push client area to panel, covered parts go to shadow instead
+30429884	gfx_blit	(win, bitmap*, x, y) clipped, skips pixels == bitmap->key
+30429974	gfx_blit_clipped	(win, bitmap*, x, y, cx1, cy1, cx2, cy2)
+30429a7c	lcd_write_pixels	ARM: lcd_write_pixels(port, src, n) unrolled 16-bit copy, both pointers increment
+30429da8	win_update_rect	(win, x, y, w, h): partial update, same overlap logic
+3042b000	cp1252_to_ascii	maps 0x80-0x9F to ASCII look-alikes
+30441e10	pwl_init	PWL register ptr (0x101E8100) -> 003ebd74, clear enable+duty
+30441e54	pwl_set_duty	bits 0-7 of PWL register
+30441ebc	pwl_enable	sets bit 8 of PWL register
+304d49a0	scheme_spring	green
+304d49b0	scheme_summer	yellow
+304d49c0	scheme_autumn	orange
+304d49d0	scheme_winter	blue
+304d49e0	scheme_midnight	grey/dark
+304d567c	bmp_splash_pn40	176x220 boot splash PN-40
+304d5694	bmp_splash_pn40_dim	176x220 dimmed PN-40 splash
+304d56ac	bmp_splash_pn30	176x220 boot splash PN-30
+304d56c4	bmp_splash_pn30_dim	176x220 dimmed PN-30 splash
+304d773c	bmp_navionics_logo	148x28
+30697cc8	bit_mask_msb	0x80,0x40..0x01 glyph bit masks
+# --- layers (re/notes/layers.md) ---
+00043330	g_app	app object (*(003f0c2c)); +0 locked, +1 power dialog active, layer slots +4..+24
+00055c9c	g_msgbox	message box object
+00057d14	g_msgbox_buttons	5 button records x 0x30 (+0x28 selected, +0x2c code)
+00057e04	g_msgbox_queue	ring of 10 x 0xfc records at 00057e14
+000d4e70	g_keyboard	on-screen keyboard object
+00169fc4	g_input_dialog	input dialog object (+0x10)
+001737ec	g_power_dialog	power dialog object
+00175a20	g_page_order	page order editor object
+003f0c54	g_page_types	page type table, 0x18 each: +4 enabled, +8 flags, +0x10 menu obj, +0x14 handler
+3008616c	page_next	PAGE key: next page in order list 003f1014
+30086674	page_prev	BACK fallback: previous page from history 0004309c
+300926f0	page_menu_key	MENU (0x3ef) -> app_open_menu(page type menu)
+30096ac8	screen_draw	+0x14 draw
+300971d4	screen_close	+0x14 close
+30097254	screen_init	option-list screen (obj, n, title, items[], font, sel)
+300972d8	screen_init_back	same + back result
+30097ae0	screen_open_half	+0x14 open lower half
+30097c04	screen_open_full	+0x14 open full-screen
+30097dc0	screens_construct	builds all setup screens 00054d60..00055c38
+300984c0	screen_handle_event	+0x14 handler
+30098f90	msgbox_result_button	bits 16-23 of packed answer
+30098f9c	msgbox_result_ctx	low 16 bits of packed answer
+30099028	msgbox_type_urgent	types 100,102,103,104,112,113
+30099050	msgbox_button_code	selected button -> answer code
+300995b4	msgbox_select_button	select button index
+30099784	msgbox_layout_buttons	buttons per type (Close/Ok/Yes/No/...)
+3009a0c4	msgbox_open_draw	window + text + buttons
+3009a4c4	msgbox_load	(was ui_dispatch_alt) record -> box, open layer
+3009a670	msgbox_show	(box, title, text, type, def_btn, page, ctx, dismiss_cb)
+3009aa6c	msgbox_show_next	(was ui_modal_loop) pop queue 00057e04
+3009abd4	msgbox_close	close, show next, post 0xfb0
+3009ac34	msgbox_key	LEFT/RIGHT select, ENTER -> {0x13ad, packed}
+3009aedc	msgbox_dismiss	auto-dismiss via callback
+3009afb0	msgbox_handle_event	+0xc handler
+3009b5a0	app_layers_clear	zero all 9 layer slots
+3009b5cc	app_any_layer	1 if any layer open
+3009b644	app_top_layer	topmost non-null layer object
+3009b6e8	app_clear_dropdown	slot +0x20 := 0 if equal
+3009b754	app_close_all_layers	close every layer (called by every opener)
+3009b818	app_close_top_layer	close topmost layer
+3009b940	app_set_locked	app[0] = flag
+3009b994	app_open_menu	slot +4 full-screen menu (3011d564)
+3009b9c4	app_open_picker	slot +0x1c grid picker (30132400)
+3009ba18	app_open_keyboard	slot +8 on-screen keyboard (300aea98)
+3009ba64	app_open_popup_menu	slot +4 menu as popup at rect (3011b650)
+3009bab8	app_open_screen_half	slot +0x14 option-list screen, lower half (30097ae0)
+3009bae4	app_open_power_dialog	slot +0x24 power dialog 001737ec, mode 0 shutdown/1,2 power menu/3 locked
+3009bb14	app_open_page_order	slot +0x18 Page Order editor 00175a20
+3009bb40	app_open_input_dialog	slot +0x10 (300fc940)
+3009bb6c	app_open_msgbox	slot +0xc message box (3009a0c4)
+3009bba8	app_open_screen	slot +0x14 option-list screen, full-screen (30097c04)
+3009bda0	app_open_layer_desc	reopen layer from descriptor (result 0x1388)
+300ae254	kbd_draw	redraw keyboard
+300ae870	kbd_press_cell	cell -> {0x138b, char}
+300aea98	kbd_open	window 173x81 above/below rect
+300aeb84	kbd_close	posts cancel {0x138b,0x18} if not done
+300aebe8	kbd_handle_event	+8 handler
+300c1680	dropdown_close	+0x20 close (choice widget popup)
+300e3c48	ui_fallback_command	last stage: PAGE/BACK/MARK/FIND keys, 0xfa0 goto page, 0x13ad answers
+300e452c	ui_page_command	0xfa1 switch page, info-field commands 0xfa9-0xfaf, 0x232b
+300e5368	ui_global_command	big command switch (0x138x-0x13bx layer ops, setup screens, 0xfax)
+300e69e0	textfield_clear	clear text
+300e6ad0	textfield_insert	insert char / BS 8 / cursor 0xe,0xf
+300e7444	textfield_handle_event	ENTER -> {0x138a, rect}; 0x138b chars
+300fc734	inputdlg_layout_buttons	Close / Ok,Cancel / Yes,No
+300fc940	inputdlg_open	same geometry as msgbox
+300fcc7c	inputdlg_close	+0x10 close
+300fce4c	inputdlg_handle_event	ENTER -> {0x13ae, packed}
+301194d8	menuitem_obj_set	C++ menu item object: +4 label, +8 result, +0x20 font
+30119614	menuitem_obj_handle	ENTER -> post stored result
+3011a2e4	menu_def_init	(def, title, items16[], count) dynamic def
+3011a30c	menu_def_get_result	{code,param} of item i
+3011a37c	menu_def_get_label	label of item i
+3011a3b4	menu_def_get_flags	flags of item i
+3011a400	menu_builder_add	(builder, label, &{code,param}, flags)
+3011a478	menu_def_init_static	(def, title, strings[], results[], count|-1, flags[])
+3011aa70	menu_close	destroy window
+3011aaa4	menu_builder_init	(builder, buf, cap)
+3011ab0c	menu_build_page_list	page-list items {0xfa0,page} into 00171240
+3011ac04	menu_obj_reset	reset cursor, count, rebuild page list
+3011ac80	menu_obj_init	(obj, def, submenu_tbl, has_page_list, close_on_select)
+3011b03c	menu_draw	draw menu (full=1)
+3011b650	menu_open_popup	popup positioned by rect
+3011b7f0	menu_open_in_window	menu in given window/rect
+3011bab4	menu_build_tripinfo	Trip Info Menu
+3011bcf0	menu_build_kind	big builder by kind (Compass, Device Setup, Route, Track...)
+3011d45c	menu_rebuild_for_page	switch on page index -> dynamic menu builders
+3011d564	menu_open_full	rebuild def for page, window 6,6..169,213, draw
+3011d654	menu_build_map	Map Menu
+3011dae8	menu_handle_event	menu layer handler (+4)
+30130710	powerdlg_close	+0x24 close
+30130cc4	powerdlg_handle_event	+0x24 handler
+30131160	powerdlg_open	modes 0-3
+30131a44	picker_close	+0x1c close
+30131a6c	picker_draw	+0x1c draw
+30132260	picker_open_in_window	+0x1c open in given window
+30132400	picker_open_popup	+0x1c open at rect
+301329b8	picker_handle_event	+0x1c handler
+301337f8	pageorder_close	+0x18 close
+30133820	pageorder_open	+0x18 open
+301338f0	pageorder_handle_event	+0x18 handler
+# --- pages (re/notes/pages.md) ---
+0004309c	page_stack	page history stack {buf, ?, count, cap}
+000430ac	ui_flow_mode	nonzero during multi-page tasks
+00043164	page_objs	page object pointers [40], 0x40 bytes each
+00053b50	focus_x	pane-navigation cursor x
+00053b54	focus_y	pane-navigation cursor y
+00053b64	cur_page	current page id
+00053b68	prev_page	page id before last switch
+00053b6c	page_cycle_pos	index into page_order of current cycle position
+00053b70	pane_class_defs	[161] x 16: handler, u8 selectable, u8 needs_baro, long name, short name
+00054580	pane_classes	[161] pointers to pane class defs
+00054814	layout_mode	0 normal, 1 navigating
+0012b76c	settings	preferences struct, saved to pref_state.dat
+00171170	pages_menu_items	13 x 16 {name, 4000, page id, 0}: Satellites, Map, Compass, ...
+003f1014	page_order	[13] page ids for PAGE cycle (user-reorderable)
+003f1120	page_layouts	[40] x 24: id, layouts**, n_layouts, n_modes, default idx[2]*, current idx[2]*
+003f19dc	page_panes	[40] x 20: id, default classes m0/m1, current classes m0/m1
+3008323c	ui_flow_mode_get	returns 000430ac
+30083308	ui_flow_mode_clear	000430ac = 0, clear page history
+300860c0	ui_set_flow_mode	ui_set_flow_mode(mode, page, flag): clears/pushes page history
+3008648c	ui_periodic	event 2: backlight timeout, broadcast {2}, broadcast {1} when data flag 000432a8 set
+30086828	pagestack_clear	clear stack {buf, ?, count, cap}
+30086878	pagestack_pop	pagestack_pop(stack) -> &id
+300868f8	pagestack_push	pagestack_push(stack, &id)
+3008b4c4	page_editroute_event	page 12 Edit Route (likely)
+3008ffc8	pane_class_table_init	fills pane_classes[161] pointer table
+30090760	page_desc_index	index of id in page_desc[40] or -1
+300907a4	set_prev_page	00053b68 = id
+300907b4	page_order_index	index of id in page_order[13] or -1
+300907f8	layout_mode_get	00054814: 0 normal, 1 navigating
+30090808	layout_mode_set	layout_mode_set(0/1)
+30090820	page_layout_get	page_layout_get(id, mode) -> current layout index
+30090848	pane_class_get	pane_class_get(page_id, pane) -> pane class def
+300908c8	pane_handler_get	pane_handler_get(page_id, pane) -> class handler fn
+300908d8	page_layout_set	page_layout_set(id, mode, idx)
+30090900	page_default_layout_get	page_default_layout_get(id, mode)
+30090928	pane_classes_init	fills pane class defs {handler, selectable, needs_baro, long, short}
+3009223c	layout_grid_rects	pane rects from {n,sizes} in half-row units (2 cols x 44 px rows)
+30092314	layout_rows3_rects	pane rects as full-width rows of 220/3 px
+300923c8	page_focus_cursor	update focus cursor x/y (00053b50/00053b54) from focused pane rect
+3009246c	page_pane_focusable	pane can take focus in current state
+300924cc	page_set_focus	page_set_focus(page, state 0/1/2, pane): sends 0x7d7 to focusable pane
+3009265c	page_set_pane_class	page_set_pane_class(page, pane, class) (cmd 0xfaf)
+30092768	page_pane_nav	state-1/2 key handler: rocker moves pane focus, MENU, ENTER=choose field, BACK=leave
+30093218	page_flush	blit page->surface
+30093228	page_apply_layout	computes pane rects from current layout (special cases map/trip)
+30093328	page_set_layout	page_set_layout(page, layout_idx)
+30093358	page_change_layout	handler for 0xfae / 0x232b: set layout, 0x7d6 to panes, post 0xfa2
+3009351c	page_hide	page_hide(page): close layers, 0x7de page, 0x7db panes, +0x3c=0
+30093604	page_show	page_show(page, surface): layout, 0x7dc page, 0x7d9 panes, flush, 0x7dd, 0x7da, 0x7d7 focused
+300937cc	page_init	page_init(obj, id): clear rects, apply layout, send 2000 (0x7d0) to page handler
+300938a0	page_broadcast	page_broadcast(page, ev, mask): 4=app layers, 2=page handler, 1=all panes
+30095af0	page_owner_event	page 22 Owner Information
+300a8f20	map_zoom_step	map_zoom_step(map, dir): zoom level byte map+0x18, 1..18
+300a90cc	map_key	map pane key handler (zoom 0x3ed/0x3ee, BACK, ENTER)
+300abf54	pane_map	pane class 92: map pane of page 1
+300acbd0	page_map_event	page 1 Map
+300af724	field_needs_redraw	true for events 1, 0x7d6, 0x7d7, 0x7d8, 0x7d9
+300b7b7c	page_huntfish_event	page 9 Hunt/Fish
+300bbf48	page_find_event	page 13 Find (likely)
+300c66cc	page_tripinfo_event	page 3 Trip Info
+300c679c	page_devsetup_event	page 10 Device Setup
+300c6a84	pane_device_setup	pane class 57: Device Setup list
+300c8e20	page_datadetail_event	page 19 Data Detail
+300caf64	pane_compass_rose	pane class 48: compass of page 2
+300cb084	page_compass_event	page 2 Compass
+300d0bac	settings_save	writes settings 0012b76c (0x3d4 bytes) to MSYS1:/system/pref_state.dat
+300d109c	settings_restore_defaults	settings_restore_defaults(settings, mask); 0x10 = page enables + order
+300d8cd8	page_demo_event	page 25 Demo/welcome (likely)
+300dbc90	page_avggeocache_event	page 28 Average Geocache
+300dcea0	page_geocaches_event	page 26 Geocaches
+300dfd40	page_gcdetail_event	page 27 Geocache Detail (likely)
+300e2a84	page_layerdetail_event	page 36 Layer Detail
+300e3c00	page_broadcast_current	page_broadcast(page_objs[cur_page], ev, mask)
+300f0c18	page_editwpt_event	page 35 Edit Waypoint
+300f12a8	page_wptdetails_event	page 34 Waypoint Details (likely)
+30100bec	page_projectwpt_event	page 38 Project Waypoint
+3010278c	page_about_event	page 20 About this Device
+30107328	page_waypoints_event	page 4 Waypoints
+3010aa48	page_wptdetail_event	page 16 Waypoint Detail (likely)
+30115c2c	page_trackdetail_event	page 15 Track Detail (likely)
+30116160	page_tracks_event	page 6 Tracks
+30118c38	page_tide_event	page 8 Tide
+3011a4e4	page_menu_index	index of page id in the Pages menu item table 00171170 (13 entries)
+3012412c	page_sunmoon_event	page 7 Sun/Moon
+3012b8b8	page_satellites_event	page 0 Satellites
+3012e450	page_routes_event	page 5 Routes
+3012e73c	pane_route_directions	pane class 111: page 11 Route Directions
+301330c4	page_order_dlg_draw	Page Order dialog draw (body split into 301332d4)
+304d1734	page_order_default	default page_order (flash)
+# --- settings (re/notes/settings.md) ---
+000430b4	ui_fix	UI copy of the 0xb0-byte GPS fix message
+00053358	state_file_magic	u32 = 2, first word of every state file
+00054818	owner_info	OWNER_STATE.TXT payload, 0x108 bytes
+0011cee8	trip	trip computer state = DEVICE_STATE.TXT payload (0x6c bytes)
+00170b60	field_picker_items	field picker menu storage, 50 x 16 bytes
+00171840	field_picker_layer	field picker layer object
+300869c8	state_write_rec	writes {type, size, checksum} + data
+30086a4c	state_write	state_write(magic*, path, type, size, data, &n)
+30086b00	state_read_rec	reads and validates header, data and checksum
+30086bdc	state_read	state_read(magic*, path, type, size, buf, &n)
+300886a8	widget_106	cell widget id 106 (page-specific, not a data field)
+30089b30	widget_107	cell widget id 107 (page-specific, not a data field)
+3008a584	widget_108	cell widget id 108 (page-specific, not a data field)
+3008eba0	widget_100	cell widget id 100 (page-specific, not a data field)
+3008ef34	widget_97	cell widget id 97 (page-specific, not a data field)
+3008f048	widget_101	cell widget id 101 (page-specific, not a data field)
+3008f550	widget_99	cell widget id 99 (page-specific, not a data field)
+3008f690	widget_98	cell widget id 98 (page-specific, not a data field)
+3009244c	cell_obscured	cell_obscured(page_obj, cell): skip periodic redraws while covered
+30095a60	owner_load	loads OWNER_STATE.TXT
+30095c44	widget_95	cell widget id 95 (page-specific, not a data field)
+30095ffc	widget_96	cell widget id 96 (page-specific, not a data field)
+30097618	map_setup_init	Map Setup list (9 or 10 items)
+3009780c	display_setup_init	Display list (6 or 7 items)
+300a3f94	widget_93	cell widget id 93 (page-specific, not a data field)
+300ab4a0	widget_90	cell widget id 90 (page-specific, not a data field)
+300ac48c	widget_91	cell widget id 91 (page-specific, not a data field)
+300afe78	draw_field_dashes	draw_field_dashes(rect, 1, 1): "- -" for an invalid value
+300b010c	draw_field_label	draw_field_label(rect, page, cell, flag): long/short name and colors
+300b0410	draw_field_value	draw_field_value(rect, value_txt, unit_txt, ...)
+300b0850	draw_duration	formats and draws a duration (seconds)
+300b0a28	field_vertical_speed	data field id 44 "Vertical Speed" handler(result*,ev*,page,cell)
+300b0be4	field_velocity_made_good	data field id 43 "Velocity Made Good" handler(result*,ev*,page,cell)
+300b0d8c	field_trip_time_total	data field id 42 "Trip: Time Total" handler(result*,ev*,page,cell)
+300b0e9c	field_trip_time_stopped	data field id 41 "Trip: Time Stopped" handler(result*,ev*,page,cell)
+300b0fac	field_trip_time_moving	data field id 40 "Trip: Time Moving" handler(result*,ev*,page,cell)
+300b10bc	field_trip_odometer	data field id 39 "Trip: Odometer" handler(result*,ev*,page,cell)
+300b1250	field_time_to_sunrise_set	data field id 38 "Time to Sunrise/set" handler(result*,ev*,page,cell)
+300b1820	field_time_to_next_turn	data field id 37 "Time to Next Turn" handler(result*,ev*,page,cell)
+300b1968	field_time_to_next_stop	data field id 36 "Time to Next Stop" handler(result*,ev*,page,cell)
+300b1ab0	field_time_to_moonrise_set	data field id 35 "Time to Moonrise/set" handler(result*,ev*,page,cell)
+300b1f8c	field_time_to_finish	data field id 34 "Time to Finish" handler(result*,ev*,page,cell)
+300b20d4	field_time_date	data field id 33 "Time/Date" handler(result*,ev*,page,cell)
+300b22d8	field_sunrise_sunset	data field id 32 "Sunrise/Sunset" handler(result*,ev*,page,cell)
+300b25dc	field_speed_moving_average	data field id 31 "Speed: Moving Average" handler(result*,ev*,page,cell)
+300b2744	field_speed_maximum	data field id 30 "Speed: Maximum" handler(result*,ev*,page,cell)
+300b28ac	field_speed_average	data field id 29 "Speed: Average" handler(result*,ev*,page,cell)
+300b2a14	field_speed	data field id 28 "Speed" handler(result*,ev*,page,cell)
+300b2ba8	field_pressure_msl	data field id 27 "Pressure: MSL" handler(result*,ev*,page,cell)
+300b2d98	field_pressure_ambient	data field id 26 "Pressure: Ambient" handler(result*,ev*,page,cell)
+300b2f4c	field_off_course	data field id 25 "Off Course" handler(result*,ev*,page,cell)
+300b314c	field_next_turn_arrow	data field id 24 "Next Turn Arrow" handler(result*,ev*,page,cell)
+300b32e4	field_next_turn	data field id 23 "Next Turn" handler(result*,ev*,page,cell)
+300b349c	field_next_stop	data field id 22 "Next Stop" handler(result*,ev*,page,cell)
+300b3648	field_moonrise_moonset	data field id 21 "Moonrise/Moonset" handler(result*,ev*,page,cell)
+300b3964	field_heading	data field id 20 "Heading" handler(result*,ev*,page,cell)
+300b3c38	field_gps_status	data field id 19 "GPS Status" handler(result*,ev*,page,cell)
+300b3e2c	field_gps_accuracy	data field id 18 "GPS Accuracy" handler(result*,ev*,page,cell)
+300b3fe4	field_finish	data field id 17 "Finish" handler(result*,ev*,page,cell)
+300b4138	field_eta_at_next_stop	data field id 16 "ETA at Next Stop" handler(result*,ev*,page,cell)
+300b4470	field_eta_at_next_turn	data field id 15 "ETA at Next Turn" handler(result*,ev*,page,cell)
+300b47ac	field_eta_at_finish	data field id 14 "ETA at Finish" handler(result*,ev*,page,cell)
+300b4b0c	field_elevation_minimum	data field id 13 "Elevation: Minimum" handler(result*,ev*,page,cell)
+300b4cd4	field_elevation_maximum	data field id 12 "Elevation: Maximum" handler(result*,ev*,page,cell)
+300b4e98	field_elevation_gps	data field id 11 "Elevation: GPS" handler(result*,ev*,page,cell)
+300b5040	field_elevation_barometer	data field id 10 "Elevation: Barometer" handler(result*,ev*,page,cell)
+300b52ac	field_distance_to_next_turn	data field id 9 "Distance to Next Turn" handler(result*,ev*,page,cell)
+300b5474	field_distance_to_next_stop	data field id 8 "Distance to Next Stop" handler(result*,ev*,page,cell)
+300b563c	field_distance_to_finish	data field id 7 "Distance to Finish" handler(result*,ev*,page,cell)
+300b5804	field_device_odometer	data field id 6 "Device Odometer" handler(result*,ev*,page,cell)
+300b5998	field_course	data field id 5 "Course" handler(result*,ev*,page,cell)
+300b5b28	field_coordinates_secondary	data field id 4 "Coordinates: Secondary" handler(result*,ev*,page,cell)
+300b5d98	field_coordinates_primary	data field id 3 "Coordinates: Primary" handler(result*,ev*,page,cell)
+300b5fe4	field_bearing	data field id 2 "Bearing" handler(result*,ev*,page,cell)
+300b621c	field_battery_life	data field id 1 "Battery Life" handler(result*,ev*,page,cell)
+300b63e0	field_back_on_course	data field id 0 "Back on Course" handler(result*,ev*,page,cell)
+300b65ac	widget_89	cell widget id 89 (page-specific, not a data field)
+300b6a50	widget_88	cell widget id 88 (page-specific, not a data field)
+300b6eec	widget_87	cell widget id 87 (page-specific, not a data field)
+300b726c	widget_85	cell widget id 85 (page-specific, not a data field)
+300b7670	widget_86	cell widget id 86 (page-specific, not a data field)
+300b78d0	widget_84	cell widget id 84 (page-specific, not a data field)
+300b7df0	get_accuracy	estimated accuracy ui_fix+0xa8, -1 = none
+300b7e5c	gps_fix_valid	ui_fix.fix in 2..5
+300b7f3c	get_velocity3	3 doubles ui_fix+0x84/+0x8c/+0x94
+300b7fc4	get_speed	get_speed(float* m/s) from ui_fix+0x60
+300b8020	get_gps_elev	get_gps_elev(double* m) from ui_fix+0x70
+300b857c	gps_time_hms	GPS h/m/s (caches the last valid value)
+300b8670	gps_date_ymd	GPS y/m/d (caches the last valid value)
+300b8870	gps_status_text	fix status code, or "2-D" "3-D" "NO FIX" "Sim GPS" "GPS OFF" text
+300b89e8	get_position	get_position(double* lat, double* lon, flag) ui_fix+0x2c/+0x34, cached
+300b8bf0	get_heading	heading (COG ui_fix+0x58, held when slow; compass)
+300b8d0c	get_pressure	ambient pressure from ui_fix+0x80
+300b8dc0	get_baro_elev	baro elevation (ui_fix+0x68, or +0x78 auto-cal; GPS if baro off)
+300b9500	get_local_datetime	local struct tm from GPS time + zone/DST prefs
+300bd4bc	widget_66	cell widget id 66 (page-specific, not a data field)
+300bd718	widget_65	cell widget id 65 (page-specific, not a data field)
+300c0fe4	widget_64	cell widget id 64 (page-specific, not a data field)
+300c1564	list_add	list_add(builder, label, &event)
+300c1610	list_begin	list_begin(builder, storage, cap)
+300c21f0	choice_item_setup	choice_item_setup(item, name, choices, n, getter)
+300c2900	gps_settings_item_init	GPS Settings choice list
+300c29e0	datum_items_init	Datum: Primary/Secondary lists
+300c2ae8	setup_items_init	sets up all choice items
+300c3450	choice_item_on_event	choice item event handler
+300c3d84	choice_item_ctor	sets vtable 0x304d3188
+300c3df4	choice_tables_init	static ctor filling choice arrays {label, ev_code, ev_param}
+300c5cd4	trip_reset_elev	sets elev max/min to -/+99999
+300c5e6c	trip_reset_speeds	clears +0x1c..+0x24
+300c5f28	trip_reset_values	clears odometer and times (+0x30..+0x40)
+300c5f54	trip_reset_all	resets trip values, speeds and elevations
+300c652c	trip_defaults	trip defaults
+300c6588	trip_autosave	saves DEVICE_STATE every 10 minutes
+300c65f8	trip_load	loads DEVICE_STATE.TXT into trip
+300c8e0c	widget_55	cell widget id 55 (code label, not a Ghidra function)
+300c9484	widget_49	cell widget id 49 (page-specific, not a data field)
+300c97fc	widget_50	cell widget id 50 (page-specific, not a data field)
+300c9c60	widget_51	cell widget id 51 (page-specific, not a data field)
+300cc848	widget_47	cell widget id 47 (page-specific, not a data field)
+300cd118	checkbox_item_setup	checkbox_item_setup(item, label, &ev, style, getter)
+300cd3dc	checkbox_on_event	checkbox ENTER: posts its event, or toggles setting id for 0x13b2
+300cd650	checkbox_items_init	sets up checkbox items (Screenshots On etc.)
+300ce614	button_item_setup	button_item_setup(item, label, &ev, style)
+300cf7c4	pref_map_orientation	prefs+0x8
+300cf884	pref_contrast	prefs+0x44
+300cf8b4	pref_screenshots_on	prefs+0x3c0
+300cf978	pref_volume	prefs+0x60
+300cf9a4	pref_time_format	prefs+0x78
+300cf9b4	pref_time_zone	prefs+0x7c
+300cf9e0	pref_dst	prefs+0x80
+300cfaf8	pref_gps_mode	prefs+0x20
+300cfb18	pref_battery_type	prefs+0x28
+300cfbac	pref_stealth	prefs+0x3cc
+300cfbdc	pref_backlight_timer	prefs+0x40 (0 in stealth)
+300cfc64	set_backlight_level	sets prefs+0x3c, or +0x3d0 in stealth
+300cfc8c	pref_backlight_level	prefs+0x3c, or +0x3d0 in stealth
+300cfccc	pref_datum_primary	prefs+0x8c
+300cfcdc	pref_datum_secondary	prefs+0xe4
+300cfcec	pref_coord_primary	prefs+0x84
+300cfcfc	pref_coord_secondary	prefs+0x88
+300cfd0c	pref_measures	prefs+0x90
+300cfd1c	pref_pressure_units	prefs+0xf0
+300cfd2c	pref_bearing_ref	prefs+0x94
+300d0838	pref_baro_autocal	prefs+0x100 if baro hw
+300d0854	pref_baro_enabled	prefs+0xfc if baro hw
+300d0870	pref_compass_enabled	prefs+0xf8 if compass hw
+300d0988	prefs_apply	applies prefs to hardware/subsystems
+300d0f20	toggle_midnight	toggles prefs+0x128
+300d0f50	toggle_screenshots	toggles prefs+0x3c0 and shows the hint
+300d0fe8	toggle_rotation	toggles prefs+0x3bc
+300d1858	prefs_reset_apply	prefs_reset + prefs_apply
+300d1870	prefs_on_event	global pref setter: event code -> prefs field, then prefs_save
+300d28a4	page_state_load	reads page_state.dat (type 0x1c2, ver 0x1a)
+300d2bb8	prefs_load	reads pref_state.dat (type 400, 0x3d4) into prefs, migrates ver<=0x6e
+300d2c6c	state_load_all	prefs_load + page_state_load
+300d2c84	prefs_init	defaults, load files, fix GPS mode, apply
+300d72fc	widget_46	cell widget id 46 (page-specific, not a data field)
+300d8820	widget_56	cell widget id 56 (page-specific, not a data field)
+300d9dec	widget_80	cell widget id 80 (page-specific, not a data field)
+300dadec	widget_79	cell widget id 79 (page-specific, not a data field)
+300daf38	widget_78	cell widget id 78 (page-specific, not a data field)
+300db23c	widget_69	cell widget id 69 (page-specific, not a data field)
+300db418	widget_74	cell widget id 74 (page-specific, not a data field)
+300db568	widget_70	cell widget id 70 (page-specific, not a data field)
+300db680	widget_73	cell widget id 73 (page-specific, not a data field)
+300db77c	widget_72	cell widget id 72 (page-specific, not a data field)
+300dbea4	widget_83	cell widget id 83 (page-specific, not a data field)
+300dc1d0	widget_71	cell widget id 71 (page-specific, not a data field)
+300dc3ec	widget_75	cell widget id 75 (page-specific, not a data field)
+300dc800	widget_67	cell widget id 67 (page-specific, not a data field)
+300dcce4	widget_68	cell widget id 68 (page-specific, not a data field)
+300dd6cc	widget_82	cell widget id 82 (page-specific, not a data field)
+300ddad0	widget_77	cell widget id 77 (page-specific, not a data field)
+300de600	widget_81	cell widget id 81 (page-specific, not a data field)
+300debcc	widget_76	cell widget id 76 (page-specific, not a data field)
+300e2910	widget_53	cell widget id 53 (page-specific, not a data field)
+300e2b58	widget_52	cell widget id 52 (code label, not a Ghidra function)
+300e2d1c	widget_54	cell widget id 54 (page-specific, not a data field)
+300e3880	widget_94	cell widget id 94 (page-specific, not a data field)
+300e793c	widget_60	cell widget id 60 (page-specific, not a data field)
+300e7d94	widget_63	cell widget id 63 (page-specific, not a data field)
+300e8198	widget_61	cell widget id 61 (page-specific, not a data field)
+300e8d10	widget_62	cell widget id 62 (page-specific, not a data field)
+300ebdec	widget_142	cell widget id 142 (page-specific, not a data field)
+300f17c8	widget_58	cell widget id 58 (page-specific, not a data field)
+300f180c	widget_144	cell widget id 144 (page-specific, not a data field)
+300f1f34	widget_59	cell widget id 59 (page-specific, not a data field)
+300f2e84	widget_143	cell widget id 143 (page-specific, not a data field)
+300fd6c0	widget_116	cell widget id 116 (page-specific, not a data field)
+300fdba8	widget_117	cell widget id 117 (page-specific, not a data field)
+300ff7a4	widget_105	cell widget id 105 (page-specific, not a data field)
+300ffe14	widget_104	cell widget id 104 (page-specific, not a data field)
+301005ec	widget_103	cell widget id 103 (page-specific, not a data field)
+301009e0	widget_102	cell widget id 102 (page-specific, not a data field)
+3010105c	widget_159	cell widget id 159 (page-specific, not a data field)
+30101384	widget_160	cell widget id 160 (page-specific, not a data field)
+301027f4	widget_45	cell widget id 45 (page-specific, not a data field)
+30104094	widget_155	cell widget id 155 (page-specific, not a data field)
+301055e0	widget_141	cell widget id 141 (page-specific, not a data field)
+301057bc	widget_145	cell widget id 145 (page-specific, not a data field)
+301058d4	widget_148	cell widget id 148 (page-specific, not a data field)
+301059d0	widget_147	cell widget id 147 (page-specific, not a data field)
+30105b10	widget_149	cell widget id 149 (page-specific, not a data field)
+3010622c	widget_158	cell widget id 158 (page-specific, not a data field)
+30106558	widget_146	cell widget id 146 (page-specific, not a data field)
+30106774	widget_150	cell widget id 150 (page-specific, not a data field)
+30106b88	widget_139	cell widget id 139 (page-specific, not a data field)
+3010716c	widget_140	cell widget id 140 (page-specific, not a data field)
+301080ac	widget_154	cell widget id 154 (page-specific, not a data field)
+30108808	widget_157	cell widget id 157 (page-specific, not a data field)
+30108c04	widget_151	cell widget id 151 (page-specific, not a data field)
+30109814	widget_153	cell widget id 153 (page-specific, not a data field)
+30109bd4	widget_152	cell widget id 152 (page-specific, not a data field)
+3010a6d8	widget_156	cell widget id 156 (page-specific, not a data field)
+3010bb88	state_checksum	sum of LE u32 words (tail zero-padded)
+3010d188	fmt_pressure	pressure -> mb/hPa/in text
+3010dacc	fmt_coord	coordinate -> text in the selected coordinate format
+3010f35c	fmt_vspeed	vertical speed m/s -> m/s or ft/s text
+3010f4a4	fmt_speed	speed m/s -> text in km/h, kn or mph per Measures
+3010f680	fmt_elevation	elevation m -> m or ft text
+3010f854	fmt_distance	distance km -> m/km/mi/ft/NM text
+30111088	has_barometer	barometer hardware present
+301120f8	widget_136	cell widget id 136 (page-specific, not a data field)
+301122e0	widget_134	cell widget id 134 (page-specific, not a data field)
+301124c0	widget_135	cell widget id 135 (page-specific, not a data field)
+30112618	widget_132	cell widget id 132 (page-specific, not a data field)
+30112dd8	widget_133	cell widget id 133 (page-specific, not a data field)
+301130cc	widget_137	cell widget id 137 (page-specific, not a data field)
+3011331c	widget_138	cell widget id 138 (page-specific, not a data field)
+30113a5c	widget_131	cell widget id 131 (page-specific, not a data field)
+30114394	widget_130	cell widget id 130 (page-specific, not a data field)
+30116e40	widget_129	cell widget id 129 (page-specific, not a data field)
+301175d4	widget_128	cell widget id 128 (page-specific, not a data field)
+30117b54	widget_127	cell widget id 127 (page-specific, not a data field)
+301180d4	widget_126	cell widget id 126 (page-specific, not a data field)
+301183e0	widget_125	cell widget id 125 (page-specific, not a data field)
+30118824	widget_124	cell widget id 124 (page-specific, not a data field)
+3011b9a8	field_picker_build	builds the field picker menu (storage 0x170b60, cap 50): {long name, {0xfaf, id}}
+30122a8c	widget_123	cell widget id 123 (page-specific, not a data field)
+301230ac	widget_120	cell widget id 120 (page-specific, not a data field)
+30123290	widget_122	cell widget id 122 (page-specific, not a data field)
+3012353c	widget_121	cell widget id 121 (page-specific, not a data field)
+301237e8	widget_118	cell widget id 118 (page-specific, not a data field)
+30123c70	widget_119	cell widget id 119 (page-specific, not a data field)
+301288c4	slider_item_setup	slider_item_setup(item, label, &ev, style, getter, nsteps)
+30129260	slider_items_init	Backlight Intensity, Contrast, Volume
+3012ba78	widget_115	cell widget id 115 (page-specific, not a data field)
+3012bc54	widget_114	cell widget id 114 (page-specific, not a data field)
+3012e06c	widget_113	cell widget id 113 (page-specific, not a data field)
+3012e1d0	widget_112	cell widget id 112 (page-specific, not a data field)
+3012ecf8	widget_110	cell widget id 110 (page-specific, not a data field)
+3012fb68	widget_109	cell widget id 109 (page-specific, not a data field)
+3015288c	gps_sat_snapshot	copies the 0x820-byte satellite table 0x183910 under mutex 0x1838fc
+301528d8	gps_fix_receive	gps_fix_receive(dst): copies the 0xb0-byte fix from queue 0x184f40
+300b8d8c	elev_source	0 baro not ready, 1 GPS (baro off), 2 baro, 3 baro auto-cal
+300c5c80	trip_update_elev	(trip, elev double r1:r2) raises max +0x04, lowers min +0x0c
+300c6134	trip_update	once per GPS fix from ui_before_dispatch (UI task)
+300c638c	trip_save	writes trip to MSYS1:/system/DEVICE_STATE.TXT
+300c6484	trip_convert_v3	old DEVICE_STATE format (0x54 bytes) -> trip; skips +0x28..+0x2f

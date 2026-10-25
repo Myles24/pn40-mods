@@ -1,0 +1,146 @@
+# addr	name	comment   (graphics / display area; thumb funcs: call via the ARM veneer listed in graphics.md, or BLX the odd address)
+# --- LCD driver (thumb) ---
+30428b10	lcd_init	PWL backlight init (0x101E8100), panel power/OTP sequence, regs 0x10..0x18, display on (reg 0x80=1)
+30428a04	lcd_off	fills panel white, reg 0x80=0 (display off), backlight pin 13 low
+30424eb4	lcd_set_orientation	0 = normal (coords mirrored 0xAF-x/0xDB-y), 2 = flipped 180 deg; stored at 003ea630
+30424ec8	lcd_get_orientation	returns 003ea630
+304250f4	lcd_read_rect	lcd_read_rect(lcd_x, lcd_y, buf_x, buf_y, w, h): read panel GRAM into *00460880 (stride 176)
+30425230	lcd_write_from_shadow	(src_x, src_y, lcd_x, lcd_y, w, h): push *00460880 region to panel (popup close)
+30425708	lcd_hline_direct	(x1, x2, y, color) straight to panel (window border)
+304257f4	lcd_vline_direct	(x, y1, y2, color) straight to panel (window border)
+30425d50	lcd_fill_rect_direct	(x1, y1, x2, y2, color) straight to panel
+30428f2c	win_push_rect_to_lcd	(win, src_x, src_y, lcd_x, lcd_y, w, h): set panel window then stream pixels
+30429a7c	lcd_write_pixels	ARM: lcd_write_pixels(port, src, n) unrolled 16-bit copy, both pointers increment
+304263d0	lcd_capture_screen	(image*): sets 176x220 and reads whole panel into image+0x34 (screenshot)
+# --- windows / surfaces (thumb) ---
+30424ed4	gfx_init_tables	clears window table 003ef778, fills font + cursor-sprite descriptors
+304258e0	win_create	(type, buf, x1, y1, x2, y2, buf_w, buf_h, border, unused, border_color) -> win*; type 1 = popup (saves panel under it)
+304253f0	win_destroy	(win, 0): type-1 popup -> restores panel from shadow; frees slot
+30425434	win_clear_overlap	zero overlap codes (+4) of all windows
+3042907c	win_update	win_update(win): push client area to panel, covered parts go to shadow instead
+30429da8	win_update_rect	(win, x, y, w, h): partial update, same overlap logic
+30428eac	win_copy_to_shadow	(win, src_x, src_y, dst_x, dst_y, w, h) into *00460880
+30428e20	gfx_copy_rect	(src_win, dst_win, sx, sy, dx, dy, w, h)
+# --- primitives (thumb), all take win* first, colours RGB565 ---
+30425e64	gfx_put_pixel	(win, x, y, color) -> 0 / -1
+30426b60	gfx_hline	(win, x1, x2, y, color) inclusive
+30425e98	gfx_vline	(win, x, y1, y2, color) inclusive
+3042792c	gfx_fill_rect	(win, x1, y1, x2, y2, color) inclusive; 101 call sites
+30428750	gfx_rect	(win, x1, y1, x2, y2, color) outline
+304287ec	gfx_line	(win, x1, y1, x2, y2, color) Bresenham
+30427414	gfx_thick_line	(win, x1, y1, x2, y2, width, color) round caps, uses gfx_fill_polygon
+30428974	gfx_polygon	(win, pts, color) closed polyline, pts = {s16 x,y}... terminated by -1
+30426c28	gfx_fill_polygon	(win, pts, color) convex fill, u16 pairs terminated by 0xFFFF
+304261a4	gfx_circle	(win, cx, cy, r, color) outline
+304272a4	gfx_fill_circle	(win, cx, cy, r, color)
+30429884	gfx_blit	(win, bitmap*, x, y) clipped, skips pixels == bitmap->key
+30429974	gfx_blit_clipped	(win, bitmap*, x, y, cx1, cy1, cx2, cy2)
+30428d3c	sprite_draw	(win, sprite*, x, y): save background into sprite buffer, draw with key 0x1010
+30428cb8	sprite_erase	(win, sprite*): restore saved background
+30426394	rgb_to_565	(r, g, b) 8-bit each -> RGB565
+304263ac	rgb565_to_rgb	(c, &r, &g, &b)
+# --- text (thumb) ---
+3042b000	cp1252_to_ascii	maps 0x80-0x9F to ASCII look-alikes
+304262ac	font_get_glyph	(font, ch) -> glyph ptr or 0
+304262cc	font_glyph_width_raw	(font, ch) without cp1252 mapping
+30426414	font_char_width	(font, ch) -> pixel width (0 for \n \r \0)
+30426634	font_string_width	(font, str) = sum(w)+n-1
+30426648	font_string_width_ex	(font, str, halo, spacing)
+30426694	font_string_width_1	font_string_width_ex(font, str, 1, 1)
+30426620	font_line_width	width up to first '\n'
+304265a8	font_width_until	(font, str, ndelim, delims)
+30426430	font_fit_chars	(font, str, maxw) -> first char that does not fit
+30426488	font_text_fits	(font, str, maxw) -> bool
+304264a0	font_wrap_line	(font, str, maxw) -> start of next line (word wrap)
+3042799c	gfx_draw_glyph	(win, font, x, y, ch, fg, bg); bg==fg -> transparent
+30427bc8	gfx_draw_char	(win, font, x, y, ch, fg, bg) cp1252-mapped -> width
+30427e54	gfx_draw_string	(win, font, x, y, str, fg, bg) -> end x
+30427c1c	gfx_draw_string_cursor	(win, font, x, y, str, fg, bg, cursor_idx, max_chars) handles \n
+30427ee4	gfx_draw_string_ellipsis	(win, font, x, y, maxw, str, fg, bg, cursor_idx) truncates with "..."
+3042809c	gfx_draw_string_centered	(win, font, x, y, width, str, fg, bg, cursor_idx)
+304266b4	gfx_draw_char_ex	(win, font, x, y, ch, fg, halo_color, halo_w, rotation 0-3)
+3042813c	gfx_draw_string_ex	(win, font, x, y, str, fg, halo_color, halo_w, spacing, rotation)
+30428460	gfx_draw_string_ex_fit	gfx_draw_string_ex truncated to maxw with "..."
+30426a48	gfx_draw_string_halo	(win, font, x, y, str, fg, halo) halo width 1
+30426ad8	gfx_draw_string_halo_centered	(win, font, x, y, width, str, fg, halo)
+304286a4	gfx_draw_text	(win, font, x, y, str, fg, bg): 1bpp raw font if font+0xC==0 else gfx_draw_string
+30428580	gfx_draw_char_1bpp	raw-bitmap font path of gfx_draw_text
+# --- backlight ---
+30428a6c	backlight_set_level	0 = off (GPIO13 low), 1-254 = PWM duty, >=255 = full on (GPIO13 high)
+30425454	backlight_get_level	returns 003ea634
+30441e10	pwl_init	PWL register ptr (0x101E8100) -> 003ebd74, clear enable+duty
+30441e54	pwl_set_duty	bits 0-7 of PWL register
+30441ebc	pwl_enable	sets bit 8 of PWL register
+3015a8f0	gpio_set_mode	gpio_set_mode(pin, mode 1=GPIO/2-4=alt, dir/val...)
+3015ab4c	gpio_set	writes bit to GPIO block +4 (set)
+3015ab7c	gpio_clear	writes bit to GPIO block +8 (clear)
+# --- ARM-side helpers ---
+300c5bf0	gfx_init	lcd_init + gfx_init_tables + shadow/screen buffers + screen window -> 000e435c
+300d0090	theme_color	theme_color(settings, idx): colour idx 0-7 of current scheme (Midnight if auto+after sunset)
+300d0114	theme_color0	lightest fill
+300d0144	theme_color2	frame/outline
+300d018c	theme_color3
+300d012c	theme_color4	darkest
+300d015c	theme_color5	white (0xFFFF) in day schemes
+300d00e4	theme_color6	black (text) in day schemes; 63 callers
+300d00fc	theme_color7
+300d01a4	theme_scheme_index	effective scheme 0-4
+300ba344	ui_draw_frame	(win, x1, y1, x2, y2, selected, ...) bevelled frame in theme colours
+3009c450	map_cursor_sprite	map cursor type 1-4 -> sprite descriptor
+300e3a64	ui_result_redraw	handles result 0x7D4 (flush win/screen) and 0x7D5 (redraw page)
+3032dbe8	mapgfx_set_surface	map engine Gfx port: current win -> 00364240
+3032d058	mapgfx_set_fg	fg colour -> 00364244 (+ half-bright 00364254)
+3032d084	mapgfx_set_bg	bg/halo colour -> 00460538
+3032d100	mapgfx_set_clip	clip rect -> 00364248,0036424c,0046052c,00460530
+3032d144	mapgfx_set_halo	text halo mode -> 00364250
+3032d180	mapgfx_get_pixel	(x, y)
+3032d1c0	mapgfx_blit	(x, y, bitmap) clipped to map clip
+3032d364	mapgfx_draw_char	(x, y, rotation, ch)
+3032d4c4	mapgfx_draw_text	(x, y, str, len)
+3032d9c4	mapgfx_hline	(y, x1, x2) in fg
+3032dae8	mapgfx_vline	(x, y1, y2) in fg
+3032dc20	mapgfx_rgb	rgb_to_565 wrapper
+# --- data ---
+000e435c	g_screen_win	window* of the main 176x220 screen surface (buffer 0010a068)
+003ef778	win_table	16 window/surface structs x 0x38
+00460878	lcd_cmd_port	-> 0x38020000 (register index + value port)
+0046087c	lcd_data_port	-> 0x38000000 (GRAM data window, any addr < 0x38020000)
+00460880	lcd_shadow_buf	-> 000f71e8: save-under buffer of what is on the panel under a popup
+00460874	screen_buf	-> 0010a068 (0x00030054 during boot splash)
+000e4368	popup_buf	shared buffer of all type-1 popup windows (0x12E80 bytes)
+000f71e8	shadow_buf_data	176x220 RGB565
+0010a068	screen_buf_data	176x220 RGB565 (main back buffer)
+003ea630	lcd_orientation	0 normal / 2 flipped
+003ea634	backlight_level	last level passed to backlight_set_level
+003ea638	lcd_bus_count	counter of panel register writes (debug)
+003ebd74	pwl_reg	-> 0x101E8100 backlight PWM register
+00053b5c	ui_screen_dirty	set by result 0x7D4; ui_main_loop then calls win_update(g_screen_win)
+00053b60	ui_dirty_win	popup window to update at end of loop iteration
+003f2348	font_table	14 font* used by UI code (globals 003f2348..003f237c)
+003efb58	font_10	10 px regular (line 10)
+003efaf8	font_10b	10 px bold
+003efb28	font_9b	9 px bold (small)
+003ef730	font_13b	13 px bold
+003ef760	font_16b	16 px bold
+003efb40	font_23b	23 px bold
+003efb10	font_sym16	16x16 symbol font, 17 glyphs
+30697cc8	bit_mask_msb	0x80,0x40..0x01 glyph bit masks
+003f23a4	color_scheme_table	5 ptrs to u16[8]: Spring, Summer, Autumn, Winter, Midnight
+304d49a0	scheme_spring	green
+304d49b0	scheme_summer	yellow
+304d49c0	scheme_autumn	orange
+304d49d0	scheme_winter	blue
+304d49e0	scheme_midnight	grey/dark
+304d567c	bmp_splash_pn40	176x220 boot splash PN-40
+304d5694	bmp_splash_pn40_dim	176x220 dimmed PN-40 splash
+304d56ac	bmp_splash_pn30	176x220 boot splash PN-30
+304d56c4	bmp_splash_pn30_dim	176x220 dimmed PN-30 splash
+304d773c	bmp_navionics_logo	148x28
+003ef748	sprite_cursor2	24x24 map cursor (type 2)
+003ef700	sprite_cursor3	24x24 map cursor (type 3)
+003ef718	sprite_cursor4	24x24 map cursor (type 4)
+003ef6e8	sprite_cursor1	12x12 map cursor (type 1)
+00364240	mapgfx_surface	map engine current window*
+00364244	mapgfx_fg	map engine fg colour
+00460538	mapgfx_bg	map engine bg / halo colour
+00460534	mapgfx_font	map engine current font* (init font_10)

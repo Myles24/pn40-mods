@@ -1,0 +1,75 @@
+# addr	name	comment   (functions and data; applied by ghidra_scripts/pn40_names.py)
+# --- startup / OS20 ---
+300816a0	reset_handler	vector table reset entry
+30081480	crt_start	mode stacks, copy .data, zero .bss, run constructors, call main
+30081d64	main	starts watchdog, UI, NMEA, WAAS... (see strings)
+301fc4a8	task_init	OS20 task_init(func, param, stack, stack_size, task_t*, tdesc_t*, prio, name, flags)
+301fa9a0	time_now	OS20 time_now(): ticks, 3.25 MHz
+301fa818	ticks_per_ms	3250
+301fa838	ticks_per_sec	3250000 (26 MHz / 8)
+301fb8b8	time_plus	time_plus(a, b)
+301fb8c0	time_minus	time_minus(a, b)
+301fb8c8	time_after	time_after(a, b) -> a > b
+301fb8dc	task_delay	task_delay(ticks)
+301faffc	task_delay_until	task_delay_until(time)
+301fbb4c	mutex_lock	OS20 mutex/semaphore wait
+301fb088	mutex_unlock	OS20 mutex/semaphore signal
+301fb1dc	memory_allocate	OS20 memory_allocate(partition, size)
+301fb204	partition_init	partition_init(partition, base, size, blocksize)
+301883a0	heap_init	creates the heap partitions from the table at 304d0890 / 304d08d8
+301fac1c	kernel_init	kernel_init(26 = MHz), sets 003f5170
+# --- libc ---
+30189890	malloc	malloc(size)
+30189748	free	free(p)
+30187e80	fopen	fopen(path, mode); not reentrant (static path buffer 001995f4)
+30187904	fwrite	fwrite(ptr, size, n, f)
+30187db8	fclose	fclose(f)
+3018902c	stat	stat(path, buf) -> 0 if exists
+3018a60c	mkdir	mkdir(path, mode)
+3018a1b4	path_normalize	builds full path in static buffer 001995f4
+301956d0	fs_open	low-level open, FS lock held
+30196d6c	fs_lock	FS global lock
+30196d44	fs_unlock	FS global unlock
+30432740	memset	memset(d, c, n)
+304326e0	memcpy	memcpy(d, s, n)
+30432680	strlen	strlen(s)
+30432d2c	snprintf	snprintf(buf, n, fmt, ...)
+30432d6c	sprintf	sprintf(buf, fmt, ...)
+30432de4	sscanf	sscanf(s, fmt, ...)
+# --- device / misc ---
+300b966c	get_datetime	get_datetime(&mon, &day, &year2000, &h, &m, &s)
+300d0050	usb_export_state	0 = SD exported to PC, 1 = internal exported, 2 = none
+301c8cc8	gps_week_expand	10-bit week -> full week (rollover fix patched here)
+# --- NMEA (ST GPS library) ---
+301518e4	NMEA_start	NMEA_start(port, msg_mask, ?, double)
+3014ff24	nmea_output_task	"NMEA output Process" (prio 8, stack 0x76c)
+30151720	nmea_input_task	"NMEA input Process"
+3014b564	nmea_send	nmea_send(buf, len): mutex 003ebfcc, writes to enabled ports
+3014b3d4	nmea_checksum	XOR of sentence body
+# --- UI task ---
+3008608c	ui_task	"UI task": prio 3, 64 KB stack
+30085e14	ui_main_loop	polls events every 1 ms, posts periodic event type 2 every 5 ms
+300e6744	ui_get_event	ui_get_event(event*): event->type 0 = none
+300e6638	ui_dispatch_event	ui_dispatch_event(event*)
+30085b10	ui_before_dispatch	called with 1 before each dispatch
+3009a4c4	ui_dispatch_alt	dispatch used by nested/modal loop 3009aa6c (not the main path)
+3009aa6c	ui_modal_loop	processes queued events at 00057e04 until empty
+300862d8	ui_key_filter	global key handling (events 0x3f1, 0x3f5, 0x5e9); screenshot on 0x3f1 + combo
+30084b4c	take_screenshot	SD:/screenshots/screencap-<date>.bmp
+30086c80	write_bmp	write_bmp(path, image): 24-bit BMP from RGB565 image struct
+# --- input ---
+301a3678	input_controller_task	"InputController task": polls 13 keys every 10 ms, posts {key_idx, pressed} to queue 003ecda4
+301a3308	key_is_down	key_is_down(key_idx 0-12)
+301a356c	input_queue_pop	next {key_idx, pressed} from the InputController queue, or 0
+300e4da4	ui_translate_keys	key_idx -> event code: press 0x3e8+k, release 0x5dc+k (k = logical key 1-13)
+300e4934	ui_global_filter	first stage of dispatch: key repeat, power/backlight, screenshot; result 0xb = consumed
+# --- dispatch ---
+300939d0	ui_dispatch_to_app	sends an event to the app object [003f0c2c]
+3009bc30	app_dispatch_layers	topmost non-null layer of the app object gets the event (+4,+8,+0xc,+0x10,+0x14,+0x18,+0x24,+0x1c,+0x20)
+300e3b70	ui_handle_result	acts on a handler result {code, param}; code 10 = not handled
+300e639c	ui_dispatch_late	third dispatch stage (after the app layers)
+300e6870	evq_pop	evq_pop(out, queue)
+300e68ec	evq_push	evq_push(queue, event)
+300e67a4	evq_init	evq_init(queue, storage, capacity)
+300e67dc	evq_full	queue full?
+3015aafc	gpio_read	gpio_read(pin, &value)

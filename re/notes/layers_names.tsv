@@ -1,0 +1,103 @@
+# addr	name	comment   (layers / menus / dialogs)
+00043330	g_app	app object (*(003f0c2c)); +0 locked, +1 power dialog active, layer slots +4..+24
+3009b5a0	app_layers_clear	zero all 9 layer slots
+3009b5cc	app_any_layer	1 if any layer open
+3009b644	app_top_layer	topmost non-null layer object
+3009b754	app_close_all_layers	close every layer (called by every opener)
+3009b818	app_close_top_layer	close topmost layer
+3009b940	app_set_locked	app[0] = flag
+3009b994	app_open_menu	slot +4 full-screen menu (3011d564)
+3009ba64	app_open_popup_menu	slot +4 menu as popup at rect (3011b650)
+3009ba18	app_open_keyboard	slot +8 on-screen keyboard (300aea98)
+3009bb6c	app_open_msgbox	slot +0xc message box (3009a0c4)
+3009bb40	app_open_input_dialog	slot +0x10 (300fc940)
+3009bba8	app_open_screen	slot +0x14 option-list screen, full-screen (30097c04)
+3009bab8	app_open_screen_half	slot +0x14 option-list screen, lower half (30097ae0)
+3009bb14	app_open_page_order	slot +0x18 Page Order editor 00175a20
+3009b9c4	app_open_picker	slot +0x1c grid picker (30132400)
+3009bae4	app_open_power_dialog	slot +0x24 power dialog 001737ec, mode 0 shutdown/1,2 power menu/3 locked
+3009b6e8	app_clear_dropdown	slot +0x20 := 0 if equal
+3009bda0	app_open_layer_desc	reopen layer from descriptor (result 0x1388)
+300e3a64	ui_core_result	handles 0xa/0xb/0x7d4 redraw/0x7d5
+300e5368	ui_global_command	big command switch (0x138x-0x13bx layer ops, setup screens, 0xfax)
+300e3c48	ui_fallback_command	last stage: PAGE/BACK/MARK/FIND keys, 0xfa0 goto page, 0x13ad answers
+300e452c	ui_page_command	0xfa1 switch page, info-field commands 0xfa9-0xfaf, 0x232b
+3008616c	page_next	PAGE key: next page in order list 003f1014
+30086674	page_back	BACK fallback: previous page from history 0004309c
+300926f0	page_menu_key	MENU (0x3ef) -> app_open_menu(page type menu)
+3011ac80	menu_obj_init	(obj, def, submenu_tbl, has_page_list, close_on_select)
+3011ac04	menu_obj_reset	reset cursor, count, rebuild page list
+3011ab0c	menu_build_page_list	page-list items {0xfa0,page} into 00171240
+3011d564	menu_open_full	rebuild def for page, window 6,6..169,213, draw
+3011b650	menu_open_popup	popup positioned by rect
+3011b7f0	menu_open_in_window	menu in given window/rect
+3011aa70	menu_close	destroy window
+3011dae8	menu_handle_event	menu layer handler (+4)
+3011b03c	menu_draw	draw menu (full=1)
+3011d45c	menu_rebuild_for_page	switch on page index -> dynamic menu builders
+3011bcf0	menu_build_kind	big builder by kind (Compass, Device Setup, Route, Track...)
+3011bab4	menu_build_tripinfo	Trip Info Menu
+3011d654	menu_build_map	Map Menu
+3011a2e4	menu_def_init	(def, title, items16[], count) dynamic def
+3011a478	menu_def_init_static	(def, title, strings[], results[], count|-1, flags[])
+3011aaa4	menu_builder_init	(builder, buf, cap)
+3011a400	menu_builder_add	(builder, label, &{code,param}, flags)
+3011a30c	menu_def_get_result	{code,param} of item i
+3011a37c	menu_def_get_label	label of item i
+3011a3b4	menu_def_get_flags	flags of item i
+301194d8	menuitem_obj_set	C++ menu item object: +4 label, +8 result, +0x20 font
+30119614	menuitem_obj_handle	ENTER -> post stored result
+30097254	screen_init	option-list screen (obj, n, title, items[], font, sel)
+300972d8	screen_init_back	same + back result
+30097c04	screen_open_full	+0x14 open full-screen
+30097ae0	screen_open_half	+0x14 open lower half
+300971d4	screen_close	+0x14 close
+300984c0	screen_handle_event	+0x14 handler
+30096ac8	screen_draw	+0x14 draw
+30097dc0	screens_construct	builds all setup screens 00054d60..00055c38
+00055c9c	g_msgbox	message box object
+00057e04	g_msgbox_queue	ring of 10 x 0xfc records at 00057e14
+00057d14	g_msgbox_buttons	5 button records x 0x30 (+0x28 selected, +0x2c code)
+3009a670	msgbox_show	(box, title, text, type, def_btn, page, ctx, dismiss_cb)
+3009a4c4	msgbox_load	(was ui_dispatch_alt) record -> box, open layer
+3009aa6c	msgbox_show_next	(was ui_modal_loop) pop queue 00057e04
+3009a0c4	msgbox_open_draw	window + text + buttons
+3009abd4	msgbox_close	close, show next, post 0xfb0
+3009aedc	msgbox_dismiss	auto-dismiss via callback
+3009afb0	msgbox_handle_event	+0xc handler
+3009ac34	msgbox_key	LEFT/RIGHT select, ENTER -> {0x13ad, packed}
+30099784	msgbox_layout_buttons	buttons per type (Close/Ok/Yes/No/...)
+30099050	msgbox_button_code	selected button -> answer code
+300995b4	msgbox_select_button	select button index
+30099028	msgbox_type_urgent	types 100,102,103,104,112,113
+30098f90	msgbox_result_button	bits 16-23 of packed answer
+30098f9c	msgbox_result_ctx	low 16 bits of packed answer
+000d4e70	g_keyboard	on-screen keyboard object
+300aea98	kbd_open	window 173x81 above/below rect
+300aeb84	kbd_close	posts cancel {0x138b,0x18} if not done
+300aebe8	kbd_handle_event	+8 handler
+300ae870	kbd_press_cell	cell -> {0x138b, char}
+300ae254	kbd_draw	redraw keyboard
+300e7444	textfield_handle_event	ENTER -> {0x138a, rect}; 0x138b chars
+300e6ad0	textfield_insert	insert char / BS 8 / cursor 0xe,0xf
+300e69e0	textfield_clear	clear text
+00169fc4	g_input_dialog	input dialog object (+0x10)
+300fc940	inputdlg_open	same geometry as msgbox
+300fcc7c	inputdlg_close	+0x10 close
+300fce4c	inputdlg_handle_event	ENTER -> {0x13ae, packed}
+300fc734	inputdlg_layout_buttons	Close / Ok,Cancel / Yes,No
+00175a20	g_page_order	page order editor object
+30133820	pageorder_open	+0x18 open
+301337f8	pageorder_close	+0x18 close
+301338f0	pageorder_handle_event	+0x18 handler
+30132400	picker_open_popup	+0x1c open at rect
+30132260	picker_open_in_window	+0x1c open in given window
+30131a44	picker_close	+0x1c close
+301329b8	picker_handle_event	+0x1c handler
+30131a6c	picker_draw	+0x1c draw
+001737ec	g_power_dialog	power dialog object
+30131160	powerdlg_open	modes 0-3
+30130710	powerdlg_close	+0x24 close
+30130cc4	powerdlg_handle_event	+0x24 handler
+300c1680	dropdown_close	+0x20 close (choice widget popup)
+003f0c54	g_page_types	page type table, 0x18 each: +4 enabled, +8 flags, +0x10 menu obj, +0x14 handler

@@ -1,0 +1,284 @@
+# addr	name	comment (settings and data fields area)
+00053b70	widget_desc_table	161 x 16-byte cell widget descriptors {fn, u8 is_field, u8 needs_baro, char* long, char* short}
+00054580	widget_ptr_table	widget id -> descriptor pointer, 161 entries (end 0x54804)
+00054814	nav_mode	page field-set selector 0 normal / 1 navigating
+30090928	widget_desc_init	static ctor filling widget_desc_table
+3008ffc8	widget_ptr_init	static ctor filling widget_ptr_table
+30090848	widget_desc	widget_desc(page, cell) -> descriptor of the widget in that cell
+300908c8	widget_handler	widget_handler(page, cell) -> descriptor->fn
+300907f8	get_nav_mode	returns nav_mode
+30090808	set_nav_mode	set_nav_mode(0/1)
+30090820	get_cur_layout	get_cur_layout(page, mode) -> layout index
+300908d8	set_cur_layout	set_cur_layout(page, mode, idx)
+3009265c	set_cell_widget	set_cell_widget(page_obj, cell, id): writes id into the current layout array
+30092768	datapage_on_key	page cell focus/edit key handler (rocker moves focus, ENTER opens field picker)
+3009246c	cell_selectable	cell_selectable(page_obj, cell)
+3009244c	cell_obscured	cell_obscured(page_obj, cell): skip periodic redraws while covered
+30093604	page_show	page_show(page_obj, gfx): sends 0x7dc/0x7d9/0x7dd/0x7da/0x7d7
+300938a0	page_broadcast	page_broadcast(page_obj, ev, mask): mask 1 cells, 2 page handler, 4 app layers
+300e3c00	broadcast_to_page	broadcast_to_page(ev, mask) to the current page
+300e452c	ui_app_events	handles 0xfa1 page switch, 0xfaf set field, 0xfae layout, 0x232b large text
+3011b9a8	field_picker_build	builds the field picker menu (storage 0x170b60, cap 50): {long name, {0xfaf, id}}
+00170b60	field_picker_items	field picker menu storage, 50 x 16 bytes
+00171840	field_picker_layer	field picker layer object
+300af724	is_draw_event	true for event codes 1, 0x7d6, 0x7d7, 0x7d8, 0x7d9
+300b010c	draw_field_label	draw_field_label(rect, page, cell, flag): long/short name and colors
+300b0410	draw_field_value	draw_field_value(rect, value_txt, unit_txt, ...)
+300afe78	draw_field_dashes	draw_field_dashes(rect, 1, 1): "- -" for an invalid value
+300b0850	draw_duration	formats and draws a duration (seconds)
+3010f4a4	fmt_speed	speed m/s -> text in km/h, kn or mph per Measures
+3010f680	fmt_elevation	elevation m -> m or ft text
+3010f854	fmt_distance	distance km -> m/km/mi/ft/NM text
+3010f35c	fmt_vspeed	vertical speed m/s -> m/s or ft/s text
+3010d188	fmt_pressure	pressure -> mb/hPa/in text
+3010dacc	fmt_coord	coordinate -> text in the selected coordinate format
+30111088	has_barometer	barometer hardware present
+000430b4	ui_fix	UI copy of the 0xb0-byte GPS fix message
+301528d8	gps_fix_receive	gps_fix_receive(dst): copies the 0xb0-byte fix from queue 0x184f40
+3015288c	gps_sat_snapshot	copies the 0x820-byte satellite table 0x183910 under mutex 0x1838fc
+300b7e5c	gps_fix_valid	ui_fix.fix in 2..5
+300b8870	gps_status_text	fix status code, or "2-D" "3-D" "NO FIX" "Sim GPS" "GPS OFF" text
+300b7fc4	get_speed	get_speed(float* m/s) from ui_fix+0x60
+300b8020	get_gps_elev	get_gps_elev(double* m) from ui_fix+0x70
+300b8dc0	get_baro_elev	baro elevation (ui_fix+0x68, or +0x78 auto-cal; GPS if baro off)
+300b8d0c	get_pressure	ambient pressure from ui_fix+0x80
+300b8bf0	get_heading	heading (COG ui_fix+0x58, held when slow; compass)
+300b7df0	get_accuracy	estimated accuracy ui_fix+0xa8, -1 = none
+300b7f3c	get_velocity3	3 doubles ui_fix+0x84/+0x8c/+0x94
+300b89e8	get_position	get_position(double* lat, double* lon, flag) ui_fix+0x2c/+0x34, cached
+300b857c	gps_time_hms	GPS h/m/s (caches the last valid value)
+300b8670	gps_date_ymd	GPS y/m/d (caches the last valid value)
+300b9500	get_local_datetime	local struct tm from GPS time + zone/DST prefs
+0012b76c	prefs	preferences struct, 0x3d4 bytes = pref_state.dat payload
+300d0bac	prefs_save	prefs_save(&prefs): writes pref_state.dat and page_state.dat
+300d2bb8	prefs_load	reads pref_state.dat (type 400, 0x3d4) into prefs, migrates ver<=0x6e
+300d28a4	page_state_load	reads page_state.dat (type 0x1c2, ver 0x1a)
+300d2c6c	state_load_all	prefs_load + page_state_load
+300d2c84	prefs_init	defaults, load files, fix GPS mode, apply
+300d109c	prefs_reset	prefs_reset(p, mask): group defaults (see settings.md)
+300d1858	prefs_reset_apply	prefs_reset + prefs_apply
+300d0988	prefs_apply	applies prefs to hardware/subsystems
+300d1870	prefs_on_event	global pref setter: event code -> prefs field, then prefs_save
+30086a4c	state_write	state_write(magic*, path, type, size, data, &n)
+30086bdc	state_read	state_read(magic*, path, type, size, buf, &n)
+300869c8	state_write_rec	writes {type, size, checksum} + data
+30086b00	state_read_rec	reads and validates header, data and checksum
+3010bb88	state_checksum	sum of LE u32 words (tail zero-padded)
+00053358	state_file_magic	u32 = 2, first word of every state file
+0011cee8	trip	trip computer state = DEVICE_STATE.TXT payload (0x6c bytes)
+300c65f8	trip_load	loads DEVICE_STATE.TXT into trip
+300c652c	trip_defaults	trip defaults
+300c5f54	trip_reset_all	resets trip values, speeds and elevations
+300c5f28	trip_reset_values	clears odometer and times (+0x30..+0x40)
+300c5e6c	trip_reset_speeds	clears +0x1c..+0x24
+300c5cd4	trip_reset_elev	sets elev max/min to -/+99999
+300c6588	trip_autosave	saves DEVICE_STATE every 10 minutes
+00054818	owner_info	OWNER_STATE.TXT payload, 0x108 bytes
+30095a60	owner_load	loads OWNER_STATE.TXT
+30097dc0	setup_menus_init	builds all Setup category list pages
+30097254	listpage_init	listpage_init(page, nitems, title, items[], style, sel)
+300972d8	listpage_init_back	listpage_init with a back event
+30097618	map_setup_init	Map Setup list (9 or 10 items)
+3009780c	display_setup_init	Display list (6 or 7 items)
+300c21f0	choice_item_setup	choice_item_setup(item, name, choices, n, getter)
+300c3d84	choice_item_ctor	sets vtable 0x304d3188
+300c3450	choice_item_on_event	choice item event handler
+300c3df4	choice_tables_init	static ctor filling choice arrays {label, ev_code, ev_param}
+300c2ae8	setup_items_init	sets up all choice items
+300c1610	list_begin	list_begin(builder, storage, cap)
+300c1564	list_add	list_add(builder, label, &event)
+300c2900	gps_settings_item_init	GPS Settings choice list
+300c29e0	datum_items_init	Datum: Primary/Secondary lists
+300cd118	checkbox_item_setup	checkbox_item_setup(item, label, &ev, style, getter)
+300cd650	checkbox_items_init	sets up checkbox items (Screenshots On etc.)
+300cd3dc	checkbox_on_event	checkbox ENTER: posts its event, or toggles setting id for 0x13b2
+300ce614	button_item_setup	button_item_setup(item, label, &ev, style)
+301288c4	slider_item_setup	slider_item_setup(item, label, &ev, style, getter, nsteps)
+30129260	slider_items_init	Backlight Intensity, Contrast, Volume
+300d0f50	toggle_screenshots	toggles prefs+0x3c0 and shows the hint
+300d0fe8	toggle_rotation	toggles prefs+0x3bc
+300d0f20	toggle_midnight	toggles prefs+0x128
+300cfaf8	pref_gps_mode	prefs+0x20
+300cfd0c	pref_measures	prefs+0x90
+300cfd1c	pref_pressure_units	prefs+0xf0
+300cfd2c	pref_bearing_ref	prefs+0x94
+300cf9a4	pref_time_format	prefs+0x78
+300cf9b4	pref_time_zone	prefs+0x7c
+300cf9e0	pref_dst	prefs+0x80
+300cfcec	pref_coord_primary	prefs+0x84
+300cfcfc	pref_coord_secondary	prefs+0x88
+300cfccc	pref_datum_primary	prefs+0x8c
+300cfcdc	pref_datum_secondary	prefs+0xe4
+300cfb18	pref_battery_type	prefs+0x28
+300cfbdc	pref_backlight_timer	prefs+0x40 (0 in stealth)
+300cfc8c	pref_backlight_level	prefs+0x3c, or +0x3d0 in stealth
+300cfc64	set_backlight_level	sets prefs+0x3c, or +0x3d0 in stealth
+300cf8b4	pref_screenshots_on	prefs+0x3c0
+300cfbac	pref_stealth	prefs+0x3cc
+300cf7c4	pref_map_orientation	prefs+0x8
+300cf978	pref_volume	prefs+0x60
+300cf884	pref_contrast	prefs+0x44
+300d0854	pref_baro_enabled	prefs+0xfc if baro hw
+300d0838	pref_baro_autocal	prefs+0x100 if baro hw
+300d0870	pref_compass_enabled	prefs+0xf8 if compass hw
+300b63e0	field_back_on_course	data field id 0 "Back on Course" handler(result*,ev*,page,cell)
+300b621c	field_battery_life	data field id 1 "Battery Life" handler(result*,ev*,page,cell)
+300b5fe4	field_bearing	data field id 2 "Bearing" handler(result*,ev*,page,cell)
+300b5d98	field_coordinates_primary	data field id 3 "Coordinates: Primary" handler(result*,ev*,page,cell)
+300b5b28	field_coordinates_secondary	data field id 4 "Coordinates: Secondary" handler(result*,ev*,page,cell)
+300b5998	field_course	data field id 5 "Course" handler(result*,ev*,page,cell)
+300b5804	field_device_odometer	data field id 6 "Device Odometer" handler(result*,ev*,page,cell)
+300b563c	field_distance_to_finish	data field id 7 "Distance to Finish" handler(result*,ev*,page,cell)
+300b5474	field_distance_to_next_stop	data field id 8 "Distance to Next Stop" handler(result*,ev*,page,cell)
+300b52ac	field_distance_to_next_turn	data field id 9 "Distance to Next Turn" handler(result*,ev*,page,cell)
+300b5040	field_elevation_barometer	data field id 10 "Elevation: Barometer" handler(result*,ev*,page,cell)
+300b4e98	field_elevation_gps	data field id 11 "Elevation: GPS" handler(result*,ev*,page,cell)
+300b4cd4	field_elevation_maximum	data field id 12 "Elevation: Maximum" handler(result*,ev*,page,cell)
+300b4b0c	field_elevation_minimum	data field id 13 "Elevation: Minimum" handler(result*,ev*,page,cell)
+300b47ac	field_eta_at_finish	data field id 14 "ETA at Finish" handler(result*,ev*,page,cell)
+300b4470	field_eta_at_next_turn	data field id 15 "ETA at Next Turn" handler(result*,ev*,page,cell)
+300b4138	field_eta_at_next_stop	data field id 16 "ETA at Next Stop" handler(result*,ev*,page,cell)
+300b3fe4	field_finish	data field id 17 "Finish" handler(result*,ev*,page,cell)
+300b3e2c	field_gps_accuracy	data field id 18 "GPS Accuracy" handler(result*,ev*,page,cell)
+300b3c38	field_gps_status	data field id 19 "GPS Status" handler(result*,ev*,page,cell)
+300b3964	field_heading	data field id 20 "Heading" handler(result*,ev*,page,cell)
+300b3648	field_moonrise_moonset	data field id 21 "Moonrise/Moonset" handler(result*,ev*,page,cell)
+300b349c	field_next_stop	data field id 22 "Next Stop" handler(result*,ev*,page,cell)
+300b32e4	field_next_turn	data field id 23 "Next Turn" handler(result*,ev*,page,cell)
+300b314c	field_next_turn_arrow	data field id 24 "Next Turn Arrow" handler(result*,ev*,page,cell)
+300b2f4c	field_off_course	data field id 25 "Off Course" handler(result*,ev*,page,cell)
+300b2d98	field_pressure_ambient	data field id 26 "Pressure: Ambient" handler(result*,ev*,page,cell)
+300b2ba8	field_pressure_msl	data field id 27 "Pressure: MSL" handler(result*,ev*,page,cell)
+300b2a14	field_speed	data field id 28 "Speed" handler(result*,ev*,page,cell)
+300b28ac	field_speed_average	data field id 29 "Speed: Average" handler(result*,ev*,page,cell)
+300b2744	field_speed_maximum	data field id 30 "Speed: Maximum" handler(result*,ev*,page,cell)
+300b25dc	field_speed_moving_average	data field id 31 "Speed: Moving Average" handler(result*,ev*,page,cell)
+300b22d8	field_sunrise_sunset	data field id 32 "Sunrise/Sunset" handler(result*,ev*,page,cell)
+300b20d4	field_time_date	data field id 33 "Time/Date" handler(result*,ev*,page,cell)
+300b1f8c	field_time_to_finish	data field id 34 "Time to Finish" handler(result*,ev*,page,cell)
+300b1ab0	field_time_to_moonrise_set	data field id 35 "Time to Moonrise/set" handler(result*,ev*,page,cell)
+300b1968	field_time_to_next_stop	data field id 36 "Time to Next Stop" handler(result*,ev*,page,cell)
+300b1820	field_time_to_next_turn	data field id 37 "Time to Next Turn" handler(result*,ev*,page,cell)
+300b1250	field_time_to_sunrise_set	data field id 38 "Time to Sunrise/set" handler(result*,ev*,page,cell)
+300b10bc	field_trip_odometer	data field id 39 "Trip: Odometer" handler(result*,ev*,page,cell)
+300b0fac	field_trip_time_moving	data field id 40 "Trip: Time Moving" handler(result*,ev*,page,cell)
+300b0e9c	field_trip_time_stopped	data field id 41 "Trip: Time Stopped" handler(result*,ev*,page,cell)
+300b0d8c	field_trip_time_total	data field id 42 "Trip: Time Total" handler(result*,ev*,page,cell)
+300b0be4	field_velocity_made_good	data field id 43 "Velocity Made Good" handler(result*,ev*,page,cell)
+300b0a28	field_vertical_speed	data field id 44 "Vertical Speed" handler(result*,ev*,page,cell)
+301027f4	widget_45	cell widget id 45 (page-specific, not a data field)
+300d72fc	widget_46	cell widget id 46 (page-specific, not a data field)
+300cc848	widget_47	cell widget id 47 (page-specific, not a data field)
+300caf64	widget_48	cell widget id 48 (page-specific, not a data field)
+300c9484	widget_49	cell widget id 49 (page-specific, not a data field)
+300c97fc	widget_50	cell widget id 50 (page-specific, not a data field)
+300c9c60	widget_51	cell widget id 51 (page-specific, not a data field)
+300e2910	widget_53	cell widget id 53 (page-specific, not a data field)
+300e2d1c	widget_54	cell widget id 54 (page-specific, not a data field)
+300d8820	widget_56	cell widget id 56 (page-specific, not a data field)
+300c6a84	widget_57	cell widget id 57 (page-specific, not a data field)
+300f17c8	widget_58	cell widget id 58 (page-specific, not a data field)
+300f1f34	widget_59	cell widget id 59 (page-specific, not a data field)
+300e793c	widget_60	cell widget id 60 (page-specific, not a data field)
+300e8198	widget_61	cell widget id 61 (page-specific, not a data field)
+300e8d10	widget_62	cell widget id 62 (page-specific, not a data field)
+300e7d94	widget_63	cell widget id 63 (page-specific, not a data field)
+300c0fe4	widget_64	cell widget id 64 (page-specific, not a data field)
+300bd718	widget_65	cell widget id 65 (page-specific, not a data field)
+300bd4bc	widget_66	cell widget id 66 (page-specific, not a data field)
+300dc800	widget_67	cell widget id 67 (page-specific, not a data field)
+300dcce4	widget_68	cell widget id 68 (page-specific, not a data field)
+300db23c	widget_69	cell widget id 69 (page-specific, not a data field)
+300db568	widget_70	cell widget id 70 (page-specific, not a data field)
+300dc1d0	widget_71	cell widget id 71 (page-specific, not a data field)
+300db77c	widget_72	cell widget id 72 (page-specific, not a data field)
+300db680	widget_73	cell widget id 73 (page-specific, not a data field)
+300db418	widget_74	cell widget id 74 (page-specific, not a data field)
+300dc3ec	widget_75	cell widget id 75 (page-specific, not a data field)
+300debcc	widget_76	cell widget id 76 (page-specific, not a data field)
+300ddad0	widget_77	cell widget id 77 (page-specific, not a data field)
+300daf38	widget_78	cell widget id 78 (page-specific, not a data field)
+300dadec	widget_79	cell widget id 79 (page-specific, not a data field)
+300d9dec	widget_80	cell widget id 80 (page-specific, not a data field)
+300de600	widget_81	cell widget id 81 (page-specific, not a data field)
+300dd6cc	widget_82	cell widget id 82 (page-specific, not a data field)
+300dbea4	widget_83	cell widget id 83 (page-specific, not a data field)
+300b78d0	widget_84	cell widget id 84 (page-specific, not a data field)
+300b726c	widget_85	cell widget id 85 (page-specific, not a data field)
+300b7670	widget_86	cell widget id 86 (page-specific, not a data field)
+300b6eec	widget_87	cell widget id 87 (page-specific, not a data field)
+300b6a50	widget_88	cell widget id 88 (page-specific, not a data field)
+300b65ac	widget_89	cell widget id 89 (page-specific, not a data field)
+300ab4a0	widget_90	cell widget id 90 (page-specific, not a data field)
+300ac48c	widget_91	cell widget id 91 (page-specific, not a data field)
+300abf54	widget_92	cell widget id 92 (page-specific, not a data field)
+300a3f94	widget_93	cell widget id 93 (page-specific, not a data field)
+300e3880	widget_94	cell widget id 94 (page-specific, not a data field)
+30095c44	widget_95	cell widget id 95 (page-specific, not a data field)
+30095ffc	widget_96	cell widget id 96 (page-specific, not a data field)
+3008ef34	widget_97	cell widget id 97 (page-specific, not a data field)
+3008f690	widget_98	cell widget id 98 (page-specific, not a data field)
+3008f550	widget_99	cell widget id 99 (page-specific, not a data field)
+3008eba0	widget_100	cell widget id 100 (page-specific, not a data field)
+3008f048	widget_101	cell widget id 101 (page-specific, not a data field)
+301009e0	widget_102	cell widget id 102 (page-specific, not a data field)
+301005ec	widget_103	cell widget id 103 (page-specific, not a data field)
+300ffe14	widget_104	cell widget id 104 (page-specific, not a data field)
+300ff7a4	widget_105	cell widget id 105 (page-specific, not a data field)
+300886a8	widget_106	cell widget id 106 (page-specific, not a data field)
+30089b30	widget_107	cell widget id 107 (page-specific, not a data field)
+3008a584	widget_108	cell widget id 108 (page-specific, not a data field)
+3012fb68	widget_109	cell widget id 109 (page-specific, not a data field)
+3012ecf8	widget_110	cell widget id 110 (page-specific, not a data field)
+3012e73c	widget_111	cell widget id 111 (page-specific, not a data field)
+3012e1d0	widget_112	cell widget id 112 (page-specific, not a data field)
+3012e06c	widget_113	cell widget id 113 (page-specific, not a data field)
+3012bc54	widget_114	cell widget id 114 (page-specific, not a data field)
+3012ba78	widget_115	cell widget id 115 (page-specific, not a data field)
+300fd6c0	widget_116	cell widget id 116 (page-specific, not a data field)
+300fdba8	widget_117	cell widget id 117 (page-specific, not a data field)
+301237e8	widget_118	cell widget id 118 (page-specific, not a data field)
+30123c70	widget_119	cell widget id 119 (page-specific, not a data field)
+301230ac	widget_120	cell widget id 120 (page-specific, not a data field)
+3012353c	widget_121	cell widget id 121 (page-specific, not a data field)
+30123290	widget_122	cell widget id 122 (page-specific, not a data field)
+30122a8c	widget_123	cell widget id 123 (page-specific, not a data field)
+30118824	widget_124	cell widget id 124 (page-specific, not a data field)
+301183e0	widget_125	cell widget id 125 (page-specific, not a data field)
+301180d4	widget_126	cell widget id 126 (page-specific, not a data field)
+30117b54	widget_127	cell widget id 127 (page-specific, not a data field)
+301175d4	widget_128	cell widget id 128 (page-specific, not a data field)
+30116e40	widget_129	cell widget id 129 (page-specific, not a data field)
+30114394	widget_130	cell widget id 130 (page-specific, not a data field)
+30113a5c	widget_131	cell widget id 131 (page-specific, not a data field)
+30112618	widget_132	cell widget id 132 (page-specific, not a data field)
+30112dd8	widget_133	cell widget id 133 (page-specific, not a data field)
+301122e0	widget_134	cell widget id 134 (page-specific, not a data field)
+301124c0	widget_135	cell widget id 135 (page-specific, not a data field)
+301120f8	widget_136	cell widget id 136 (page-specific, not a data field)
+301130cc	widget_137	cell widget id 137 (page-specific, not a data field)
+3011331c	widget_138	cell widget id 138 (page-specific, not a data field)
+30106b88	widget_139	cell widget id 139 (page-specific, not a data field)
+3010716c	widget_140	cell widget id 140 (page-specific, not a data field)
+301055e0	widget_141	cell widget id 141 (page-specific, not a data field)
+300ebdec	widget_142	cell widget id 142 (page-specific, not a data field)
+300f2e84	widget_143	cell widget id 143 (page-specific, not a data field)
+300f180c	widget_144	cell widget id 144 (page-specific, not a data field)
+301057bc	widget_145	cell widget id 145 (page-specific, not a data field)
+30106558	widget_146	cell widget id 146 (page-specific, not a data field)
+301059d0	widget_147	cell widget id 147 (page-specific, not a data field)
+301058d4	widget_148	cell widget id 148 (page-specific, not a data field)
+30105b10	widget_149	cell widget id 149 (page-specific, not a data field)
+30106774	widget_150	cell widget id 150 (page-specific, not a data field)
+30108c04	widget_151	cell widget id 151 (page-specific, not a data field)
+30109bd4	widget_152	cell widget id 152 (page-specific, not a data field)
+30109814	widget_153	cell widget id 153 (page-specific, not a data field)
+301080ac	widget_154	cell widget id 154 (page-specific, not a data field)
+30104094	widget_155	cell widget id 155 (page-specific, not a data field)
+3010a6d8	widget_156	cell widget id 156 (page-specific, not a data field)
+30108808	widget_157	cell widget id 157 (page-specific, not a data field)
+3010622c	widget_158	cell widget id 158 (page-specific, not a data field)
+3010105c	widget_159	cell widget id 159 (page-specific, not a data field)
+30101384	widget_160	cell widget id 160 (page-specific, not a data field)
+300e2b58	widget_52	cell widget id 52 (code label, not a Ghidra function)
+300c8e0c	widget_55	cell widget id 55 (code label, not a Ghidra function)

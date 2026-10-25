@@ -1,0 +1,110 @@
+# addr	name	comment
+# --- page framework ---
+300939d0	ui_dispatch_to_app	(res, page, ev): app layers -> page handler -> active pane -> page_menu_key/page_pane_nav (Ghidra truncates at 84 bytes; real end 30093c1c)
+300937cc	page_init	page_init(obj, id): clear rects, apply layout, send 2000 (0x7d0) to page handler
+30093604	page_show	page_show(page, surface): layout, 0x7dc page, 0x7d9 panes, flush, 0x7dd, 0x7da, 0x7d7 focused
+3009351c	page_hide	page_hide(page): close layers, 0x7de page, 0x7db panes, +0x3c=0
+300938a0	page_broadcast	page_broadcast(page, ev, mask): 4=app layers, 2=page handler, 1=all panes
+300e3c00	page_broadcast_current	page_broadcast(page_objs[cur_page], ev, mask)
+30093218	page_flush	blit page->surface
+30093228	page_apply_layout	computes pane rects from current layout (special cases map/trip)
+3009223c	layout_grid_rects	pane rects from {n,sizes} in half-row units (2 cols x 44 px rows)
+30092314	layout_rows3_rects	pane rects as full-width rows of 220/3 px
+30093328	page_set_layout	page_set_layout(page, layout_idx)
+30093358	page_change_layout	handler for 0xfae / 0x232b: set layout, 0x7d6 to panes, post 0xfa2
+3009265c	page_set_pane_class	page_set_pane_class(page, pane, class) (cmd 0xfaf)
+300924cc	page_set_focus	page_set_focus(page, state 0/1/2, pane): sends 0x7d7 to focusable pane
+3009246c	page_pane_focusable	pane can take focus in current state
+300923c8	page_focus_cursor	update focus cursor x/y (00053b50/00053b54) from focused pane rect
+300926f0	page_menu_key	state-0 key handler: MENU (0x3ef) opens page_desc[id].menu
+30092768	page_pane_nav	state-1/2 key handler: rocker moves pane focus, MENU, ENTER=choose field, BACK=leave
+30090848	pane_class_get	pane_class_get(page_id, pane) -> pane class def
+300908c8	pane_handler_get	pane_handler_get(page_id, pane) -> class handler fn
+300907f8	layout_mode_get	00054814: 0 normal, 1 navigating
+30090808	layout_mode_set	layout_mode_set(0/1)
+30090820	page_layout_get	page_layout_get(id, mode) -> current layout index
+300908d8	page_layout_set	page_layout_set(id, mode, idx)
+30090900	page_default_layout_get	page_default_layout_get(id, mode)
+30090760	page_desc_index	index of id in page_desc[40] or -1
+300907b4	page_order_index	index of id in page_order[13] or -1
+300907a4	set_prev_page	00053b68 = id
+3008616c	page_next	PAGE key: next enabled page in page_order, posts {0xfa1,id}
+30086674	page_prev	BACK key fallback: pop page history or previous enabled page
+300e3c48	ui_global_keys	last key stage: 0x3f0 PAGE, 0x3f2 BACK, 0x3f3 MARK, 0x3f4 FIND, results 0xfa0/0xfac/0x13ad/0x213d
+300e452c	ui_page_commands	results 0xfa1 set page, 0xfa9/0xfaa info fields, 0xfab/0xfac focus, 0xfae layout, 0xfaf pane class
+300e5368	ui_app_commands	big result/command dispatcher (0xfa*, 0x13xx...)
+300e3a64	ui_result_redraw	results 0x7d4 (flush request) and 0x7d5
+3008648c	ui_periodic	event 2: backlight timeout, broadcast {2}, broadcast {1} when data flag 000432a8 set
+3008ffc8	pane_class_table_init	fills pane_classes[161] pointer table
+30090928	pane_classes_init	fills pane class defs {handler, selectable, needs_baro, long, short}
+300af724	field_needs_redraw	true for events 1, 0x7d6, 0x7d7, 0x7d8, 0x7d9
+300860c0	ui_set_flow_mode	ui_set_flow_mode(mode, page, flag): clears/pushes page history
+3008323c	ui_flow_mode_get	returns 000430ac
+30083308	ui_flow_mode_clear	000430ac = 0, clear page history
+30086828	pagestack_clear	clear stack {buf, ?, count, cap}
+300868f8	pagestack_push	pagestack_push(stack, &id)
+30086878	pagestack_pop	pagestack_pop(stack) -> &id
+3011a4e4	page_menu_index	index of page id in the Pages menu item table 00171170 (13 entries)
+3009b994	app_open_menu	app_open_menu(app, menu): app+4 = menu layer
+3009bb14	app_open_page_order	app+0x18 = page order dialog, init
+30133820	page_order_dlg_init	Page Order dialog init (counts cyclable pages)
+301338f0	page_order_dlg_event	Page Order dialog: ENTER toggles enable bit, arrows reorder page_order, BACK closes
+301330c4	page_order_dlg_draw	Page Order dialog draw (body split into 301332d4)
+300d0bac	settings_save	writes settings 0012b76c (0x3d4 bytes) to MSYS1:/system/pref_state.dat
+300d109c	settings_restore_defaults	settings_restore_defaults(settings, mask); 0x10 = page enables + order
+300a90cc	map_key	map pane key handler (zoom 0x3ed/0x3ee, BACK, ENTER)
+300a8f20	map_zoom_step	map_zoom_step(map, dir): zoom level byte map+0x18, 1..18
+# --- page handlers (page_desc[id]+0x14) ---
+3012b8b8	page_satellites_event	page 0 Satellites
+300acbd0	page_map_event	page 1 Map
+300cb084	page_compass_event	page 2 Compass
+300c66cc	page_tripinfo_event	page 3 Trip Info
+30107328	page_waypoints_event	page 4 Waypoints
+3012e450	page_routes_event	page 5 Routes
+30116160	page_tracks_event	page 6 Tracks
+3012412c	page_sunmoon_event	page 7 Sun/Moon
+30118c38	page_tide_event	page 8 Tide
+300b7b7c	page_huntfish_event	page 9 Hunt/Fish
+300c679c	page_devsetup_event	page 10 Device Setup
+3008b4c4	page_editroute_event	page 12 Edit Route (likely)
+300bbf48	page_find_event	page 13 Find (likely)
+30115c2c	page_trackdetail_event	page 15 Track Detail (likely)
+3010aa48	page_wptdetail_event	page 16 Waypoint Detail (likely)
+300c8e20	page_datadetail_event	page 19 Data Detail
+3010278c	page_about_event	page 20 About this Device
+30095af0	page_owner_event	page 22 Owner Information
+300d8cd8	page_demo_event	page 25 Demo/welcome (likely)
+300dcea0	page_geocaches_event	page 26 Geocaches
+300dfd40	page_gcdetail_event	page 27 Geocache Detail (likely)
+300dbc90	page_avggeocache_event	page 28 Average Geocache
+300f12a8	page_wptdetails_event	page 34 Waypoint Details (likely)
+300f0c18	page_editwpt_event	page 35 Edit Waypoint
+300e2a84	page_layerdetail_event	page 36 Layer Detail
+30100bec	page_projectwpt_event	page 38 Project Waypoint
+# --- panes ---
+300abf54	pane_map	pane class 92: map pane of page 1
+300caf64	pane_compass_rose	pane class 48: compass of page 2
+3012e73c	pane_route_directions	pane class 111: page 11 Route Directions
+300c6a84	pane_device_setup	pane class 57: Device Setup list
+# --- data ---
+00043164	page_objs	page object pointers [40], 0x40 bytes each
+00053b64	cur_page	current page id
+00053b68	prev_page	page id before last switch
+00053b6c	page_cycle_pos	index into page_order of current cycle position
+003f0c54	page_desc	[40] x 24: id, cyclable u8, enabled bit0, default enabled, menu*, handler
+003f1014	page_order	[13] page ids for PAGE cycle (user-reorderable)
+304d1734	page_order_default	default page_order (flash)
+003f1120	page_layouts	[40] x 24: id, layouts**, n_layouts, n_modes, default idx[2]*, current idx[2]*
+003f19dc	page_panes	[40] x 20: id, default classes m0/m1, current classes m0/m1
+00054580	pane_classes	[161] pointers to pane class defs
+00053b70	pane_class_defs	[161] x 16: handler, u8 selectable, u8 needs_baro, long name, short name
+00054814	layout_mode	0 normal, 1 navigating
+0004309c	page_stack	page history stack {buf, ?, count, cap}
+000430ac	ui_flow_mode	nonzero during multi-page tasks
+00053b5c	flush_main	set by result 0x7d4: blit main_surface after dispatch
+00053b60	flush_surface	surface to blit after dispatch when overlay open
+000e435c	main_surface	main screen surface
+00053b50	focus_x	pane-navigation cursor x
+00053b54	focus_y	pane-navigation cursor y
+00171170	pages_menu_items	13 x 16 {name, 4000, page id, 0}: Satellites, Map, Compass, ...
+0012b76c	settings	preferences struct, saved to pref_state.dat

@@ -1,0 +1,111 @@
+# PN-40 mods
+
+Custom firmware mods for the **DeLorme Earthmate PN-40** handheld GPS (firmware
+2.9.6.70319). These mods add C code to the stock firmware, linked into unused NOR flash and
+hooked in with small, checked patches. The repo also holds the reverse-engineering notes,
+the bootloader analysis and the tools behind them.
+
+<p>
+<img src="new_graph.png" alt="Elevation profile page on the PN-40" height="440">
+<img src="new_fields.png" alt="Battery Volts, Total Ascent and Total Descent data fields" height="440">
+</p>
+
+## What it adds
+
+- **GPS week-rollover fix**: stock units show dates 19.6 years in the past since 2018.
+  The fix maps weeks onto 2017-11-19 .. 2037-07-04.
+- **Data fields**: Battery Voltage, Total Ascent and Total Descent. The totals use a
+  3 m deadband (10 m on GPS elevation) and a 15 m/s jump guard against calibrations.
+  They are saved with the trip.
+- **Elevation profile page** (replaces Hunt/Fish): elevation over time or distance for
+  the last 12 hours. ENTER switches the view and ZOOM changes the span.
+- **NMEA logger**: logs the GPS output to `SD:\nmea\` while that folder exists.
+- **Diagnostics** written on every screenshot: UI timing (`maptime.txt`), an IRQ-sampled
+  CPU profile (`cpuprof.txt`, while `SD:\prof` exists), and a system report
+  (`sysinfo.txt`) with the measured CPU clock, the bus timing, a CPU and memory stress
+  test, compass counters and register dumps.
+- **CPU overclock**: 117 MHz stock -> 175.5 MHz, set at boot (see the warnings below).
+- **Delta updates**: the build can write a file that holds only the 64 KB flash blocks that
+  changed, which makes an install much faster.
+
+## Layout
+
+| Path | What |
+|---|---|
+| [`mods/`](mods/README.md) | The mods: C/assembly sources, `build.py`, emulator tests (unicorn), `pnhex.py`. **Start here.** |
+| [`nor/BOOTLOADER.md`](nor/BOOTLOADER.md) | Bootloader analysis: NOR layout, boot flow, how updates are validated and flashed |
+| `nor/nor_8MB.bin` | Full 8 MB NOR dump (bootloader + firmware), read out with `bootdump/` |
+| `bootdump/` | `make_bootdump.py`: a firmware whose screenshot button dumps the whole NOR to SD |
+| `patched/` | `make_patch.py`: the week-rollover fix on its own, plus its output |
+| `update/PN-40.hex` | Stock firmware 2.9.6.70319, the input to every build |
+| [`re/`](re/UI.md) | Reverse engineering: Ghidra scripts, function/string tables, name tables, notes on [pages](re/notes/pages.md), [layers](re/notes/layers.md), [graphics](re/notes/graphics.md), [settings](re/notes/settings.md) |
+
+## Build
+
+Needs `arm-none-eabi-gcc` (MSYS2: `mingw-w64-x86_64-arm-none-eabi-gcc`) and Python 3
+with `unicorn` (and `capstone` for disassembly work).
+
+```
+cd mods
+python build.py ../update/PN-40.hex      # -> out/PN-40.hex
+python test_nmealog.py                   # plus test_ascent.py, test_profile.py, test_prof.py, test_pnhex.py
+```
+
+`build.py` refuses to write anything unless:
+- every patch finds the stock bytes it expects;
+- every hex line stays out of the bootloader and the identity/marker blocks;
+- the bootloader's own line parser, run in an emulator from the NOR dump, accepts every
+  changed line.
+
+See [`mods/README.md`](mods/README.md) for every patch, address and design decision.
+
+## Install
+
+1. Copy `mods/out/PN-40.hex` to `SD:\update\PN-40.hex`. The `update\0\` base-data folder
+   isn't needed, and leaving it out makes the install much faster.
+2. Eject the card, unplug the USB cable and power-cycle the unit.
+
+The bootloader validates the file and then flashes it.
+
+To go back, do the same with `update/PN-40.hex` (stock) or `patched/PN-40.hex` (date
+fix only). Before rolling back, remove any of the new data fields (ids 161-163) from your
+pages first, or the older firmware will likely crash drawing them.
+
+## Warnings
+
+- **Use at your own risk.** This writes your device's flash. The bootloader is never
+  touched (the build refuses to), so a bad firmware can always be replaced from the SD
+  card with a card reader.
+- **Overclock:** at 175.5 MHz the unit shuts down when "Connect to Computer" exports the SD
+  card over USB, so copy files with a card reader instead. Set `CPU_CLOCK = None` in
+  `mods/build.py` for the stock clock. 234 MHz booted and passed the stress test, but
+  produced one corrupted report line, so it isn't used.
+- The local `baseline_*` rollback copies that `mods/README.md` mentions aren't in the repo.
+  Build from `update/PN-40.hex` instead.
+
+## Regenerating the decompilation
+
+The Ghidra project and its 13 MB decompiler output (`re/out/decomp.c`) aren't in the repo.
+To rebuild them with [Ghidra](https://ghidra-sre.org/) 11.1.2 (Git Bash on Windows works):
+
+```
+cd re
+python make_inputs.py ../update/PN-40.hex           # fw_stock.bin, ram_code.bin, ram_data.bin (already included)
+GHIDRA=/path/to/ghidra_11.1.2_PUBLIC sh analyze.sh  # import at 0x30080000 as ARM:LE:32:v5t + auto-analysis, ~1 h
+GHIDRA=/path/to/ghidra_11.1.2_PUBLIC sh run_export.sh 6   # apply names.tsv, decompile in 6 parallel workers
+sh fn.sh 30085e14                                   # print one function from out/decomp.c
+```
+
+- `analyze.sh` creates `re/proj`. The `pn40_setup.py` pre-script adds the RAM blocks
+  the startup code fills, and seeds about 11,000 functions from `seeds.txt`.
+- `pn40_thumb.py` then fixes the Thumb functions behind ARM->Thumb veneers.
+- `run_export.sh` applies `names.tsv` (the functions identified so far) and writes
+  `out/decomp.c`, `out/functions.tsv` and `out/strings.tsv`.
+
+You can also open `re/proj` in the Ghidra GUI after `analyze.sh`.
+
+## Legal
+
+The original code and notes here are MIT-licensed (see [LICENSE](LICENSE)). The firmware and
+bootloader images are DeLorme's and are included only for interoperability and research.
+This project isn't affiliated with DeLorme or Garmin.

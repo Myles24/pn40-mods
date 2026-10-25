@@ -1,0 +1,2018 @@
+304D01C0 OS20_02.06.13 ARM7 - Apr 03 2009 17:25:32
+304D01EA (C)2007 ST Microelectronics
+304D0423 ®u®æ®W¯È¯
+304D04B8 xoÿÿhHÿÿX!ÿÿ N
+304D05F4 MSYS1:/system/compass_cal.dat
+304D0614 OS20_idle_task_ws
+304D07CC GPSAPP_1.0.20 GNU - Nov 22 2011, 02:24:37
+304D08B4 Ìux
+304D08C0 Ìµx
+304D08FC Ìux
+304D0908 Ìµx
+304D0940 No SD Card
+304D094C Insert an SD card to take screenshots.
+304D0974 Navionics Card Found
+304D098C Remove the Navionics card and insert an SD card to take screenshots.
+304D09D4 Would you like the device to disable the GPS and stop searching for satellites?
+304D0A24 Low Satellite Signal
+304D0A3C SD:/screenshots
+304D0A4C SD:/screenshots/screencap-%04d-%02d-%02d--%02d-%02d-%02d.bmp
+304D0A8C Stack overflow in: E%d! Please contact DeLorme support.
+304D0AC4 Low Power Warning
+304D0AFA Shutting down.
+304D0B37 Go to Device Setup > System > Battery Type if using a different type.
+304D0B80 Warning
+304D0B88 SD:/gpx
+304D0B90 UI task
+304D0B98 Do not use this product as your primary navigation method. Use official govt. charts and prudent methods for safe navigation.
+304D0C18 SD:/maps
+304D0C24 SD:/waypoints
+304D0C34 SD:/forms
+304D0C40 SD:/tracks
+304D0C4C SD:/waypoints/tlogs
+304D0C60 SD:/tracks/tlogs
+304D0C74 MSYS2:/maps
+304D0C80 MSYS0:/basedata
+304D0C90 MSYS1:/system
+304D0CA0 MSYS1:/waypoints
+304D0CB4 MSYS1:/tracks
+304D0CC4 MSYS1:/routes
+304D0D7C Coordinate
+304D0D90 New Route
+304D0D9C Calculation Error
+304D0DB0 You cannot create a route without regional map coverage of the route area. Send regional map packages to your device.
+304D0E28 Route calculation failed.
+304D0E44 Max Routes Reached
+304D0E58 Route storage is full.  To make space available, delete old routes.
+304D0E9C Max Points Reached
+304D0EB0 You cannot add more than 25 points in a route.
+304D0EE0 Stop Sim.
+304D0EEC Navigate
+304D0EF8 Stop Nav.
+304D0F04 View
+304D0F0C Hide
+304D0F14 Recalculate Error
+304D0F28 An error occured while recalculating the route. Try again?
+304D0F64 View Route
+304D0F70 Viewing route will end route navigation.
+304D0F9C How do you want to get there?
+304D0FBC To %s
+304D0FC4 %s To %s
+304D0FD0 Route Name
+304D0FE8 Rename Route
+304D0FF8 Routes must be labeled.
+304D1010 A route with that name already exists.  Please provide a different name.
+304D105C Add Point
+304D1068 Delete Route
+304D1078 Are you sure you want to delete the route?
+304D10A4 Simulate Navigation
+304D10B8 You must have at least two points to simulate a route.
+304D10F0 Simulate Navigation will turn off Track Recording mode and GPS Simulation mode.
+304D1140 Simulate Navigation will turn off Track Recording mode.
+304D1178 Simulate Navigation will turn off GPS Simulation mode.
+304D11B0 Simulate Navigation will end Track Playback mode.
+304D11E4 Recalculate
+304D11F0 Do you want to update your current position and recalculate the route?
+304D1238 Current Position
+304D1254 Details
+304D125C Move
+304D1264 Remove
+304D1283 0Current station information not available.
+304D12B0 Addr: (%d)
+304D12BC Addr: (%d-%d)
+304D12CC %s, %s %s
+304D12D8 %s, %s, %s
+304D12E4 Bearing
+304D12EC Symbol/Label
+304D12FC Distance
+304D1308 Mark
+304D1310 Add
+304D132F 0Back on Course
+304D1340 Battery Life
+304D1350 Coordinates: Primary
+304D1368 Coordinates: Secondary
+304D1380 Device Odometer
+304D1390 Distance to Finish
+304D13A4 Dist to Finish
+304D13B4 Distance to Next Stop
+304D13CC Dist to Stop
+304D13DC Distance to Next Turn
+304D13F4 Dist to Turn
+304D1404 Elevation: Barometer
+304D141C Elevation: Baro
+304D142C Elevation: GPS
+304D143C Elevation: Maximum
+304D1450 Elevation: Max
+304D1460 Elevation: Minimum
+304D1474 Elevation: Min
+304D1484 ETA at Finish
+304D1494 ETA at Next Turn
+304D14A8 ETA at Turn
+304D14B4 ETA at Next Stop
+304D14C8 ETA at Stop
+304D14D4 GPS Accuracy
+304D14E4 GPS Status
+304D14F0 Heading
+304D14F8 Moonrise/Moonset
+304D150C Next Turn Arrow
+304D151C Turn Arrow
+304D1528 Off Course
+304D1534 Pressure: Ambient
+304D1548 Pressure: Amb
+304D1558 Pressure: MSL
+304D1568 Speed
+304D1570 Speed: Average
+304D1580 Speed: Avg
+304D158C Speed: Maximum
+304D159C Speed: Max
+304D15A8 Speed: Moving Average
+304D15C0 Speed: Mov Avg
+304D15D0 Sunrise/Sunset
+304D15E0 Time/Date
+304D15EC Time to Finish
+304D15FC Time to Moonrise/set
+304D1614 Time to Moon r/s
+304D1628 Time to Next Stop
+304D163C Time to Stop
+304D164C Time to Next Turn
+304D1660 Time to Turn
+304D1670 Time to Sunrise/set
+304D1684 Time to Sun r/s
+304D1694 Trip: Odometer
+304D16A4 Trip: Time Moving
+304D16B8 Trip: Moving
+304D16C8 Trip: Time Stopped
+304D16DC Trip: Stopped
+304D16EC Trip: Time Total
+304D1700 Trip: Total
+304D170C Velocity Made Good
+304D1720 VMG
+304D1724 Vertical Speed
+304D1C94 MSYS1:/system/OWNER_STATE.TXT
+304D1CB4 Owner Information
+304D1CC8 Display Info at Startup
+304D1CE0 Enter Owner Information
+304D1CF8 Press MENU and then select File to open or create a new file.
+304D1D38 Route Options
+304D1D48 Waypoint File Options
+304D1D60 Geocache File Options
+304D1D78 Track File Options
+304D1D8C Compass Arrow
+304D1D9C Reset Trip Info
+304D1DAC Playback Speed
+304D1DBC Simulate Speed
+304D1DCC Calibrate Accelerometer
+304D1DE4 Calibrate Sensors
+304D1DF8 Calibrate Altimeter
+304D1E0C Known Elevation
+304D1E1C Known Pressure
+304D1E2C GPS Elevation
+304D1E3C Calibration Failed
+304D1E50 Calibrate Compass
+304D1E64 Comments
+304D1E70 Info Fields Setup
+304D1E84 Add Point
+304D1E90 Close
+304D1E9C Cancel
+304D1EA4 Continue
+304D1EB0 Yes
+304D1EB8 Reset
+304D1EC0 Save
+304D1EC8 Discard
+304D1ED0 Save As...
+304D1EDC Move
+304D1EE4 Delete
+304D1EEC  Drive  
+304D1EF8  Hike  
+304D1F00  Didn't Find It 
+304D1F14 Found It!
+304D1F20 Write Note
+304D1F2C  Maintenance 
+304D1F3C   Find Next Closest  
+304D1F54  Find Next Closest 
+304D1F68 View List
+304D1F74 Stop Geocaching
+304D1F84 Open SD Card
+304D1F94 Use GPS
+304D1F9C Open Internal Drive
+304D1FB0 Message
+304D1FCF 0Getting Info...
+304D1FE0 Zoom %2d
+304D21A8 Pmt: %s
+304D21B0 Area: %s
+304D21BC Leg: %s
+304D21C4 Total: %s
+304D21D0 %4d-%02d-%02d, %s
+304D21E4 Track Recording
+304D21F4 Warning: Active Track full, recording will stop.
+304D2228 Warning: Active Track full, recording will overwrite points.
+304D2268 Draw Layers
+304D2274 GIS Layers
+304D2280 MSYS1:/system/MAP_STATE.TXT
+304D229C New map requires device update available through NetLink or DeLorme Web site.
+304D22EC Map not updated for use with this %s. Use your mapping software to resend map: 
+304D233C The map you are adding is corrupt: 
+304D2360 The map file or data layer limit was reached before all maps were loaded.
+304D23AC A general error occurred while loading the map file: 
+304D23E4 Loading maps...
+304D23F8 .pdb
+304D2400 ActiveTrack
+304D240C <<Overzoomed>>
+304D2424 <<Drawing map>>
+304D2434 BASEMAP
+304D243C REGIONAL
+304D2448 Add Map Error
+304D2470 Multiple Objects
+304D2499 $M0$$M04$M0<$M0H$M0
+304D24C7 0Spc
+304D24CC Clr
+304D2558 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+304D2578 99999 WWWWWWWWW
+304D2588 999.9 km/h
+304D2594 3D DGPS
+304D259C Coordinates: Lat/Lon
+304D25B4 Lat/Lon
+304D25BC Coordinates: UTM/UPS
+304D25D4 UTM/UPS
+304D25DC Coordinates: USNG/MGRS
+304D25F4 USNG/MGRS
+304D2618 -%01.2f days
+304D2628 -%01d hr %02d min
+304D263C -%01d h %02d m
+304D264C %01.2f days
+304D2658 %01d hr %02d min
+304D266C %01d h %02d m
+304D267C %02d-%s-%02d
+304D2694 %02d:%02d PM
+304D26A4 %02d:%02d AM
+304D26B8 Sim
+304D26BC Off
+304D26C0 No Fix
+304D26C8 None
+304D26E8 ä&M0Good Times
+304D26F8 Not Available
+304D2710 %02d:%02d - %02d:%02d
+304D2728 Best Times
+304D2734 Prediction
+304D2740 Poor Day
+304D274C Average Day
+304D2758 Good Day
+304D2764 Excellent Day
+304D277C Date
+304D2784 Time
+304D278C Sim GPS
+304D2794 GPS OFF
+304D279C NO FIX
+304D27B0 NO GPS
+304D27B8 Continue Search 
+304D27CC Search Complete 
+304D27E0 Searching 
+304D27EC MSYS1:/system/FIND.TXT
+304D2804 Show: 
+304D280C State: 
+304D2814 Country: 
+304D2820 City: 
+304D2828 Name: 
+304D2830 Symbol: 
+304D283C Category: 
+304D2848 Building Number: 
+304D285C Street Name: 
+304D2874 (%d-%d) %s
+304D2880 PUBLIC LANDS
+304D2890 PUBLIC LANDS 10
+304D28A0 PUBLIC LANDS 11
+304D28B0 PUBLIC LANDS 12
+304D28C0 AVENUE
+304D28C8 AVE
+304D28CC BOULEVARD
+304D28D8 BLVD
+304D28E0 CANYON
+304D28E8 CYN
+304D28EC COURT
+304D28F8 CROSSING
+304D2904 XING
+304D290C EXPRESSWAY
+304D2918 EXPY
+304D2920 FREEWAY
+304D2928 FWY
+304D292C HIGHWAY
+304D2934 HWY
+304D2938 JUNCTION
+304D2944 JCT
+304D2948 LANE
+304D2954 PARKWAY
+304D295C PKWY
+304D2964 ROAD
+304D2970 ROUTE
+304D297C SQUARE
+304D2988 STREET
+304D2994 STR
+304D2998 TURNPIKE
+304D29A4 TPKE
+304D29AC DRIVE
+304D29B8 NORTH
+304D29C0 SOUTH
+304D29C8 EAST
+304D29D0 WEST
+304D29DC NORTHEAST
+304D29E8 NORTHWEST
+304D29F8 SOUTHEAST
+304D2A08 SOUTHWEST
+304D2A18 ÿÿÿÿ
+304D2A28 ÿÿÿÿ
+304D2A38 ÿÿÿÿðÿÿÿðÿÿÿ
+304D2A58 ÿÿÿÿ
+304D2A68 ÿÿÿÿ
+304D2A78 ðÿÿÿÿÿÿÿðÿÿÿðÿÿÿ
+304D2AA0 ðÿÿÿ
+304D2AB0 ÿÿÿÿ
+304D2AC0 ÿÿÿÿ
+304D2AD0 ÿÿÿÿðÿÿÿ
+304D2AE8 ÿÿÿÿ
+304D2AF8 ÿÿÿÿ
+304D2B08 ÿÿÿÿ
+304D2B18 ðÿÿÿðÿÿÿ
+304D2B30 ðÿÿÿðÿÿÿðÿÿÿ
+304D2B50 ÿÿÿÿ
+304D2B55 üÿÿ
+304D2B68 ÿÿÿÿðÿÿÿ
+304D2B81 üÿÿ
+304D2B85 üÿÿ
+304D2B89 üÿÿ
+304D2BA0 ðÿÿÿðÿÿÿðÿÿÿðÿÿÿðÿÿÿðÿÿÿðÿÿÿ
+304D2BE0 ðÿÿÿ
+304D2BF2 ÿÿðÿÿÿ
+304D2BFD üÿÿ
+304D2C19 üÿÿ
+304D2C25 üÿÿ
+304D2C2A ÿÿÿÿÿÿÿÿÿÿ
+304D2C59 üÿÿ
+304D2C5D üÿÿ
+304D2C71 üÿÿ
+304D2C81 üÿÿ
+304D2C91 üÿÿ
+304D2CA1 üÿÿ
+304D2CB0 ðÿÿÿðÿÿÿ
+304D2CC8 ðÿÿÿÿÿÿÿÿÿÿÿ
+304D2CE8 ÿÿÿÿÿÿÿÿ
+304D2D00 ðÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+304D2D29 üÿÿ
+304D2D2D üÿÿ
+304D2D40 ÿÿÿÿÿÿÿÿðÿÿÿðÿÿÿðÿÿÿ
+304D2D70 ðÿÿÿ
+304D2D80 ðÿÿÿðÿÿÿ
+304D2D98 ðÿÿÿ
+304D2DA9 üÿÿ
+304D2DB9 üÿÿ
+304D2DBD üÿÿ
+304D2DC1 üÿÿ
+304D2DC5 üÿÿ
+304D2DC9 üÿÿ
+304D2DCD üÿÿ
+304D2F09 üÿÿ
+304D2F0D üÿÿ
+304D2F11 üÿÿ
+304D2F2D üÿÿ
+304D2F31 üÿÿ
+304D2F4D üÿÿ
+304D2F51 üÿÿ
+304D2F76 ÿÿAlkaline
+304D2F84 Lithium
+304D2F8C Li-Ion (Rechargeable)
+304D2FA4 NiMH
+304D2FAC above 64 mi scale
+304D2FC0 above 16 mi scale
+304D2FD4 above 4 mi scale
+304D2FE8 above 2 mi scale
+304D2FFC above 0.5 mi scale
+304D3010 above 0.25 mi scale
+304D3024 above 320 ft scale
+304D3038 above 125 km scale
+304D304C above 32 km scale
+304D3060 above 8 km scale
+304D3074 above 4 km scale
+304D3088 above 1 km scale
+304D309C above 400 m scale
+304D30B0 above 100 m scale
+304D30C4 above 64 NM scale
+304D30D8 above 16 NM scale
+304D30EC above 4 NM scale
+304D3100 above 2 NM scale
+304D3114 above 0.5 NM scale
+304D3128 above 0.25 NM scale
+304D313C Compass Navigation Arrow
+304D3158 Direct to Next Waypoint
+304D3170 Back On Course
+304D3197 0North Up
+304D31A4 Heading Up
+304D31B0 Course Up
+304D31BC Hide POIs
+304D31C8 Show Major POIs
+304D31D8 Show Minor POIs
+304D31E8 Show All POIs
+304D31F8 Bar
+304D31FC Zoom
+304D3204 Ratio
+304D320C Topo View
+304D3218 Street View
+304D3224 Enabled
+304D322C Disabled
+304D3238 Spring
+304D3240 Summer
+304D3248 Autumn
+304D3250 Winter
+304D3258 Midnight
+304D3264 5 sec
+304D326C 15 sec
+304D3274 30 sec
+304D327C 45 sec
+304D3284 1 min
+304D328C Always On
+304D3298 Always Off
+304D32A4 Button Click
+304D32B4 Short Beep
+304D32C0 Off
+304D32C4 Long Beep
+304D32D0 Short Ring
+304D32DC Long Ring
+304D32E8 Short Whistle
+304D32F8 Long Whistle
+304D3308 Short Ascending Beep
+304D3320 Short Descending Beep
+304D3338 Long Ascending Beep
+304D334C Long Descending Beep
+304D3364 Play All
+304D3370 Play Critical Alerts
+304D3388 Mute All
+304D3394 Driving
+304D339C Hiking
+304D33A4 Quick - Best Rte
+304D33B8 Quicker - Better Rte
+304D33D0 Quickest - Good Rte
+304D33E4 Automatic
+304D33F0 Prompt
+304D33F8 Local 12 hr
+304D3404 Local 24 hr
+304D3410 Eastern (UTC -5)
+304D3424 Central (UTC -6)
+304D3438 Mountain (UTC -7)
+304D344C Pacific (UTC -8)
+304D3460 Alaska (UTC -9)
+304D3470 Hawaii (UTC -10)
+304D3484 Samoa (UTC -11)
+304D3494 Dateline (UTC -12)
+304D34A8 Fiji (UTC +12)
+304D34B8 Cent Pac (UTC +11)
+304D34CC W Pacific (UTC +10)
+304D34E0 Tokyo (UTC +9)
+304D34F0 Beijing (UTC +8)
+304D3504 Bangkok (UTC +7)
+304D3518 Cent Asia (UTC +6)
+304D352C West Asia (UTC +5)
+304D3540 Arabian (UTC +4)
+304D3554 Russian (UTC +3)
+304D3568 E. Europe (UTC +2)
+304D357C W. Europe (UTC +1)
+304D3590 UTC
+304D3594 Azores (UTC -1)
+304D35A4 Mid-Atlantic (UTC -2)
+304D35BC E. So America (UTC -3)
+304D35D4 Atlantic (UTC -4)
+304D35E8 Degrees
+304D35F0 Degrees, Minutes
+304D3604 Deg, Min, Sec
+304D3614 UTM/UPS
+304D361C USNG/MGRS
+304D3628 Statute Miles
+304D3638 Kilometers
+304D3644 Nautical Miles/Feet
+304D3658 Nautical Miles/Meters
+304D3670 Inches of Mercury
+304D3684 Millibars
+304D3690 Pascals
+304D3698 True
+304D36A0 Magnetic
+304D36AC Overwrite Points
+304D36C0 Stop Recording
+304D36D0 Start Recording New Track
+304D36EC Time
+304D36F4 Distance
+304D3704 International
+304D3714 Low
+304D3718 High
+304D3720 Small Geocache Symbols
+304D3738 Small Waypoint Symbols
+304D3750 Hide Geocache Symbols
+304D3768 Hide Waypoint Symbols
+304D37E0 Back on Track Threshold
+304D37F8 Orientation
+304D3804 Map Style
+304D3810 POI Detail
+304D381C Scale
+304D3824 WAAS
+304D382C Battery Type
+304D383C USB Power
+304D3848 Color Scheme
+304D3858 Backlight Timer
+304D3868 Button Press
+304D3878 Message
+304D3880 Power
+304D3888 Turn Alert
+304D3894 Sounds
+304D389C Calculation Method
+304D38B0 Calculation Speed
+304D38C4 Back on Track (Hiking)
+304D38DC Back on Track (Driving)
+304D38F4 Time Format
+304D3900 Zone
+304D3908 Coordinates: Primary
+304D3920 Coordinates: Secondary
+304D3938 Measures
+304D3944 Pressure
+304D3950 Bearing
+304D3958 Record points by:
+304D396C When track is full:
+304D3980 Presentation Mode
+304D3994 Chart Details
+304D39A4 Hide Charts
+304D39B0 Hide Contours
+304D39C0 Safety Depth
+304D39D0 Chart
+304D39D8 Open SD Card
+304D39E8 Open Internal Drive
+304D39FC Use GPS
+304D3A04 When Connected
+304D3A14 Normal
+304D3A1C Power Saving
+304D3A2C Disable GPS
+304D3A38 Demo Mode
+304D3A44 GPS Settings
+304D3A54 Datum: Primary
+304D3A64 Datum: Secondary
+304D3A78 Never
+304D3A80 Always
+304D3A88 MSYS1:/system/DEVICE_STATE.TXT
+304D3AA8 No user maps available.
+304D3AC0 Data on SD/MMC:
+304D3AD0 Data on Internal:
+304D3AE4 No map selected.
+304D3AF8 Data:
+304D3B00 %d-0 to %d-0
+304D3B10 Scale:
+304D3B18 1:%u to 1:%u
+304D3B2C 1:%d %s to 1:%d %s
+304D3B40 SD/MMC
+304D3B48 Internal
+304D3B54 Cutter:
+304D3B5C Zoom: 
+304D3B64 Saved: 
+304D3B6C Location: 
+304D3B78 Version: 
+304D3B84 View Map
+304D3B90 The data layer(s) in this map are currently hidden. Use the Data Layering screen to enable the data.
+304D3BF8 Base maps can not be deleted.
+304D3C18 %s is a base map and can not be deleted.
+304D3C44 Delete Map
+304D3C50 Are you sure you want to delete the selected map?
+304D3C84 Are you sure you want to delete map: %s?
+304D3CB0 Poor
+304D3CC8 NESWSIZE: 
+304D3CDC No Comment Available
+304D3CF8 LOG:
+304D3D00 SIZE:
+304D3D08 NAME:
+304D3D12 j0Cache Found
+304D3D36 l0Didn't Find It
+304D3D5A l0My Cache
+304D3D7E l0Traditional Cache
+304D3DA2 l0Multi-Cache
+304D3DC6 l0Unknown Cache
+304D3DEA l0Letterbox Hybrid
+304D3E0E l0Whereigo Cache
+304D3E32 l0Event Cache
+304D3E56 l0Mega-Event Cache
+304D3E7A l0Cache In Trash Out Event
+304D3E9E l0EarthCache
+304D3EC2 l0Virtual Cache
+304D3EE6 l0Webcam Cache
+304D3F0A l0Waymark
+304D3F2E l0NGS Benchmark
+304D3F52 l0Write note
+304D3F76 l0Needs Maintenance
+304D3F98 XwR00xR0Micro
+304D3FC5 xR0Small
+304D3FED xR0Large
+304D4010  wR0xxR0Regular
+304D4039 wR0`xR0Other
+304D4060 pwR0HxR0Not Chosen
+304D408A l0Found It
+304D40AC Found It
+304D40CA l0Didn't Find It
+304D40EC Didn't Find It
+304D410A l0Write note
+304D412C Write note
+304D414A l0Needs Maintenance
+304D416C Needs Maintenance
+304D418A l0Owner Maintenance
+304D41AC Owner Maintenance
+304D41CA l0Enable Listing
+304D41EC Enable Listing
+304D420A l0Temporarily Disable
+304D422C Temporarily Disable
+304D424A j0Publish Listing
+304D426C Publish Listing
+304D42B7 0North Up above .5 mi scale
+304D42D4 North Up above 1 km scale
+304D42F0 North Up above .5 NM scale
+304D430C Enable Daylight Saving
+304D4324 Enable display rotation
+304D433C Screenshots On
+304D434C Use Midnight at sunset
+304D4364 Reset Trip Values
+304D4378 Reset Speeds
+304D4388 Reset Elevations
+304D439C Reset Device Odometer
+304D43B4 Prompt To Reset Trip Info
+304D43D0 Show Hybrid Map
+304D43E0 Use XMap 7 Mode
+304D43F0 Enable Electronic Compass
+304D440C Enable Barometric Altimeter
+304D4428 Auto Calibrate Altimeter
+304D4444 Hide Logged Caches
+304D4458 Show Chart
+304D4464 Show Chart Boundaries
+304D447C Show Depth in Fathoms
+304D4494 Stealth Mode
+304D44EB 0Known Elevation
+304D44FC Known Pressure
+304D450C GPS Elevation
+304D4520 Done
+304D4528 Calibrate
+304D4534 Retry
+304D453C Yes
+304D4544 Data Layering...
+304D4558 Data Management...
+304D456C Map Point Management...
+304D4584       Navionics Setup...
+304D45A0 View Chart
+304D45AC Restore Defaults
+304D45C0 Memory Use
+304D45CC Reset Now
+304D45D8 View Comment Details
+304D45F0 Edit Comment Details
+304D4608 Calibrate...
+304D4618 ERR
+304D461C %s/%s.gpx
+304D4628 MSYS1:/system/pref_state.dat
+304D4648 MSYS1:/system/page_state.dat
+304D4668 Taking Screenshots
+304D467C Hold POWER and press ENTER to save a screenshot to the SD card.
+304D46BC Are you sure you want to reset the device to its factory default settings and delete all saved information?
+304D4728 Reset Device
+304D4738 Are you sure you want to reset the device setup to the default settings?
+304D4784 GPS Simulation
+304D4794 GPS simulation will end Track Playback mode.
+304D47C4 GPS simulation will end Simulate Navigation mode.
+304D47F8 Power Saving Mode
+304D480C Power Saving Mode will end Track Playback mode.
+304D483C Power Saving Mode will end Simulate Navigation mode.
+304D4874 Activating GPS
+304D4884 Activating GPS will end Track Playback mode.
+304D48B4 Activating GPS will end Simulate Navigation mode.
+304D48E8 MSYS0:
+304D48F0 MSYS1:
+304D48F8 MSYS2:
+304D4900 Wpt 001
+304D4908 Geo 001
+304D49AE ÿÿóÿnÿeþlþ Ëÿÿ
+304D49BE ÿÿlþgü ú Ë
+304D49F0 MSYS1:/system/GPSNVM1.TXT
+304D4A0C MSYS1:/system/GPSNVM2.TXT
+304D4A28 Safemode UI
+304D4A34 Support Mode
+304D4A44  Media ...        
+304D4A58  System ...       
+304D4A6C  Test ...       
+304D4A80  Reboot           
+304D4A94  Power down       
+304D4AA8 Firmware Ver ( 
+304D4AC8 WARNING
+304D4AD0  This %s is about to be
+304D4AE8  imaged using the SD card 
+304D4B04  now in the SD card slot.
+304D4B20  After imaging, the factory
+304D4B3C  test will be launched.
+304D4B54  Press ENTER to Continue 
+304D4B70  Press QUIT to Restart 
+304D4B88  Using Support Mode without
+304D4BA4  DeLorme Technical Support
+304D4BC0  assistance may cause serious
+304D4BE0  problems.
+304D4BEC  Use Support Mode at your
+304D4C08  own risk.
+304D4C14 Run System Test
+304D4C24 Debug Battery
+304D4C34 Debug Compass
+304D4C44 Debug Barometer
+304D4C54 test.txt
+304D4C60 ---===Last Test Results===---
+304D4C88 MSYS0:/
+304D4C98 MSYS1:/
+304D4CA8 MSYS2:/
+304D4CB0 .rte
+304D4CC0 Media
+304D4CC8  SD/MMC Card... 
+304D4CDC  Internal 0 (base data)...   
+304D4CFC  Internal 1 (user data)...   
+304D4D1C  Internal 2 (user maps)...   
+304D4D3C  Low-level Internal Reformat...
+304D4D5C  Unformat Internal...
+304D4D74  Reset user settings to default 
+304D4D98  NVM reset                      
+304D4DBC  Delete all Track files         
+304D4DE0  Delete all Waypoint files      
+304D4E04  Delete all Route files         
+304D4E28 Resetting to defaults
+304D4E40 Reset failed.
+304D4E50 Are you sure?
+304D4E60 Validating SD MBR
+304D4E74 MBR is bad or missing.
+304D4E8C SD/MMC Card USB
+304D4E9C  Quit USB mode 
+304D4EAC Formatting
+304D4EB8 Format failed.
+304D4EC8 Unformatting
+304D4ED8 Unformat failed.
+304D4EEC Formatting/Imaging
+304D4F00 Format/image failed.
+304D4F18 Resetting NVM Flash
+304D4F2C NVM flash reset failed.
+304D4F44 Removing files
+304D4F54 File removal failed.
+304D4F6C SD:/%s FACTORY IMAGE
+304D4F84 Internal USB
+304D4F9C  USB-BULK mode 
+304D4FAC  Format        
+304D4FBC SD/MMC Card
+304D4FC8  USB-BULK mode   
+304D4FDC  Validate MBR    
+304D5253 0Your accelerometer needs to be calibrated.
+304D5280 To calibrate your accelerometer, place the device on a stable surface that is flat and level. Then press ENTER.
+304D52F0 Select a calibration method.  If you do not know the correct elevation or pressure, select GPS Elevation.
+304D535C Enter the elevation for your location.
+304D5384 Enter the barometric pressure (adjusted to sea level) for your location.
+304D53D0 Use the GPS elevation for your location.
+304D53FC Your device has been successfully calibrated.
+304D542C Choose retry to restart the calibration process.  Press QUIT to return to the Calibrate Sensors page.
+304D5494 Your compass has been successfully calibrated.
+304D54C4 Manual calibration is more accurate than auto calibration.
+304D5500 Disable Auto Calibrate Altimeter in Device Setup?
+304D5563 01. Hold device level.
+304D557C 2. Pivoting elbow, swing
+304D5598    device right to left.
+304D55B4 2. Bending elbow, raise 
+304D55D0    device up and down.
+304D55E8 2. Twisting wrist, rotate 
+304D5604 3. Continue motion until 
+304D5620    you hear a tone.
+304D5634 Calibrate: Step 1 of 3
+304D564C Calibrate: Step 2 of 3
+304D5664 Calibrate: Step 3 of 3
+304D5688 TwM0
+304D56B8 TÔO0
+304D5A49 ÷ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ~ï×µA
+304D5A60 w¥ÿ÷F
+304D5B87 Îÿÿe
+304D5B9A ÿïÿçü¥f
+304D5C95 ïÿÿÿÿÿÿÿÿßÿßÿÿÿÿÿß÷=çB
+304D5CB4 Ù­¿çÛ­g
+304D5F0A 2Sÿïÿç³[È
+304D5F2B ïÿ÷ÿÿÿÿÿÿ¿÷e
+304D5FDA ÿ÷ÿ÷ÿ÷»Æk:e
+304D6030 5t¿çÿïqSÈ
+304D6050 L:ÿ÷ß÷ÿÿßÿÿÿ[Æ§
+304D60B8 ÿÿÿ÷ÿçQS¨
+304D6228 ÿïßç¶|¥
+304D6244 ßïÿÿX¥¦
+304D6294 ñ:ÿßÉ
+304D6306 ÑBÿï¶|ç
+304D634E î!ÿçÿÆf
+304D6420 ÷|ÿçÿçg
+304D6482 ì!ÿçÿçÿçÿçÇ
+304D64C8 \¶ÿïÿïÈ
+304D64D4 -*ÿïTl¶tÇ
+304D64E0 rKÿçÈ
+304D65BC ;¾þÖe
+304D661C ÿ÷ÿ÷ÿ÷¼Æ¨
+304D66B0 ÿçÆ
+304D66D2 ÿïÿïÿ÷þï½çÿ÷ÿ÷ÿÿÿ÷ÿ÷¿çÆ
+304D6720 QSßçè
+304D67FB çÿ÷þ÷ü÷ýÿ|ï^çßÿßÿÿ÷ßç±cÆ
+304D6826 ÿÿþÿþÿÿÿßÿÿÿÿÿí)¦
+304D683A ÿï¿ß_×&
+304D68B2 vl3dç
+304D6914 L"ÿçÈ
+304D6960 ÿçßç¾¾§
+304D6A85 |ßçÿï}¶$
+304D6AAA ÿßò:ê
+304D6ACC ÿçì!È
+304D6ADF ¶ÿÆÇ
+304D6BCE ,"ÿçsKh
+304D6C45 ÇÿçÇ
+304D6C6F ÆÿïßÎÈ
+304D6C8C ýÆÿï¦
+304D6CF4 rKÿçN"é
+304D6D1A ÿï¿çÿïD
+304D6D2C ÿçÿïD
+304D6DA8 ÿçxtÉ
+304D6E13 "wlRKÇ
+304D6E1B d¿Ïn"È
+304D6E43 ßßïÿ÷V|È
+304D6E92 ïBÿçÿï?ç%
+304D7365 |ì!Utf
+304D7397 ïnBE
+304D746F !òkßïd
+304D7490 ÿÆg
+304D7748 ÜVM0
+304D86B4 iJßÿÿÿ®s
+304D8708 ]ïÿÿ(B
+304D8714 ÿÿÿÿßÿÿÿÿÿÿÿÿÿÿÿ¶µ 
+304D885A ,cÿÿ}ï
+304D8867 Rÿÿßÿ
+304D8874 ÿÿÛÞ,c,c,cMk,c®s×½ 
+304D895B Ö¾÷iJ
+304D89BC ¾÷ÿÿªR
+304D89C6 4¥<çÿÿE) 
+304D8AAD Æÿÿ
+304D8AD6 8Æÿÿ
+304D8AFA MkßÿÏ{
+304D8B2A ÿÿëZ
+304D8C0D µÿÿ
+304D8C24 ,cÿÿ
+304D8C37 Æÿÿ 
+304D8C48 ¶µÿÿÇ9
+304D8D6D Æßÿ
+304D8D7C E)ÿÿ÷½
+304D8D84 ,cÿÿ 
+304D8D97 Æßÿ
+304D8DA8 ûÞÿÿ
+304D8DBC ÛÞÿÿ
+304D8DF4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+304D8ECD µÿÿ
+304D8F1D çÿÿ 
+304D902C ¶µÿÿ
+304D903E ÿÿYÎ
+304D904C E)mk
+304D907C ÿÿYÎ
+304D908A U­ÿÿ®s
+304D9098 ï{ÿÿ
+304D90A0 ªRÿÿ8Æ 
+304D918C 8Æßÿ
+304D91A4 mkÿÿ
+304D91DA ËZßÿï{
+304D91EC ÛÞ¾÷ç9
+304D92FA $!ÛÞÿÿ¦1
+304D9304 ,cÿÿ
+304D9316 8Æßÿ 
+304D932B ÆÿÿIJ
+304D945A ßÿßÿëZ
+304D9633 sÿÿßÿßÿßÿÿÿÿÿßÿÿÿÿÿ 
+304E918A Ò[é)A
+304EB534 (Bÿÿÿÿ®s
+304EB588 }ïÿÿ(B
+304EB594 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ×½
+304EB66C ×½ÿÿ(B(B,cU­ÿÿ}ïªR
+304EB6DA ,cÿÿ}ï
+304EB6E6 ªRÿÿÿÿ
+304EB6F4 ÿÿûÞ,c,c,c,c,c®s×½
+304EB7D9 !yÎÿÿ(B
+304EB831 !ÿÿ®s
+304EB83C ÿÿÿÿªR
+304EB968 ,cÿÿ®s
+304EB97A ,cÿÿ®s
+304EB9AA ÿÿªR
+304EBA9C ,cÿÿ®s
+304EBAA4 ,cÿÿ
+304EBADC ÿÿyÎ
+304EBAF1 1ÿÿ,c
+304EBC04 ,cÿÿ
+304EBC28 ûÞÿÿ
+304EBC3C ûÞÿÿ
+304EBC74 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+304EBD5E ÿÿûÞ
+304EBD64 ,cÿÿÿÿÿÿÿÿÿÿ
+304EBD88 ûÞÿÿ
+304EBD9C ûÞÿÿ
+304EBDD4 ÿÿûÞ,c,c,c,c×½
+304EBEBE ÿÿyÎ
+304EBEFC ÿÿyÎ
+304EBF0A U­ÿÿ®s
+304EBF18 ®sÿÿ
+304EBF20 ªRÿÿyÎ
+304EC024 ,cÿÿ
+304EC05A ªRÿÿ®s
+304EC078 U­yÎ
+304EC08A ,cÿÿ(B
+304EC184 ,cÿÿ
+304EC1AA yÎÿÿ(B
+304EC1D8 yÎU­
+304EC1EA (Bÿÿ®s
+304EC2DA ÿÿÿÿªR
+304EC32E ,cÿÿU­
+304EC338 ÿÿ®s
+304EC354 ÿÿûÞ,c,c,c,c,c,c}ï
+304EC444 U­ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ(B}ïÿÿÿÿÿÿÿÿÿÿÿÿÿÿ×½
+304EC490 U­ÿÿU­®sÿÿ×½
+304EC4B1 !®sÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30523125 MeED=#5#5#5#5#5C5C5C5C5C5C5C5C5C5C5C5C5C5C5C5C5Calculating Route
+30523168 Converting To Route
+3052317C USB Transfer
+3052318C Battery Charger task
+305231A4 Charging
+305231B0 Charge Complete
+305231C0 MSYS0:/demo/demo0.PNB
+305231D8 welcome_checked.PNB
+305231EC welcome_unchecked.PNB
+30523204 demo%d.PNB
+30523218 MSYS0:/demo/
+30523228 PN-BMP
+30523230 Demo Mode
+3052323C Demo mode is unavailable. Update the firmware to reinstall demo mode.
+30523284 %sdemo%d.PNB
+30523294 %sdemo.txt
+305232A0 SecondDelay
+305232AC Out of Memory!
+305232BC Sorting Geocaches
+305232D0 Geocaches - %d
+305232F4 Geocache Symbols
+30523308 Last Logged
+30523314 -db.wpd
+3052331C Deleting Geocaches
+30523330 Discard file
+30523340 Size
+30523350 Estimated Accuracy
+30523364 Readings
+30523370 Delete Geocaches
+30523384 Are you sure you want to delete all selected geocaches?
+305233BC The import exceeded the max point count. %d points were imported.
+30523400 Import
+30523408 Cache ID:
+30523414 Found it
+30523420 Write note
+3052342C Needs maintenance
+30523440 Didn't find it
+30523450 Sorting Symbols
+30523460 Rename Geocache
+30523470 Geocaches must be labeled.
+3052348C Rename Waypoint
+3052349C Waypoints must be labeled.
+305234B8 A geocache or waypoint with that label already exists.  Please provide a different label.
+30523514 A waypoint or geocache with that label already exists.  Please provide a different label.
+30523570 Waypoint Symbol
+30523580 You chose a waypoint symbol.  The geocache will be moved to the Waypoints Page.  Continue?
+305235DC Log Geocache Find
+305235F0 Cache could not be found.
+3052360C You have found or attempted to find all geocaches. Navigation stopped.
+30523654 Field Notes
+30523660 Field notes are available only for geocaches with a cache ID.
+305236A0 Delete Geocache
+305236B0 Are you sure you want to delete this geocache?
+305236E0 Delete Waypoint
+305236F0 Are you sure you want to delete this waypoint?
+30523720 Move to GPS Location
+30523738 Please enable the GPS and try again.
+30523760 Are you sure you want to move this geocache to the current GPS location?
+305237AC Are you sure you want to move this waypoint to the current GPS location?
+305237F8 Hint:
+30523800 Hint
+30523808 No hint available for this cache.
+30523848 Data Layering
+30523858 No user data layers.
+30523870 Layer:
+30523878 Database:
+30523884 Server:
+3052388C Description:
+3052389C Memory Use
+305238A8 Internal: %lu MB free
+305238C0 Internal: 
+305238CC SD/MMC: %lu MB free
+305238E0 SD/MMC: 
+305238EC My Data             Used      Capacity
+30523914  Wpts/Caches
+30523924  Track Points
+30523934  Routes
+3052393C Loading memory use info
+30523954 Track Management Update
+3052396C Are you sure you want to delete all inactive tracks?
+305239A4 Next Geocache
+305239B5 WAIT FOR MAP DRAW ABORT
+305239D0 Log Geocache
+305239E0 Note: Use MENU to switch log view
+30523A04 Include Signature
+30523A18 Quick Notes
+30523A2C Error writing field note.
+30523A48 Done
+30523A50 TFTC
+30523A58 TFTH
+30523A60 TNLN
+30523A6C TTB
+30523A70 LTB
+30523A74 FTF
+30523A78 Enter signature text
+30523A90 P:R0X:R0`:R0h:R0l:R0p:R0t:R0x:R0
+30523ACB 0%02d-%s-%02d 
+30523ADC CacheID: 
+30523AE8 Field Notes - %d
+30523AFC No Field Notes Available
+30523B18 sd:/navionic/charts
+30523B2C fms
+30523B30 All
+30523B3C Hide All
+30523B48 Show All
+30523B54 below %d %s
+30523B68 nav_files
+30523B74 MSYS1:/system/nav_state.dat
+30523B90 %s%d%s
+30523B98 MSYS1:/system/nav_files
+30523BB0 Loading Charts...
+30523BC4 Loading Charts
+30523BD4 Failure loading chart files.
+30523BFC Unknown
+30523C04 Edit Waypoint
+30523C14 Waypoint Details
+30523C28 No Data Available
+30523C44 A 3-D GPS fix is required to edit waypoints. Acquire a fix and then edit the waypoint.
+30523CC4 MSYS1:/userform.frm
+30523CD8 %s/%s%s
+30523CE0 .frm
+30523CE8 false
+30523CF0 true
+30523CF8 è<R0À,]0ð<R0
+30523DC0 Save File
+30523DCC Error writing to SD card.  Unable to continue
+30523DFC .gpx
+30523E04 Open File
+30523E1C Saving data to GPX file
+30523E34 Point File
+30523E40 Unable to save data. Please make sure there is enough free space.
+30523E84 Loading GPX file
+30523E98 Loading GPX File
+30523EAC No files were found
+30523EC0 <Default Waypoint Format>
+30523EDC Select File
+30523EE8 Select Form
+30523EF4 %s/%s.frm
+30523F00 Saving to GPX file
+30523F14 Could not determine GIS layer for specified file. To associate the file, send the point file and form to the SD card again.
+30523F90 File already exists.  Overwrite?
+30523FB4 Do you want to save the current file to the SD card? 
+30523FEC The %s file on the SD card has changes. Replace the current file with the file on the SD card?
+30524143 0 Discard 
+30524150 Cannot save the file. Check to see if the drive is full and try again.
+30524198 Name and Save File
+305241AC Waypoint Files must have labels
+305241E7 0Use the Field Notes option at www.geocaching.com to upload. Then, press the Close button to return to GPS use.
+30524258 Upload Field Notes
+3052426C The device is connected as a disk drive.
+30524298 Internal Drive Connected
+305242B4 The SD card is connected as a disk drive.
+305242E0 SD Card Connected
+305242F4 The device is in use; please wait.
+30524318 Device in Use
+30524328 The device is in use; please wait. Cancel to stop process.
+30524364 No SD card. Turn off device, insert SD card, and turn on device.
+305243A8 Create New
+305243B4 Move
+305243BC Distance
+305243C8 Bearing
+305243D0 Point the device towards the new location or edit the bearing.
+30524410 Project Geocache
+30524424 Project Waypoint
+30524E38 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+30525008 8DR0License...
+30525018 About this Device
+3052502C DeLorme Earthmate
+30525040 GPS %s
+30525048 Serial number:
+30525058 Build:
+30525060 Nov 22 2011
+30525078 Version:
+3052508C Add Waypoint
+3052509C New File
+305250A8 Sorting Waypoints
+305250BC Waypoints - %d
+305250CC Waypoint Symbols
+305250E0 Deleting Waypoints
+305250F4 Copy %s changes to SD card?
+30525110 Delete Waypoints
+30525124 Are you sure you want to delete all selected waypoints?
+3052515C Error retrieving selected waypoint
+30525180 Geocache Symbol
+30525190 You chose a geocache symbol.  The waypoint will be moved to the Geocaches Page.  Continue?
+305251EC Are you sure you want to discard changes not saved to the SD card?
+30525230 The waypoint file is read only. Create a new file to mark waypoints on the map.
+30525280 The waypoint file is read only. Waypoints can not be deleted from this file.
+305252D0 The form file is read only. Select a different form to mark waypoints on the map.
+3052532D RR0ÐRR0The current file has the maximum number of waypoints: %d. Create a new file and then mark the waypoint. 
+305253A0 File Full
+305253AC Navionics card in SD slot. Power off device and insert a different SD card.
+305253F8 SD card is not accessible. Disconnect cable or change Connect to Computer selection in Device Setup.
+30525460 Power off device and insert SD card.
+305254B4 %02d%s%02d%02d
+305254C4 %02d%02d%02d
+305254D4 %02d%s%02d%s%02dP
+305254E8 %02d%02d%02dP
+305254F8 %02d%s%02d%s%02dA
+3052550C %02d%02d%02dA
+3052551C %02d%s%02d%s%02d
+3052553C hPa
+30525564 %s %05ld
+30525570 %05ld %s
+3052557C %s %06ld
+30525590 %s %05ld %05ld 
+305255A0 %s %06ld %07ld
+305255C0 ft/s
+305255C8 km/h
+305255D4 mph
+305255D8  sq km
+305255E0  sq m
+305255E8  sq NM
+305255F0  sq ft
+305255F8 sq mi
+305255FE Jan
+30525602 Feb
+30525606 Mar
+3052560A Apr
+3052560E May
+30525612 Jun
+30525616 Jul
+3052561A Aug
+3052561E Sep
+30525622 Oct
+30525626 Nov
+3052562A Dec
+30525638 Rename Track
+30525648 Tracks must be labeled.
+30525660 active track
+30525670 activetrack
+3052567C A track can not be named 
+30525698 .  Please provide a different name.
+305256CC Trip Time
+305256D8 Color
+305256E0 Failed to follow track.
+305256F8 Delete Track
+30525708 Are you sure you want to delete this track?
+30525734 Follow
+3052573C Opened Track File
+30525758 %02d-%s-%02d, %s
+3052576C %s, %02d d %02d h
+30525780 %s, %02d:%02d:%02d
+30525794 Details
+3052579C Track Recording mode will end Track Playback mode.
+305257D0 Track Recording mode will end Simulate Navigation mode.
+30525808 This track does not contain any points.
+30525830 Clear Track
+3052583C Are you sure you want to clear this track?
+30525868 Record:
+30525874 Clear
+3052587C Could not copy track to GPX file.
+305258A0 Saving to SD card
+305258B4 Track Area
+305258C0 At least 3 points are required to calculate track area.
+3052592C Track Playback
+3052593C Track Playback will turn off Track Recording mode.
+30525970 Track Playback will turn off GPS Simulation mode.
+305259A4 Track Playback will end Simulate Navigation mode.
+305259D8 Press MENU and then select File to open a saved track file.
+30525A40 ØYR0No Tide Station
+30525A58 Current
+30525A60 Height
+30525AA8 Max Ebb
+30525AB0 Low Tide
+30525ABC Max Flood
+30525AC8 High Tide
+30525AD4 Tide/Current Station
+30525AEC Hide Info Fields
+30525B00 Show Info Fields
+30525B14 Use Find
+30525B20 Use Map
+30525B40 Calibrate Compass...
+30525B58 Calibrate Altimeter...
+30525B70 Stop Navigating
+30525B80 Back on Track
+30525B90 Switch to Hiking
+30525BA4 Switch to Driving
+30525BB8 New
+30525BD3 0 1 Wide, 2 Narrow
+30525BE8  4 Narrow Fields
+30525BFC  2 Wide Fields
+30525C0C  2 Narrow Fields
+30525C20  1 Wide Field
+30525C30 Change Info Fields
+30525C44 Arrange Info Fields...
+30525C5C Restore Default Info Fields
+30525C78 Arrange Info Fields
+30525C8C Layer Detail...
+30525C9C Select All
+30525CA8 Deselect All
+30525CB8 Restore Layer Defaults
+30525CD0 Data Detail...
+30525CE0 View Map
+30525CEC Disable GPS
+30525CF8 Calibrate...
+30525D08 Set Current Location
+30525D20 System...
+30525D2C Display...
+30525D38 Connect to Computer...
+30525D50 Compass & Altimeter...
+30525D68 Sound...
+30525D74 Time...
+30525D7C Units...
+30525D88 Page Order...
+30525D98 Owner Information...
+30525DB0 About this Device...
+30525DC8 Restore Setup Defaults
+30525DE0 Reset to Factory Defaults
+30525DFC Satellites
+30525E08 Map
+30525E0C Compass
+30525E14 Trip Info
+30525E20 Waypoints
+30525E2C Geocaches
+30525E38 Routes
+30525E40 Tracks
+30525E48 Sun/Moon
+30525E54 Tide
+30525E5C Hunt/Fish
+30525E68 Device Setup
+30525E78 Route Directions
+30525E8C Reset Time/Date
+30525E9C Reset Date
+30525EA8 File...
+30525EB0 Edit Track Settings...
+30525EC8 Show Active Track Area...
+30525EE4 Stop Track Playback
+30525EF8 Playback Speed...
+30525F0C Start Track Playback
+30525F24 Show Track Area...
+30525F38 View Comment Details...
+30525F50 Delete Waypoint
+30525F60 Project Waypoint...
+30525F74 Move to GPS Location
+30525F8C Average Waypoint...
+30525FA0 View Geocache Hint...
+30525FB8 Log Your Geocache Find
+30525FD0 Delete Geocache
+30525FE0 Project Geocache...
+30525FF4 Move to GPS Location
+3052600C Average Geocache...
+30526020 All
+30526024 Recent Finds
+30526034 GIS Layers
+30526040 Draw Layers
+3052604C Waypoints
+30526058 Geocaches
+30526064 Points of Interest
+30526078 Natural Features
+3052608C DeLorme Atlas & Gazetteer Points
+305260B0 Addresses
+305260BC Coordinates
+305260C8 Streets/Trails
+305260D8 Cities
+305260E0 All Categories
+305260F0 All Businesses
+30526100 Accommodations
+30526110 Airports
+3052611C Amusements/Recreation
+30526134 Camping/RV Parks
+30526148 Education
+30526154 Emergency Services
+30526168 Exits and Rest Areas
+30526180 Fast Food/Snacks
+30526194 Gas Stations
+305261A4 Government
+305261B0 Major Shopping
+305261C0 Parks
+305261C8 Religious
+305261D4 Restaurants
+305261E0 Body of Water
+305261F0 Bay
+305261F4 Lake/Pond
+30526200 Ocean
+30526208 River/Stream
+30526218 Wetlands
+30526224 Island
+3052622C Land Feature
+3052623C Beach
+30526244 Canyon
+3052624C Geologic Formation
+30526260 Glacier
+30526268 Pass
+30526270 Valley
+30526278 Mountain or Hill
+3052628C Water Feature
+3052629C Canal
+305262A4 Channel
+305262AC Rapids
+305262B4 Spring
+305262BC Waterfall
+305262C8 Boat Launches
+305262D8 Campgrounds
+305262E4 Family Outings
+305262F4 Fishing
+305262FC Hunting
+30526304 Outdoor Adventures
+30526318 Unique Natural Features
+30526330 Edit Waypoint...
+30526344 x\R0Compass Menu
+30526358 Data Layering
+30526368 Data Management
+30526378 Waypoint Edit Menu
+3052638C Menu
+30526394 Geocache Menu
+305263A4 Hunt/Fish Menu
+305263B4 Directions Menu
+305263C4 Satellites Menu
+305263D4 Sun Moon Menu
+305263E4 Tide Menu
+305263F0 Track Menu
+305263FC Track Detail Menu
+30526410 Waypoint Details Menu
+30526428 Stop Simulation
+30526438 Simulation Speed...
+3052644C Hide Route
+30526458 Route Options...
+3052646C Switch to Show Small Text
+30526488 Switch to Show Large Text
+305264A4 Reset Trip Info...
+305264B8 Info Fields...
+305264C8 Trip Info Menu
+305264D8 Turn Charts On
+305264E8 Turn Charts Off
+305264F8 Turn Imagery Off
+3052650C Turn Imagery On
+3052651C Map Setup...
+3052652C Measure Distance
+30526540 Simulate GPS Edit Off
+30526558 Simulate GPS Edit On
+30526570 Map Menu
+3052657C Hiking Route Arrow...
+30526594 Edit Route Settings
+305265A8 Route Menu
+305265B4 Simulate Navigation
+305265C8 Reverse Route
+305265D8 Delete Route
+305265E8 Edit Route Menu
+305265F8 Show Distance to Finish
+30526610 Show Distance to Turn
+30526628 Waypoint Detail Menu
+30526640 Switch to Sort By Name
+30526658 Switch to Sort By Distance
+30526674 Delete By Symbol
+30526688 Waypoint Menu
+30526698 Geocache Detail Menu
+305266B0 Switch to Show Not Logged
+305266CC Switch to Show Logged
+305266E4 Upload Field Notes
+305266F8 View Field Notes
+3052670C Enable GPS
+30526718 Switch to Find by Name
+30526730 Find Menu
+3052673C Switch to Near Map Center
+30526758 Switch to Name Begins With
+30526774 Clear Recent Finds
+30526788 Reset to Current Location 
+305267A4 Clear All Fields
+305267B8 Switch to Name Contains
+305267D0 Phase
+305267E0 Moon
+305267E8 Waxing
+305267F0 Crescent
+305267FC First
+30526804 Quarter
+3052680C Gibbous
+30526814 Full
+3052681C Waning
+30526824 Last
+3052682C Rise/Set
+3052684C  sec
+30526854 inHg
+3052685C Recording interval:
+30526870 Hiking Route Calc Speed:
+305268A7 00000 XXX
+305268B4 1999 XXX
+305268C0 00.00 XXXX
+305268CC 39.99 XXXX
+305268D8 00-JXX-1000 00:00 AM
+305268F0 00-JXX-1000 00:00
+30526904 39-XXX-2999 29:59
+30526918 39-XXX-2999 19:59 PM
+30526930 00-JXX-00
+3052693C 39-XXX-29
+30526988 00 sec
+30526990 99 sec
+30526998 00.00 km/h
+305269A4 99.99 km/h
+305269B0 000 km/h
+305269BC 999 km/h
+30526AAC 00000 DATUM
+30526AC4 99999 DATUM
+30526AD0 Backlight Intensity
+30526AE4 Contrast
+30526AF0 Volume
+30526B27 0Restore Defaults
+30526B3C External
+30526B48 Battery
+30526B54 %0d:%02d:%02d
+30526B80 Calibrating
+30526B90 ... Working ...
+30526BA0 Operation
+30526BAC successfully
+30526BBC completed.
+30526BC8 Please Wait
+30526BE8  Yes    
+30526D1B 0Please wait:
+30526D2C Rebooting
+30526D47 0Create Route
+30526D58 The route you are viewing will be turned off
+30526D88 Routes
+30526D90 ROUTE_OFF_ROUTE
+30526DA0 Off Route
+30526DAC Do you want to recalculate the route based on your current position?
+30526DF4 Directions
+30526E00 Power Menu
+30526E0C Lock the buttons?
+30526E20 Unlock the buttons?
+30526E34 Shutting down the device.
+30526E50 Press the POWER button to unlock the device.
+305270EC RµR0
+3052711C öºR0
+30527164 lÃR0
+305271AC ÒÊR0
+305271DC VÎR0
+3052720C ÚÑR0
+305272CC ÀæR0
+305272FC dìR0
+305274DC èþS0
+305274F4 XaT0
+3052750C ÈÃT0
+30527554 HßU0
+30527644 ônY0
+30527C74 ±"¶t^çì
+30527C7C ¶tÿÿ°"j
+30527CF4 ÜÎ~ïË
+30527D30 ÿÿÙ¥j
+30527D3C ÔS³K*
+30527D96 sCvtË
+30527E4A ÿÿÿÿ
+30527E6A ÿÿÿÿ
+30527F74 ÿÿÿÿ
+30527F94 ÿÿÿÿ
+30528048 ÿÿÿÿ
+30528063 øàÿ
+30528068 ÿÿÿÿ
+30528081 øàÿàÿàÿ
+3052809F øàÿàÿàÿàÿàÿ
+305280BD øàÿàÿàÿàÿàÿ
+305280DB øàÿàÿàÿàÿàÿ
+305280F9 øàÿàÿàÿàÿàÿ
+30528117 øàÿàÿàÿàÿàÿ
+30528135 øàÿàÿàÿàÿàÿ
+30528158 àÿàÿàÿ
+30528174 ÿÿÿÿ
+30528194 ÿÿÿÿ
+3052824A ÿÿÿÿ
+3052826A ÿÿÿÿ
+30528374 ÿÿÿÿ
+30528394 ÿÿÿÿ
+30528611 øÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052864D øÿÿÿÿ
+30528653 øÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052868F øÿÿ
+305286AF øÿÿÿÿ
+305286D1 øÿÿÿÿ
+305286F3 øÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30528727 øÿÿÿÿ
+30528745 øÿÿÿÿÿÿ
+3052874D øÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052876B øÿÿÿÿÿÿ
+30528A11 øÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30528A4E ÿÿÿÿ
+30528A54 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30528A8F øÿÿ
+30528AAF øÿÿÿÿ
+30528AD1 øÿÿÿÿ
+30528AF3 øÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30528B27 øÿÿÿÿ
+30528B45 øÿÿÿÿÿÿ
+30528B4E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30528B6C ÿÿÿÿÿÿ
+30529834 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+305298D6 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529968 ÿÿÿÿ
+30529972 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529C1A ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529C40 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529C66 ÿÿÿÿÿÿÿÿÿÿÿÿ
+30529C8C ÿÿÿÿÿÿÿÿÿÿÿÿ
+30529CB2 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529CD8 ÿÿÿÿ
+30529CE0 ÿÿÿÿÿÿÿÿ
+30529CFE ÿÿÿÿ
+30529D08 ÿÿÿÿÿÿÿÿ
+30529D24 ÿÿÿÿ
+30529D30 ÿÿÿÿÿÿÿÿ
+30529D58 ÿÿÿÿÿÿÿÿ
+30529D7E ÿÿÿÿÿÿÿÿ
+30529DA4 ÿÿÿÿÿÿÿÿ
+30529DCA ÿÿÿÿÿÿÿÿ
+30529DF0 ÿÿÿÿÿÿÿÿ
+30529E16 ÿÿÿÿÿÿÿÿ
+30529E3C ÿÿÿÿÿÿÿÿ
+30529E62 ÿÿÿÿÿÿÿÿ
+30529F1A ÿÿÿÿ
+30529F3E ÿÿÿÿÿÿ
+30529F62 ÿÿÿÿÿÿÿÿ
+30529F86 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529FAA ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529FD2 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+30529FFA ÿÿÿÿÿÿÿÿ
+3052A00A ÿÿÿÿÿÿÿÿ
+3052A022 ÿÿÿÿÿÿ
+3052A030 ÿÿÿÿÿÿÿÿ
+3052A04A ÿÿÿÿ
+3052A056 ÿÿÿÿÿÿÿÿ
+3052A07C ÿÿÿÿÿÿÿÿ
+3052A0A2 ÿÿÿÿÿÿÿÿ
+3052A0C8 ÿÿÿÿÿÿÿÿ
+3052A0EE ÿÿÿÿÿÿÿÿ
+3052A114 ÿÿÿÿÿÿÿÿ
+3052A13A ÿÿÿÿÿÿÿÿ
+3052A1F6 ÿÿÿÿÿÿ
+3052A21A ÿÿÿÿÿÿÿÿÿÿ
+3052A23E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A256 ÿÿÿÿ
+3052A262 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A27C ÿÿÿÿ
+3052A286 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A2A2 ÿÿÿÿ
+3052A2AA ÿÿÿÿÿÿÿÿ
+3052A2B6 ÿÿÿÿÿÿÿÿ
+3052A2C8 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A2DC ÿÿÿÿÿÿÿÿ
+3052A2EE ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A302 ÿÿÿÿÿÿÿÿ
+3052A314 ÿÿÿÿÿÿÿÿÿÿ
+3052A328 ÿÿÿÿÿÿÿÿ
+3052A33A ÿÿÿÿÿÿÿÿÿÿ
+3052A34E ÿÿÿÿÿÿÿÿ
+3052A360 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A374 ÿÿÿÿÿÿÿÿ
+3052A386 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A39A ÿÿÿÿÿÿÿÿ
+3052A3C0 ÿÿÿÿÿÿÿÿ
+3052A3E6 ÿÿÿÿÿÿÿÿ
+3052A40C ÿÿÿÿÿÿÿÿ
+3052A49C ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A4C2 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A4EE ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A514 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A538 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A55C ÿÿÿÿÿÿÿÿ
+3052A568 ÿÿÿÿ
+3052A580 ÿÿÿÿÿÿÿÿ
+3052A58E ÿÿÿÿ
+3052A5A4 ÿÿÿÿÿÿÿÿ
+3052A5B4 ÿÿÿÿ
+3052A5C8 ÿÿÿÿÿÿÿÿ
+3052A5EE ÿÿÿÿÿÿÿÿ
+3052A614 ÿÿÿÿÿÿÿÿ
+3052A63A ÿÿÿÿÿÿÿÿ
+3052A660 ÿÿÿÿÿÿÿÿ
+3052A686 ÿÿÿÿÿÿÿÿ
+3052A6AC ÿÿÿÿÿÿÿÿ
+3052A6D2 ÿÿÿÿÿÿÿÿ
+3052A79A ÿÿÿÿ
+3052A7C0 ÿÿÿÿÿÿ
+3052A7E6 ÿÿÿÿÿÿÿÿ
+3052A800 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A824 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A848 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052A86E ÿÿÿÿÿÿÿÿ
+3052A87E ÿÿÿÿÿÿÿÿ
+3052A894 ÿÿÿÿÿÿÿÿ
+3052A8A4 ÿÿÿÿÿÿ
+3052A8BA ÿÿÿÿÿÿÿÿ
+3052A8CA ÿÿÿÿ
+3052A8E0 ÿÿÿÿÿÿÿÿ
+3052A906 ÿÿÿÿÿÿÿÿ
+3052A92C ÿÿÿÿÿÿÿÿ
+3052A952 ÿÿÿÿÿÿÿÿ
+3052A978 ÿÿÿÿÿÿÿÿ
+3052A99E ÿÿÿÿÿÿÿÿ
+3052AA60 ÿÿÿÿÿÿ
+3052AA84 ÿÿÿÿÿÿÿÿÿÿ
+3052AAA8 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052AACE ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052AAE6 ÿÿÿÿ
+3052AAF4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052AB0C ÿÿÿÿ
+3052AB1A ÿÿÿÿÿÿÿÿ
+3052AB26 ÿÿÿÿÿÿÿÿ
+3052AB32 ÿÿÿÿ
+3052AB40 ÿÿÿÿÿÿÿÿ
+3052AB4E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052AB66 ÿÿÿÿÿÿÿÿ
+3052AB76 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052AB8C ÿÿÿÿÿÿÿÿ
+3052AB9E ÿÿÿÿÿÿÿÿÿÿ
+3052ABB2 ÿÿÿÿÿÿÿÿ
+3052ABC4 ÿÿÿÿÿÿÿÿÿÿ
+3052ABD8 ÿÿÿÿÿÿÿÿ
+3052ABE4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052ABFE ÿÿÿÿÿÿÿÿ
+3052AC0A ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052AC24 ÿÿÿÿÿÿÿÿ
+3052AC4A ÿÿÿÿÿÿÿÿ
+3052AC70 ÿÿÿÿÿÿÿÿ
+3052AD38 ÿÿÿÿÿÿ
+3052AD5C ÿÿÿÿÿÿÿÿÿÿ
+3052AD80 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052ADA4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052ADC8 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052ADF6 ÿÿÿÿÿÿ
+3052AE1C ÿÿÿÿÿÿ
+3052AE42 ÿÿÿÿÿÿ
+3052AE68 ÿÿÿÿÿÿ
+3052AE8E ÿÿÿÿÿÿ
+3052AEB4 ÿÿÿÿÿÿ
+3052AEDA ÿÿÿÿÿÿ
+3052AF00 ÿÿÿÿÿÿ
+3052AF26 ÿÿÿÿÿÿ
+3052AF4C ÿÿÿÿÿÿ
+3052B0A6 ÿÿÿÿÿÿÿÿ
+3052B0CE ÿÿÿÿÿÿ
+3052B0E2 ÿÿÿÿÿÿ
+3052B0F4 ÿÿÿÿÿÿ
+3052B108 ÿÿÿÿÿÿ
+3052B11A ÿÿÿÿÿÿ
+3052B12E ÿÿÿÿÿÿ
+3052B140 ÿÿÿÿÿÿ
+3052B154 ÿÿÿÿÿÿ
+3052B166 ÿÿÿÿÿÿ
+3052B17A ÿÿÿÿÿÿ
+3052B1A0 ÿÿÿÿÿÿ
+3052B1C6 ÿÿÿÿÿÿ
+3052B1EC ÿÿÿÿÿÿ
+3052B212 ÿÿÿÿÿÿ
+3052B2DC ÿÿÿÿÿÿ
+3052B300 ÿÿÿÿÿÿÿÿÿÿ
+3052B324 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B348 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B36C ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B39A ÿÿÿÿÿÿ
+3052B3C0 ÿÿÿÿÿÿ
+3052B3E6 ÿÿÿÿÿÿ
+3052B40C ÿÿÿÿÿÿ
+3052B432 ÿÿÿÿÿÿ
+3052B458 ÿÿÿÿÿÿ
+3052B47E ÿÿÿÿÿÿ
+3052B4A4 ÿÿÿÿÿÿ
+3052B4CA ÿÿÿÿÿÿ
+3052B4F0 ÿÿÿÿÿÿ
+3052B5D2 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B5FA ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B622 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B64A ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B66E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B692 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B6B6 ÿÿÿÿÿÿÿÿÿÿ
+3052B6C2 ÿÿÿÿÿÿ
+3052B6DA ÿÿÿÿÿÿÿÿÿÿ
+3052B6EA ÿÿÿÿ
+3052B6FE ÿÿÿÿÿÿÿÿÿÿ
+3052B722 ÿÿÿÿÿÿÿÿÿÿ
+3052B746 ÿÿÿÿÿÿÿÿÿÿ
+3052B76A ÿÿÿÿÿÿÿÿÿÿ
+3052B792 ÿÿÿÿÿÿ
+3052B8FA ÿÿÿÿ
+3052B920 ÿÿÿÿÿÿ
+3052B946 ÿÿÿÿÿÿÿÿ
+3052B958 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B97E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B9A4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052B9DE ÿÿÿÿÿÿÿÿ
+3052BA04 ÿÿÿÿÿÿ
+3052BA2A ÿÿÿÿ
+3052BB6E ÿÿÿÿÿÿ
+3052BB92 ÿÿÿÿÿÿÿÿÿÿ
+3052BBBA ÿÿÿÿÿÿÿÿÿÿ
+3052BBE2 ÿÿÿÿÿÿÿÿÿÿ
+3052BC0A ÿÿÿÿÿÿÿÿÿÿ
+3052BC32 ÿÿÿÿÿÿÿÿÿÿ
+3052BC42 ÿÿÿÿ
+3052BC5A ÿÿÿÿÿÿÿÿÿÿ
+3052BC66 ÿÿÿÿÿÿ
+3052BC82 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BCAA ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BCD2 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BCF6 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BD1A ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BD3E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BE24 ÿÿÿÿÿÿ
+3052BE4A ÿÿÿÿÿÿ
+3052BE70 ÿÿÿÿÿÿ
+3052BE96 ÿÿÿÿÿÿ
+3052BEBC ÿÿÿÿÿÿ
+3052BEE2 ÿÿÿÿÿÿ
+3052BF08 ÿÿÿÿÿÿ
+3052BF2E ÿÿÿÿÿÿ
+3052BF54 ÿÿÿÿÿÿ
+3052BF7A ÿÿÿÿÿÿ
+3052BF98 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BFC0 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052BFE8 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C010 ÿÿÿÿÿÿÿÿÿÿ
+3052C038 ÿÿÿÿÿÿ
+3052C126 ÿÿÿÿÿÿ
+3052C14A ÿÿÿÿÿÿÿÿÿÿ
+3052C16E ÿÿÿÿÿÿÿÿÿÿ
+3052C192 ÿÿÿÿÿÿÿÿÿÿ
+3052C1B6 ÿÿÿÿÿÿÿÿÿÿ
+3052C1D0 ÿÿÿÿ
+3052C1DA ÿÿÿÿÿÿÿÿÿÿ
+3052C1F6 ÿÿÿÿÿÿ
+3052C1FE ÿÿÿÿÿÿÿÿÿÿ
+3052C21C ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C242 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C268 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C28E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C2B4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C2DA ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C434 ÿÿÿÿ
+3052C458 ÿÿÿÿÿÿ
+3052C47C ÿÿÿÿÿÿÿÿ
+3052C4A0 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C4C4 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C4EC ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C514 ÿÿÿÿÿÿÿÿ
+3052C53C ÿÿÿÿÿÿ
+3052C564 ÿÿÿÿ
+3052C6B6 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C6DC ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C702 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C728 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C74E ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C774 ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C79A ÿÿÿÿÿÿ
+3052C7A2 ÿÿÿÿÿÿÿÿÿÿ
+3052C7C0 ÿÿÿÿ
+3052C7CA ÿÿÿÿÿÿÿÿÿÿ
+3052C7F2 ÿÿÿÿÿÿÿÿÿÿ
+3052C81A ÿÿÿÿÿÿÿÿÿÿ
+3052C842 ÿÿÿÿÿÿÿÿÿÿ
+3052C86A ÿÿÿÿÿÿÿÿÿÿ
+3052C892 ÿÿÿÿÿÿ
+3052C96B øÿÿ
+3052C97A ÿÿÿÿ
+3052C987 øÿÿ
+3052C98C ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052C9A5 øÿÿ
+3052C9AE ÿÿÿÿ
+3052C9C3 øÿÿ
+3052C9E0 ÿÿÿÿ
+3052C9FE ÿÿÿÿ
+3052CA08 ÿÿÿÿ
+3052CA1D øÿÿ
+3052CA22 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CA3D øÿÿ
+3052CA4C ÿÿÿÿ
+3052CAFB øÿÿ
+3052CB17 øÿÿ
+3052CB33 øÿÿ
+3052CB4F øÿÿ
+3052CB8D øÿÿ
+3052CBA9 øÿÿ
+3052CBAE ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CBC7 øÿÿ
+3052CBD0 ÿÿÿÿ
+3052CBE5 øÿÿ
+3052CC03 øÿÿ
+3052CC21 øÿÿ
+3052CC2A ÿÿÿÿ
+3052CC3F øÿÿ
+3052CC44 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CC5F øÿÿ
+3052CCDD øÿÿ
+3052CCF5 øÿÿÿÿÿÿÿÿÿÿ
+3052CD11 øÿÿ
+3052CD2D øÿÿ
+3052CD32 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CD4B øÿÿ
+3052CD54 ÿÿÿÿ
+3052CD69 øÿÿ
+3052CD87 øÿÿ
+3052CDA5 øÿÿ
+3052CDAE ÿÿÿÿ
+3052CDC3 øÿÿ
+3052CDC8 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CDE3 øÿÿ
+3052CE93 øÿÿ
+3052CEB1 øÿÿ
+3052CECF øÿÿ
+3052CEED øÿÿ
+3052CEF6 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CF0B øÿÿ
+3052CF18 ÿÿÿÿ
+3052CF2B øÿÿÿÿ
+3052CF4B øÿÿ
+3052CF69 øÿÿ
+3052CF72 ÿÿÿÿ
+3052CF87 øÿÿ
+3052CF8C ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052CFA7 øÿÿ
+3052D03B øÿÿ
+3052D057 øÿÿ
+3052D05C ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D075 øÿÿ
+3052D07E ÿÿÿÿ
+3052D093 øÿÿ
+3052D0B1 øÿÿ
+3052D0CF øÿÿ
+3052D0D8 ÿÿÿÿ
+3052D0ED øÿÿ
+3052D0F2 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D10D øÿÿ
+3052D147 øÿÿ
+3052D167 øÿÿ
+3052D187 øÿÿ
+3052D1A7 øÿÿ
+3052D239 øÿÿ
+3052D255 øÿÿ
+3052D25A ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D273 øÿÿ
+3052D27C ÿÿÿÿ
+3052D291 øÿÿ
+3052D2AF øÿÿ
+3052D2CD øÿÿ
+3052D2D6 ÿÿÿÿ
+3052D2EB øÿÿ
+3052D2F0 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D30B øÿÿ
+3052D32B øÿÿÿÿÿÿÿÿÿÿ
+3052D34F øÿÿ
+3052D3FD øÿÿ
+3052D419 øÿÿ
+3052D41E ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D437 øÿÿ
+3052D440 ÿÿÿÿ
+3052D455 øÿÿ
+3052D471 øÿÿÿÿ
+3052D48D øÿÿ
+3052D49A ÿÿÿÿ
+3052D4AB øÿÿ
+3052D4B4 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D4C9 øÿÿ
+3052D4E7 øÿÿ
+3052D505 øÿÿ
+3052D5BD øÿÿ
+3052D5C2 ÿÿÿÿ
+3052D5D9 øÿÿ
+3052D5E4 ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D5F5 øÿÿ
+3052D606 ÿÿÿÿ
+3052D610 ÿÿÿÿ
+3052D62E ÿÿÿÿ
+3052D64F øÿÿ
+3052D660 ÿÿÿÿ
+3052D66F øÿÿ
+3052D67A ÿÿÿÿÿÿÿÿÿÿÿÿ
+3052D68F øÿÿ
+3052D694 ÿÿÿÿ
+3052D7D0 üÿüÿüÿ
+3052D7F4 üÿüÿüÿüÿüÿüÿüÿ
+3052D81C üÿüÿüÿüÿüÿüÿüÿ
+3052D842 üÿüÿüÿüÿüÿüÿüÿüÿüÿ
+3052D86A üÿüÿüÿüÿüÿüÿüÿüÿüÿ
+3052D892 üÿüÿüÿüÿüÿüÿüÿüÿüÿ
+3052D8BC üÿüÿüÿüÿüÿüÿüÿ
+3052D8E4 üÿüÿüÿüÿüÿüÿüÿ
+3052D910 üÿüÿüÿ
+3052DAF0 êÿêÿêÿ
+3052DB14 êÿêÿêÿêÿêÿêÿêÿ
+3052DB3C êÿêÿêÿêÿêÿêÿêÿ
+3052DB62 êÿêÿêÿêÿêÿêÿêÿêÿêÿ
+3052DB8A êÿêÿêÿêÿêÿêÿêÿêÿêÿ
+3052DBB2 êÿêÿêÿêÿêÿêÿêÿêÿêÿ
+3052DBDC êÿêÿêÿêÿêÿêÿêÿ
+3052DC04 êÿêÿêÿêÿêÿêÿêÿ
+3052DC30 êÿêÿêÿ
+3052DE10 ÀÖÀÖÀÖ
+3052DE34 ÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DE5C ÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DE82 ÀÖÀÖÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DEAA ÀÖÀÖÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DED2 ÀÖÀÖÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DEFC ÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DF24 ÀÖÀÖÀÖÀÖÀÖÀÖÀÖ
+3052DF50 ÀÖÀÖÀÖ
+3052E130  s s s
+3052E154  s s s s s s s
+3052E17C  s s s s s s s
+3052E1A2  s s s s s s s s s
+3052E1CA  s s s s s s s s s
+3052E1F2  s s s s s s s s s
+3052E21C  s s s s s s s
+3052E244  s s s s s s s
+3052E270  s s s
+3052E6EB øÿÿÿÿÿÿ
+3052E70F øÿÿÿÿ
+3052E733 øÿÿÿÿ
+3052E759 øÿÿ
+3052E77D øÿÿÿÿ
+3052E7A3 øÿÿ
+3052E7C9 øÿÿ
+3052E7D7 øÿÿÿÿ
+3052E7EF øÿÿ
+3052E7FD øÿÿ
+3052E815 øÿÿ
+3052E83B øÿÿ
+3052E861 øÿÿ
+3052E887 øÿÿÿÿ
+3052E8AF øÿÿ
+3052E8D5 øÿÿÿÿ
+3052E8FD øÿÿÿÿ
+3052E925 øÿÿÿÿÿÿ
+3052E9BD øÿÿÿÿÿÿ
+3052E9E1 øÿÿÿÿ
+3052EA05 øÿÿÿÿ
+3052EA2B øÿÿ
+3052EA4F øÿÿÿÿ
+3052EA75 øÿÿ
+3052EA9B øÿÿ
+3052EAC1 øÿÿ
+3052EAE7 øÿÿ
+3052EB0D øÿÿ
+3052EB33 øÿÿ
+3052EB59 øÿÿÿÿ
+3052EB81 øÿÿ
+3052EBA7 øÿÿÿÿ
+3052EBCF øÿÿÿÿ
+3052EBF7 øÿÿÿÿÿÿ
+3052EC8F øÿÿÿÿÿÿ
+3052ECB3 øÿÿÿÿ
+3052ECD7 øÿÿÿÿ
+3052ECFD øÿÿ
+3052ED21 øÿÿÿÿ
+3052ED30 àÿàÿàÿàÿ
+3052ED47 øÿÿ
+3052ED54 àÿàÿàÿàÿàÿàÿ
+3052ED6D øÿÿ
+3052ED78 àÿàÿÿÿÿÿàÿàÿàÿ
+3052ED93 øÿÿ
+3052ED9E àÿàÿÿÿàÿàÿàÿàÿ
+3052EDB9 øÿÿ
+3052EDC4 àÿàÿàÿàÿàÿàÿ
+3052EDDF øÿÿ
+3052EDEA àÿàÿàÿàÿàÿ
+3052EE05 øÿÿ
+3052EE12 àÿàÿàÿ
+3052EE2B øÿÿÿÿ
+3052EE53 øÿÿ
+3052EE79 øÿÿÿÿ
+3052EEA1 øÿÿÿÿ
+3052EEC9 øÿÿÿÿÿÿ
+3052EF61 øÿÿÿÿÿÿ
+3052EF85 øÿÿÿÿ
+3052EFA9 øÿÿÿÿ
+3052EFCF øÿÿ
+3052EFF3 øÿÿÿÿ
+3052F019 øÿÿ
+3052F03F øÿÿ
+3052F065 øÿÿ
+3052F08B øÿÿ
+3052F0B1 øÿÿ
+3052F0D7 øÿÿ
+3052F0FD øÿÿÿÿ
+3052F125 øÿÿ
+3052F14B øÿÿÿÿ
+3052F173 øÿÿÿÿ
+3052F19B øÿÿÿÿÿÿ
+3052F243 ÖiJ
+3052F286 U­÷½÷½yÎßÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ®s
+3052F323 ÷ÿÿÿÿÿÿªR
+3052F3E1 Æu­¶µ<çE)
+3052F475 ÆºÖç9
+3052F4A3 ÆyÎ}ïmk
+3052F501 µ8ÆºÖßÿßÿ$!
+3052F557 Æ8Æ8ÆyÎ¾÷¾÷ÛÞ¾÷ÿÿÿÿÿÿIJ
+3052F5EF Öÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ¾÷mk
+3052F799 ¥×½yÎyÎûÞÿÿÿÿÿÿÿÿIJ
+3052F7CB ÆYÎyÎÛÞ¾÷ÿÿÿÿ8Æ
+3052F7FB µ¶µu­4¥ÛÞßÿÿÿMk
+3052F833 µÛÞ¾÷E)
+3052F893 ÆûÞ¾÷
+3052F97C ÷½¶µ¶µyÎ}ïÿÿ÷½
+3052F9AF µyÎºÖ¾÷ÿÿÿÿç9
+3052F9DF Ö]ï<çÿÿÿÿÿÿYÎ 
+3052FA3D ç}ï}ïÿÿÿÿÿÿÿÿÿÿÿÿ®s

@@ -1,0 +1,5 @@
+* text=auto
+# firmware files: keep byte-exact (CRLF lines, checked by hash)
+*.hex binary
+*.bin binary
+*.sh text eol=lf
