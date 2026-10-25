@@ -15,10 +15,12 @@ FW_FILE *fw_fopen(const char *path, const char *mode);              /* modes r w
 unsigned fw_fwrite(const void *p, unsigned size, unsigned n, FW_FILE *f); /* returns n on success */
 int fw_fclose(FW_FILE *f);
 int fw_stat(const char *path, void *buf);                           /* 0 if it exists; buf >= 52 bytes */
+unsigned fw_fread(void *p, unsigned size, unsigned n, FW_FILE *f);  /* returns items read */
 
 /* OS20 time: ticks since boot, wraps at 2^32 (about 22 minutes) */
 unsigned fw_time_now(void);
 unsigned fw_ticks_per_sec(void);                                    /* 3250000 (26 MHz / 8) */
+void fw_task_delay(unsigned ticks);                                 /* OS20: sleep the calling task */
 
 /* device clock, as used for screenshot names; year is years since 2000 */
 void fw_get_datetime(int *mon, int *day, int *year, int *hour, int *min, int *sec);

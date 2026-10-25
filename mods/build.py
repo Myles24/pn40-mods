@@ -30,8 +30,11 @@ CFLAGS = ["-mcpu=arm926ej-s", "-marm", "-mfloat-abi=soft", "-Os", "-ffreestandin
           "-fno-tree-loop-distribute-patterns", "-fno-common", "-fno-pic", "-ffunction-sections",
           "-fstack-usage", "-Wall", "-Wextra", "-Werror"]
 # nmealog_append runs on the NMEA output task's 0x76C-byte stack
-STACK_LIMITS = {"nmealog_append": 128, "nmealog_init": 128, "ascent_init": 128, "profile_init": 128, "prof_init": 128}
-SOURCES = ["hooks.S", "nmealog.c", "fields.S", "battfield.c", "ascent.c", "profile.c", "prof_hooks.S", "prof.c"]
+# bbox_watchdog runs on the watchdog task's 0x400-byte stack
+STACK_LIMITS = {"nmealog_append": 128, "nmealog_init": 128, "ascent_init": 128, "profile_init": 128, "prof_init": 128,
+                "bbox_init": 128, "bbox_watchdog": 64, "bbox_reset": 64, "bbox_shutdown": 128}
+SOURCES = ["hooks.S", "nmealog.c", "fields.S", "battfield.c", "ascent.c", "profile.c", "prof_hooks.S", "prof.c",
+           "bbox_hooks.S", "bbox.c"]
 PANE_TABLE_LEN = 164                    # must match fw.h
 
 # CPU clock (see README "CPU clock"): the boot code sets SRC_PLLFR and SRC_CR
@@ -39,17 +42,15 @@ PANE_TABLE_LEN = 164                    # must match fw.h
 # 175.5 MHz = 26 * 27 >> 2 with HCLK field 2 keeps the bus at 58.5 MHz if the
 # field means /(n+1), or makes it slower (87.75 MHz) if it means /n.
 # None = stock clock.
-CPU_CLOCK = {"pllfr": 0x16001902, "src_cr_hclk": 2}
-# 234 MHz = {"pllfr": 0x16002202, "src_cr_hclk": 3} ran and passed the stress
-# test, but one report came out with 7 characters missing; 175.5 MHz is the
-# everyday setting. Known issue at 175.5 MHz: the unit shuts down when
-# "Connect to Computer" exports the SD card (use a card reader). The compass
-# once looked broken at 175.5 MHz; that was local magnetic interference, but
-# the compass task retry patch in mod_patches stays as a safeguard.
-# 2026-10-25: 175.5 MHz (0x16001902, field 2) runs fine and the bus measurement
-# proved the field means /(n+1) (bus 58.5 MHz either way), but the unit shuts
-# down when "Connect to Computer" exports the SD card. Now testing 234 MHz =
-# 26 * 36 >> 2 (the stock PLL VCO, one shift less) with the bus at /4.
+CPU_CLOCK = {"pllfr": 0x16002202, "src_cr_hclk": 3}
+# 234 MHz = 26 * 36 >> 2 (the stock PLL VCO, one shift less) with the bus at
+# /4 = 58.5 MHz, unchanged (the HCLK field means /(n+1), measured). It passed
+# the stress test; one report once came out with 7 characters missing.
+# 175.5 MHz = {"pllfr": 0x16001902, "src_cr_hclk": 2}.
+# Known issue at both: the unit shuts down when "Connect to Computer" exports
+# the SD card (bbox.c records why). The compass once looked broken at 175.5
+# MHz; that was local magnetic interference, but the compass task retry patch
+# in mod_patches stays as a safeguard.
 
 
 def tool(name):
@@ -163,11 +164,11 @@ def arm_bl(site, target):
 
 def mod_patches(syms):
     return [
-        # 32 KB of RAM for the logger: heap region 1 is 0x00540DCC + 0x232800,
-        # shrink it to 0x22A800 so 0x0076B5CC-0x007735CB is never handed out.
+        # 36 KB of RAM for the mods: heap region 1 is 0x00540DCC + 0x232800,
+        # shrink it to 0x229800 so 0x0076A5CC-0x007735CB is never handed out.
         # Two copies of the partition table (normal and alternate boot).
-        ("heap region 1 size (table A)", 0x304D08A0, le32(0x232800), le32(0x22A800)),
-        ("heap region 1 size (table B)", 0x304D08E8, le32(0x232800), le32(0x22A800)),
+        ("heap region 1 size (table A)", 0x304D08A0, le32(0x232800), le32(0x229800)),
+        ("heap region 1 size (table B)", 0x304D08E8, le32(0x232800), le32(0x229800)),
         # main() calls NMEA_start through this literal (only user: 0x30082574)
         ("NMEA_start call -> nmea_start_tramp", 0x30082884, le32(0x301518E4), le32(syms["nmea_start_tramp"])),
         # nmea_send(buf, len), right after mutex_lock: "ldr r3, [pc, #0x5c]" -> "b nmea_send_tramp"
@@ -221,6 +222,14 @@ def mod_patches(syms):
          arm_b(0x301AA8E8, syms["compass_fail_tramp"])),
         ("compass task: good read -> compass_ok_tramp", 0x301AA91C, le32(0xEAFFFFCD),
          arm_b(0x301AA91C, syms["compass_ok_tramp"])),
+
+        # Black box (bbox.c): why does the unit shut down?
+        ("shutdown entry -> shutdown_tramp", 0x3008423C, le32(0xE92D41F0),
+         arm_b(0x3008423C, syms["shutdown_tramp"])),
+        ("watchdog_reset_now entry -> wdreset_tramp", 0x301A869C, le32(0xE92D4010),
+         arm_b(0x301A869C, syms["wdreset_tramp"])),
+        ("watchdog task: slot expired -> wd_expire_tramp", 0x301A88FC, arm_bl(0x301A88FC, 0x301A864C),
+         arm_bl(0x301A88FC, syms["wd_expire_tramp"])),
 
         # UI timing diagnostics (prof.c / prof.S): four UI main loop calls...
         ("UI loop ui_before_dispatch -> wrap_before", 0x30085F38, arm_bl(0x30085F38, 0x30085B10),

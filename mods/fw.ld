@@ -7,8 +7,12 @@ MEMORY
 }
 
 /* RAM taken from the heap: heap region 1 (0x00540DCC, 0x232800 bytes) is shrunk
- * by 32 KB in the partition tables at 0x304D08A0 / 0x304D08E8, which frees
- * 0x0076B5CC-0x007735CB. The firmware never touches it after that. */
+ * by 36 KB in the partition tables at 0x304D08A0 / 0x304D08E8, which frees
+ * 0x0076A5CC-0x007735CB. The firmware never touches it after that. */
+BBOX_RAM       = 0x0076A600;        /* bbox.c: this session (0x780), survives a reset */
+BBOX_RT        = 0x0076AD80;        /* bbox.c runtime state (0x80) */
+BBOX_PREV      = 0x0076AE00;        /* bbox.c: copy of the previous session (0x780) */
+BBOX_END       = 0x0076B580;
 LOGGER_RAM     = 0x0076B600;
 LOGGER_RAM_END = 0x007735C0;
 ASCENT_RAM     = 0x0076FA00;        /* after the logger's 0x400 state + 16 KB ring */
@@ -18,6 +22,7 @@ ASSERT(PROFILE_RING + 3600 * 4 <= LOGGER_RAM_END, "profile ring doesn't fit in t
 PROF_RAM       = 0x00773340;        /* prof.c state, to LOGGER_RAM_END (0x280 bytes) */
 PROF_RAM_END   = LOGGER_RAM_END;
 ASSERT(PROF_RAM >= PROFILE_RING + 3600 * 4, "prof state overlaps the profile ring")
+ASSERT(BBOX_END <= LOGGER_RAM, "black box overlaps the logger")
 
 /* firmware functions */
 fw_fopen            = 0x30187E80;
@@ -29,6 +34,9 @@ fw_ticks_per_sec    = 0x301FA838;
 fw_get_datetime     = 0x300B966C;
 fw_usb_export_state = 0x300D0050;
 fw_malloc           = 0x30189890;
+fw_fread            = 0x30187BA4;   /* fread(ptr, size, n, f) */
+fw_task_delay       = 0x301FB8DC;
+fw_lowvec           = 0x00000000;   /* exception vectors: "ldr pc, [pc, #0x18]" each */
 fw_vec_irq_lit      = 0x00000038;   /* exception vector 0x18 (IRQ) does ldr pc, [this] */
 
 /* UI / data fields (re/UI.md, re/notes/settings.md) */
@@ -76,6 +84,9 @@ fw_win_update       = 0x304478EC;   /* ARM veneer of win_update(win), UI main lo
 fw_fread_body       = 0x30187BA8;   /* fread(ptr, size, n, f) 0x30187BA4, after its first instruction */
 fw_fseek_body       = 0x30187D3C;   /* fseek(f, off, whence) 0x30187D38, after its first instruction */
 fw_compass_loop     = 0x301AA858;   /* top of the Compass Process task loop (0x301AA804) */
+fw_shutdown_body    = 0x30084240;   /* shutdown(reboot) 0x3008423C, after its first instruction */
+fw_wdreset_body     = 0x301A86A0;   /* watchdog_reset_now 0x301A869C, after its first instruction */
+fw_wd_force_reset   = 0x301A864C;   /* watchdog load = 1: reset at once (watchdog task 0x301A88FC) */
 
 /* only build.py's patches point at these, so keep them from --gc-sections */
 EXTERN(profile_page profile_page_name mods_build_id)

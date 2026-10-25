@@ -222,6 +222,48 @@ controller registers. All reports carry `build=` (the running build id).
 State: RAM 0x00773340-0x007735BF. `test_prof.py` runs the patched sites
 with timed stubs and enters `prof_irq` in IRQ mode.
 
+## Black box (bbox.c, bbox_hooks.S)
+
+Finds out why the unit shuts down when "Connect to Computer" exports the SD
+card at a raised clock. It records in RAM that survives a watchdog or soft reset
+(0x0076A600-0x0076B57F, freed by shrinking heap region 1 another 4 KB):
+
+- a heartbeat every 2 s: USB export state, battery mV, the longest gap
+  between UI loop passes, and the watchdog slot closest to expiring;
+- USB export state changes;
+- every call of the shutdown routine 0x3008423C (power off / reboot) with its
+  caller (low battery 0x30084dd8, auto-off in ui_periodic, a PC command
+  0x3014xxxx...), and of the immediate reset 0x301A869C;
+- a watchdog slot expiring (the watchdog task resets the unit when a task
+  misses its deadline: slot 1 = UI loop, 120 s; slot 4 = NMEA loop, 20 s), with
+  the slot table;
+- CPU exceptions. Stock firmware's undefined/prefetch/data abort vectors are
+  self-loops (literal 0xA0000024/2C/30 points back at its own vector), so a
+  fault freezes the unit until the 5 s hardware watchdog resets it. bbox.c
+  replaces only those self-loops (checked at boot) with handlers that save
+  r0-r12, pc, spsr, the fault status/address and the task's sp/lr/stack, then
+  loop the same way.
+
+Reports (`bbox_live.txt` / `bbox_prev.txt`, never on the drive the PC has):
+- `bbox_live.txt`: this session. While a drive is exported, every 5 s on the
+  other medium (`MSYS2:/`, the user-visible internal drive, while the SD card
+  is exported), at every shutdown call, and on `SD:/` at every screenshot.
+- `bbox_prev.txt`: once per boot on each available medium: the previous
+  session from RAM (if it survived: not after a real power-off) plus the
+  previous `MSYS2:/bbox_live.txt`.
+
+| Patch | Where | What |
+|---|---|---|
+| shutdown entry | 0x3008423C | `push {r4-r8, lr}` -> `b shutdown_tramp` |
+| watchdog_reset_now entry | 0x301A869C | `push {r4, lr}` -> `b wdreset_tramp` |
+| watchdog task, slot expired | 0x301A88FC | `bl 0x301A864C` -> `bl wd_expire_tramp` |
+| exception literals | RAM 0xA0000024/2C/30 | runtime, only over the stock self-loops |
+| heap region 1 | 0x304D08A0 / 0x304D08E8 | 0x22A800 -> 0x229800 |
+
+`test_bbox.py` runs the patched sites, the shutdown path from the UI task
+and from another task, a data abort in abort mode, and a "reset" (boot with
+the RAM kept) and a "power-off" (RAM scrambled).
+
 ## CPU clock (build.py `CPU_CLOCK`)
 
 Measured on the device (sysinfo.txt): the CPU runs at **117 MHz** = PLL1

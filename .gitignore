@@ -21,3 +21,7 @@
 /mods/baseline_*/
 __pycache__/
 *.pyc
+
+# local map experiments: DeLorme map copies and licence scratch tools (not published)
+/maptest/
+/maptools/

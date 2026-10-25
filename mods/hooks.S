@@ -16,6 +16,7 @@ nmea_start_tramp:
     push    {r0-r3, r4, lr}
     mov     r4, sp
     bic     sp, sp, #7
+    bl      bbox_init
     bl      nmealog_init
     bl      ascent_init
     bl      profile_init
@@ -51,6 +52,7 @@ ui_loop_tramp:
     mov     r4, sp
     bic     sp, sp, #7
     bl      prof_loop_top
+    bl      bbox_tick
     bl      nmealog_ui_tick
     bl      profile_tick
     mov     sp, r4
@@ -68,6 +70,7 @@ screenshot_tramp:
     bl      fw_screenshot
     bl      nmealog_screenshot
     bl      prof_screenshot
+    bl      bbox_screenshot
     mov     sp, r4
     pop     {r4, pc}
 

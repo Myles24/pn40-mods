@@ -24,7 +24,9 @@ the bootloader analysis and the tools behind them.
   CPU profile (`cpuprof.txt`, while `SD:\prof` exists), and a system report
   (`sysinfo.txt`) with the measured CPU clock, the bus timing, a CPU and memory stress
   test, compass counters and register dumps.
-- **CPU overclock**: 117 MHz stock -> 175.5 MHz, set at boot (see the warnings below).
+- **CPU overclock**: 117 MHz stock -> 234 MHz, set at boot (see the warnings below).
+- **Black box**: records shutdowns, watchdog resets and CPU faults with their causes, and the
+  record survives the reset.
 - **Delta updates**: the build can write a file that holds only the 64 KB flash blocks that
   changed, which makes an install much faster.
 
@@ -76,10 +78,10 @@ pages first, or the older firmware will likely crash drawing them.
 - **Use at your own risk.** This writes your device's flash. The bootloader is never
   touched (the build refuses to), so a bad firmware can always be replaced from the SD
   card with a card reader.
-- **Overclock:** at 175.5 MHz the unit shuts down when "Connect to Computer" exports the SD
-  card over USB, so copy files with a card reader instead. Set `CPU_CLOCK = None` in
-  `mods/build.py` for the stock clock. 234 MHz booted and passed the stress test, but
-  produced one corrupted report line, so it isn't used.
+- **Overclock:** above the stock clock the unit shuts down when "Connect to Computer"
+  exports the SD card over USB, so copy files with a card reader instead (the black box in
+  `mods/bbox.c` is there to find out why). Set `CPU_CLOCK = None` in `mods/build.py` for the
+  stock clock. 234 MHz passed the stress test; one report line once came out corrupted.
 - The local `baseline_*` rollback copies that `mods/README.md` mentions aren't in the repo.
   Build from `update/PN-40.hex` instead.
 
