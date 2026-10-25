@@ -133,9 +133,9 @@ GeoTIFFs, NAIP aerials, maybe OpenStreetMap).
   mods/baseline_*/, the Ghidra project and decomp.c (regenerate them with re/make_inputs.py,
   re/analyze.sh and re/run_export.sh), and the old images.
 - **Committed 2026-10-25:** the black box (mods/bbox.c, bbox_hooks.S, test_bbox.py), the 234 MHz
-  setting and hook changes (build.py, fw.h, fw.ld, hooks.S), README updates, re/notes/pm0.md,
-  maptools/ and maptest/ (both ignored: maptest/ holds a DeLorme map copy, maptools/ the
-  licence scratch tools).
+  setting and hook changes (build.py, fw.h, fw.ld, hooks.S), README updates, re/notes/pm0.md
+  and this file. maptest/ (a DeLorme map copy) and maptools/ (the licence scratch tools) are
+  ignored and stay local.
 - **License:** MIT for the owner's code; the firmware images are DeLorme's. GitHub shows the
   license as "Other" because of the note appended to LICENSE.
 
