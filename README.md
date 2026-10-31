@@ -34,6 +34,29 @@ the bootloader analysis and the tools behind them. [Screenshots](#screenshots) b
 
 All taken on the PN-40 with its own screenshot button.
 
+### Up-to-date maps: Middletown, Delaware
+
+| DeLorme Topo 10 (about 2010) | OpenStreetMap (October 2026), `mapgen/make_vector.py` |
+|---|---|
+| <img src="mapgen/screenshots/middletown_delorme_topo10.png" alt="Middletown, DE on DeLorme's Topo 10 map" width="352"> | <img src="mapgen/screenshots/middletown_openstreetmap.png" alt="Middletown, DE on a map generated from OpenStreetMap" width="352"> |
+
+The same spot at the same zoom (0.5 mi scale), just west of Middletown, Delaware. Left
+is DeLorme's own Topo 10 map, whose data dates from around 2010. Right is a
+map this project builds from current OpenStreetMap data in DeLorme's own format, so the
+unit draws it with its own colours, label fonts, route shields and icons.
+
+Middletown has grown a lot since 2010, and only the new map shows it:
+- **Roads:** the US 301 toll road (opened 2019) runs through the middle of the new
+  map; the old map only has the old US 301 (red, left) and empty land.
+- **Neighbourhoods:** most of the subdivisions east of the toll road, and the streets
+  inside them, aren't on the old map.
+- **Places:** the businesses along DE 299 (Lidl, Royal Farms, Dunkin', Jersey Mike's,
+  Grotto Pizza and others) appear with DeLorme's icons. The old map shows a few
+  businesses from its 2010 directory (Food Lion, 301 Plaza).
+
+Map data on the right (c) OpenStreetMap contributors (ODbL). See
+[`mapgen/README.md`](mapgen/README.md) for how the maps are made.
+
 ### Elevation profile page
 
 <img src="new_graph.png" alt="Elevation profile page on the PN-40" height="440">
@@ -57,29 +80,6 @@ Three data fields the stock firmware doesn't have, here on a page next to stock 
   dropped. A deadband (3 m, or 10 m when the elevation comes from GPS) keeps noise
   from adding up, and a jump guard ignores barometer recalibrations. The totals are
   saved with the trip.
-
-### Up-to-date maps: Middletown, Delaware
-
-| DeLorme Topo 10 (about 2010) | OpenStreetMap (October 2026), `mapgen/make_vector.py` |
-|---|---|
-| <img src="mapgen/screenshots/middletown_delorme_topo10.png" alt="Middletown, DE on DeLorme's Topo 10 map" width="352"> | <img src="mapgen/screenshots/middletown_openstreetmap.png" alt="Middletown, DE on a map generated from OpenStreetMap" width="352"> |
-
-The same spot at the same zoom (0.5 mi scale), just west of Middletown, Delaware. Left
-is DeLorme's own Topo 10 map, whose data dates from around 2010. Right is a
-map this project builds from current OpenStreetMap data in DeLorme's own format, so the
-unit draws it with its own colours, label fonts, route shields and icons.
-
-Middletown has grown a lot since 2010, and only the new map shows it:
-- **Roads:** the US 301 toll road (opened 2019) runs through the middle of the new
-  map; the old map only has the old US 301 (red, left) and empty land.
-- **Neighbourhoods:** most of the subdivisions east of the toll road, and the streets
-  inside them, aren't on the old map.
-- **Places:** the businesses along DE 299 (Lidl, Royal Farms, Dunkin', Jersey Mike's,
-  Grotto Pizza and others) appear with DeLorme's icons. The old map shows a few
-  businesses from its 2010 directory (Food Lion, 301 Plaza).
-
-Map data on the right (c) OpenStreetMap contributors (ODbL). See
-[`mapgen/README.md`](mapgen/README.md) for how the maps are made.
 
 ## Layout
 
