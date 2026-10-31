@@ -29,6 +29,12 @@ the bootloader analysis and the tools behind them.
   record survives the reset.
 - **Delta updates**: the build can write a file that holds only the 64 KB flash blocks that
   changed, which makes an install much faster.
+- **Maps from public data** ([`mapgen/`](mapgen/README.md)): NAIP aerial imagery, USGS Topo or
+  a GeoTIFF, turned into the PN-40's raster map format; and up-to-date vector maps (roads,
+  names, route shields, water, points of interest) from OpenStreetMap, in DeLorme's
+  vector format. The maps install into the built-in base map folder, which the mods
+  build moves to `SD:\basedata` so the card's size is the limit.
+  [Before and after in Middletown, DE](mapgen/README.md#comparison-middletown-delaware).
 
 ## Layout
 
@@ -40,6 +46,7 @@ the bootloader analysis and the tools behind them.
 | `bootdump/` | `make_bootdump.py`: a firmware whose screenshot button dumps the whole NOR to SD |
 | `patched/` | `make_patch.py`: the week-rollover fix on its own, plus its output |
 | `update/PN-40.hex` | Stock firmware 2.9.6.70319, the input to every build |
+| [`mapgen/`](mapgen/README.md) | `.pm0` map reader/writer, raster and vector generators; format notes in [re/notes/pm0.md](re/notes/pm0.md) and [re/notes/vector.md](re/notes/vector.md) |
 | [`re/`](re/UI.md) | Reverse engineering: Ghidra scripts, function/string tables, name tables, notes on [pages](re/notes/pages.md), [layers](re/notes/layers.md), [graphics](re/notes/graphics.md), [settings](re/notes/settings.md) |
 
 ## Build

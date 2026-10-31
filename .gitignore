@@ -25,3 +25,6 @@ __pycache__/
 # local map experiments: DeLorme map copies and licence scratch tools (not published)
 /maptest/
 /maptools/
+
+# generated maps and downloaded imagery
+/mapgen/out/

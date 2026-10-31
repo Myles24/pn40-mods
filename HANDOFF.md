@@ -37,6 +37,10 @@ decision), `nor/BOOTLOADER.md` (how updates are flashed), `re/UI.md` and `re/not
     checked by a flash simulation. A delta is only valid on exactly that base build.
 - Tests: `test_pnhex.py` (6), `test_nmealog.py` (12), `test_ascent.py` (17), `test_profile.py` (10),
   `test_prof.py` (11), `test_bbox.py` (11). All 67 pass.
+  - Map tests: `mapgen/test_pm0.py` (14 DeLorme raster maps round-trip),
+    `mapgen/test_pm0v.py` (44 vector maps from `dumps/`) and `mapgen/test_make_map.py`
+    (3 synthetic maps). All pass. The venv now also has numpy,
+    Pillow and tifffile.
 - Install: copy the file to `SD:\update\PN-40.hex`, with no `0\` folder and no other `.hex` in
   `update\`, then power-cycle.
 - The SD card appears as `H:`, through USB drive mode or a card reader. In USB mode, "Connect to
@@ -45,17 +49,34 @@ decision), `nor/BOOTLOADER.md` (how updates are flashed), `re/UI.md` and `re/not
 
 ## Device state right now
 
-- **Installed:** full build `b1d80a58…c179`, build id `85236098`, saved in `mods/baseline_b1d80a58`.
-  Use it as the base for the next delta.
-  - CPU at 234 MHz.
-  - Includes every feature below, including the black box.
+- **Installed (2026-10-30):** delta build `f8d1281c…`, build id `D1D0F9F4`, saved in
+  `mods/baseline_f8d1281c`. Use it as the base for the next delta.
+  - It is `b1d80a58` (CPU at 234 MHz, every feature below, including the black box) plus
+    `BASEDATA_ON_SD`: the base map folder is `SD:/basedata` (see `mods/README.md`).
+  - Owner's report: the base map draws, at about the same speed as from MSYS0.
+  - Not yet seen on the device: a map that exists only on the card (the base maps and the
+    Thomas Cove NAIP map are also still in `MSYS0:/basedata`); exporting the SD card over USB
+    and back.
 - **Reverts:**
-  - `mods/out/PN-40.revert-to-2bc68299-from-b1d80a58.hex` (175.5 MHz build);
-  - `mods/out/PN-40.revert-to-7a061979-from-b1d80a58.hex` (stock clock).
-- **Map test file still on the device:** the internal drive holds a colour-inverted test copy of
-  `maps/Thomas_Cove_1155857-CDOQQ-MAP.pm0`. The original is in `internal drive/maps/` (also in
-  `dumps/internal2_files/maps/`). Copy it back when the owner exports the internal drive, then
-  check with `cmp`.
+  - `mods/out/PN-40.revert-to-b1d80a58-from-f8d1281c.hex` (base map folder back on MSYS0);
+  - from `b1d80a58`: `mods/out/PN-40.revert-to-2bc68299-from-b1d80a58.hex` (175.5 MHz build)
+    and `mods/out/PN-40.revert-to-7a061979-from-b1d80a58.hex` (stock clock).
+- **SD card:** new 32 GB card (2026-10-30): MBR, one FAT32 partition (type 0x0B, 4 MiB
+  offset, 32 KB clusters) like the old 4 GB card. It holds the old card's files and
+  `SD:\basedata` (the stock base maps from `dumps/internal0_files/basedata`, plus the Thomas
+  Cove NAIP map), checked against sha256 sums. Old card backup:
+  `dumps/sdcard_files_2026-10-30`.
+- **Internal drive (`MSYS2:`) maps removed** (2026-10-30, owner's request): `maps\` is empty.
+  All 24 DeLorme maps (and `temp_bulk_copy\`) are in `internal drive/maps`, checked by sha256
+  just before the delete. Thomas Cove had been restored there on 2026-10-25 (c44fbe50…6497).
+- **First generated map:** `mapgen/out/Thomas_Cove_NAIP-CDOQQ-MAP.pm0` (NAIP, same footprint
+  as the DeLorme Thomas Cove map).
+  - The first install worked: the map was copied into MSYS0 and drew correctly at full size.
+  - Drawn reduced, rows smeared: the RLE encoder had written 1-2 pixel literals, which are
+    escapes. Fixed.
+  - **Installed and confirmed:** the fixed build (sha 98f9996e) replaced the bad copy on the
+    next power-cycle and draws correctly zoomed in and out. The bootloader leaves the source in
+    `SD:\update\0\basedata\`; that's harmless.
 
 ## Features built (all in mods/, details in mods/README.md)
 
@@ -71,6 +92,7 @@ decision), `nor/BOOTLOADER.md` (how updates are flashed), `re/UI.md` and `re/not
 | CPU overclock | `build.py` `CPU_CLOCK` | 234 MHz: SRC_PLLFR 0x16002202, HCLK field 3, bus stays 58.5 MHz |
 | Black box | `bbox.c`, `bbox_hooks.S` | records shutdowns, watchdog expiries and CPU faults; the record survives a reset; writes `bbox_live.txt` / `bbox_prev.txt` |
 | Delta updates | `pnhex.py` | only the changed 64 KB blocks |
+| Base maps on SD | `build.py` `BASEDATA_ON_SD` | `MSYS0:/basedata` -> `SD:/basedata`, plus 3 USB-export patches (build f8d1281c, installed) |
 
 ## Findings worth knowing
 
@@ -94,31 +116,70 @@ decision), `nor/BOOTLOADER.md` (how updates are flashed), `re/UI.md` and `re/not
   - Maps on SD versus internal storage hasn't been benchmarked yet; a proposed benchmark is
     still open.
 
-## Map file (.pm0) research (notes: re/notes/pm0.md)
+## Maps from public data (mapgen/, format: re/notes/pm0.md)
 
-The owner wants to replace their outdated maps with maps made from public data (USGS topo
-GeoTIFFs, NAIP aerials, maybe OpenStreetMap).
+The owner wants to replace their outdated maps with maps made from public data.
 
-- **Raster tiles** (3DTQ topo quads, CDOQQ aerials): each tile page starts `TR 01 00 06 01`.
-  - Then four u32 bounds, width, height, bpp 16, stride (padded to 4), compression and data size.
-  - Pixels are RGB565: compression 1 = raw rows; compression 4 = RLE rows
-    (`u16 len` + runs + `00 00`, where a run is `00 n` + n pixels, or `c pixel` repeated).
-  - Confirmed by rendering tiles and by editing a map on the device.
-- **SAT10 maps** use a different, undecoded codec. Vector maps (Topo 10, base maps) are out of scope.
-- **Coordinates:** x = (lon + 256) × 2^23 and y = (256 − lat) × 2^23 (8.23 fixed point,
-  plate carrée). Checked against several known places.
-- **Container:**
-  - 0x00: map name; 0x3C: `CMap` `XMap`.
-  - 0x4C: big-endian u16 page count. 0x4E: page table, 8 bytes per page (big-endian u32 file
-    offset, u32 index); page size = next offset − offset.
-  - Page 0: header and directory (format version 0x019F; must be 0x19B-0x19F).
-  - Page 1: `RI` raster index, with 7 levels, per-level entries and grids of tile page numbers.
-    Not fully decoded.
-  - Remaining pages: `TR` tiles, 2-byte `RN` empty slots, and small `SG`/`IA`/`IR` pages.
-- **Licensing:** maps carry a per-device licence record that the firmware checks when a map is
-  added. Work on this was paused after a safety stop, so treat it carefully: the goal is maps made
-  from public data for the owner's own unit, not unlocking DeLorme's commercial maps. The scratch
-  files in `maptools/` and `maptest/` are local only and are not in the repository.
+- **Raster format fully decoded** (3DTQ topo, CDOQQ aerial). This covers the container,
+  page-0 layer descriptors and directory, the RI grid index and tiles (RGB565 raw/RLE,
+  rows stored south first).
+  - `mapgen/pm0.py` reads and re-writes all 14 DeLorme raster maps byte for byte
+    (`test_pm0.py`).
+  - SAT10 uses an undecoded codec.
+- **Vector format decoded** (base map, Topo 9 regional, Topo 10; `re/notes/vector.md`,
+  2026-10-30). Same container and grid index; `TV` pages hold lines/areas as bytes across
+  each page's box, plus label/point records and search tables.
+  - `pm0.py` (`VPage`, `Feature`, `Text`) reads and re-writes all 44 vector maps on hand
+    byte for byte (`test_pm0v.py`, about 4 minutes).
+  - **Converter:** `mapgen/make_vector.py` (OpenStreetMap via the Overpass API; shapely in
+    the venv). It copies Topo 10's layout (levels 12 and 10, one page per grid cell),
+    DeLorme's TS classes and colours, and the label "Custom Vectors" (priority 39000: above
+    Topo 10's 41000, below aerials' 34000). Road/water/park names, route shields and
+    coastline water, towns and points of interest (DeLorme's point class codes, so the
+    firmware picks DeLorme's icons); no search data yet.
+  - Device test 1 (2026-10-30): it drew, but cells past the data edge showed as empty
+    bands, and it had no names or shields. Fixed: the area widens to whole level-10
+    cells, and labels and shields were added.
+  - Build 2 (`mapgen/out/Thomas_Cove_OSM-Vector-Map.pm0`, 0.39 MB, area -75.736 39.350
+    -75.473 39.525) is not on the card yet, nor is the build after it, which adds 235
+    points of interest. Copied to the card once it was unlocked; the owner reports that
+    it looks right.
+  - **Geofabrik:** `--geofabrik north-america/us/delaware` reads the state .osm.pbf
+    (osmium in the venv), splits crowded cells by halving as DeLorme does, and at the
+    extract's edge paints land only over the covered part (page flag 0 plus a "land" area).
+    Delaware checked on the device: looks right. The Thomas Cove OSM test map was removed
+    from the card.
+  - **Per-state maps failed on the device (2026-10-30):** a level-10 "edge" page (flag
+    0, painting only its state's part) drew nothing, and the cell stayed white. DeLorme
+    never uses flag 0. The generator now merges several extracts into one region (objects
+    deduplicated by OSM id), writes only full pages, and leaves cells the extracts don't
+    fully cover to other maps. Areas are also split to at most 148 points (DeLorme's
+    maximum).
+  - **On the card:** `MidAtlantic_OSM_1..3-Vector-Map.pm0` (DE+MD+NJ+PA, 37 + 66 + 87 MB,
+    strips split at about -78.29 and -76.00; built in 23 minutes from
+    `--geofabrik north-america/us/{delaware,maryland,new-jersey,pennsylvania}`). The state
+    files were removed. An RI page caps a file at about 30,000 cells (`MAX_CELLS10`).
+    DC is not covered: the Maryland extract's outline leaves it out, so add
+    `north-america/us/district-of-columbia` to the region if wanted. Not yet checked on
+    the device.
+- **Generator:** `mapgen/make_map.py` takes NAIP or USGS Topo (The National Map export
+  services, EPSG:4326) or a GeoTIFF. It copies DeLorme's layout: levels, labels, page
+  numbering and tile splitting. `test_make_map.py` runs offline.
+- **No licence work.** Generated maps carry no `EL` licence record. They load only from
+  `MSYS0:/basedata`, which the firmware never licence-checks (0x300AA338: the check flag is 0
+  for paths starting `MSYS0:/basedata`).
+  - Stock install: `SD:\update\0\basedata\<map>.pm0` + power-cycle. The bootloader's
+    partition update copies file by file; a 0-byte file of the same name deletes it.
+    MSYS0 has about 85 MB free.
+  - With `BASEDATA_ON_SD` (build f8d1281c) the folder is `SD:\basedata`: copy maps there
+    directly.
+  - Don't extend the licence work in the local `maptools/` (paused after a safety stop: the
+    goal is maps from public data, not unlocking DeLorme's commercial maps). `maptools/`
+    and `maptest/` stay local and out of the repository.
+- **Verified on the device:** the generated Thomas Cove map loads from basedata and draws
+  correctly when zoomed in and out.
+- **Still open:** where it stacks against the vector base map and the DeLorme Thomas Cove
+  map; a topo build on the device; the 0-byte delete.
 
 ## Repository
 
@@ -136,14 +197,18 @@ GeoTIFFs, NAIP aerials, maybe OpenStreetMap).
   setting and hook changes (build.py, fw.h, fw.ld, hooks.S), README updates, re/notes/pm0.md
   and this file. maptest/ (a DeLorme map copy) and maptools/ (the licence scratch tools) are
   ignored and stay local.
+- **Committed 2026-10-30:** mapgen/ (raster and vector generators, pm0.py, tests, the
+  Middletown comparison screenshots), re/notes/vector.md, the `BASEDATA_ON_SD` patches
+  (mods/build.py, mods/README.md), README and notes updates, and this file. mapgen/out/
+  (builds and the OSM/Geofabrik cache) is ignored.
 - **License:** MIT for the owner's code; the firmware images are DeLorme's. GitHub shows the
   license as "Other" because of the note appended to LICENSE.
 
 ## Open ideas the owner has considered
 
-- Restore the original Thomas Cove map (see "Device state").
-- Map converter: finish the RI index, then generate a `.pm0` from a public GeoTIFF for one area
-  and test it on the device.
+- Generate maps for real areas (the Thomas Cove NAIP test passed), and topo too.
+- Map options: a finer level 17 (0.3 m NAIP, if the engine shows it), a contrast boost for the
+  screen, decoding SAT10.
 - Faster map redraws: profile at 234 MHz, and benchmark SD against internal storage.
 - More features: vertical speed field, grade %, profile history that survives power-off, GPX
   track logging.

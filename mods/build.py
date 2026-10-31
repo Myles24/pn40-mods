@@ -52,6 +52,11 @@ CPU_CLOCK = {"pllfr": 0x16002202, "src_cr_hclk": 3}
 # MHz; that was local magnetic interference, but the compass task retry patch
 # in mod_patches stays as a safeguard.
 
+# Base map folder on the SD card (see README "Base maps on the SD card"):
+# MSYS0:/basedata -> SD:/basedata, so maps from public data (mapgen/) are
+# limited by the card's size instead of MSYS0's 85 MB. False = stock.
+BASEDATA_ON_SD = True
+
 
 def tool(name):
     for p in (os.path.join(TOOLS, name + ".exe"), shutil.which(name) or ""):
@@ -213,7 +218,7 @@ def mod_patches(syms):
         ("page 9 handler -> profile_page", 0x30448358, le32(0x300B7B7C), le32(syms["profile_page"])),
         # the only pointer to "Hunt/Fish": names in the Pages menu and Page Order list
         ("page 9 name -> profile_page_name", 0x3011F52C, le32(0x30525E5C), le32(syms["profile_page_name"])),
-    ] + clock_patches() + [
+    ] + clock_patches() + basedata_patches() + [
         # Compass Process task (0x301AA804, 12 samples/s): on any failed sensor
         # read it set state 5 and exited, so one bad read stopped the compass
         # until a reboot. Now: count it and retry at the next sample; after
@@ -256,6 +261,27 @@ def clock_patches():
         ("SRC_PLLFR (PLL1/PLL2 frequency)", 0x30081B90, le32(0x16002203), le32(CPU_CLOCK["pllfr"])),
         ("SRC_CR first write (HCLK divider)", 0x30081B94, le32(0x00002004), le32(0x00000004 | hclk)),
         ("SRC_CR final write (HCLK divider)", 0x30081BA8, le32(0x00002104), le32(0x00000104 | hclk)),
+    ]
+
+
+def basedata_patches():
+    """Every use of the base map folder (scans, the licence exemption prefix
+    test at 0x300AA338, the path tables) reads the one string at 0x304D0C80;
+    the tide and time zone files have their own strings and stay on MSYS0.
+    The folder flag (2 = basedata, 1 = SD, 4 = MSYS2) still says "basedata",
+    so exporting the SD card over USB must also drop flag 2."""
+    if not BASEDATA_ON_SD:
+        return []
+    return [
+        ("base map folder MSYS0:/basedata -> SD:/basedata", 0x304D0C80, b"MSYS0:/basedata\0",
+         b"SD:/basedata\0\0\0\0"),
+        # USB export of the SD card closes the maps under this prefix
+        # (0x30313930, prefix compare); "SD:/maps" -> "SD:/" (0x305D2CCC)
+        ("SD export closes SD:/ maps, not only SD:/maps", 0x300AAFB0, le32(0x304D0C18), le32(0x305D2CCC)),
+        # ...and keeps the catalogue entries of the folders still mounted:
+        # 6 (basedata + MSYS2) -> 4 (MSYS2), in both export handlers
+        ("SD export keeps MSYS2 maps only (0x300A97C4)", 0x300AAF78, le32(0x03A01006), le32(0x03A01004)),
+        ("SD export rescans MSYS2 only (0x300A6E58)", 0x300A753C, le32(0x03A01006), le32(0x03A01004)),
     ]
 
 

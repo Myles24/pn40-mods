@@ -288,6 +288,38 @@ Set `CPU_CLOCK = None` for the stock clock.
 stock-clock build (`baseline_f67640e7\PN-40.hex`) to `SD:\update\` with a card
 reader and power on; the bootloader sets its own (stock) clock first.
 
+## Base maps on the SD card (build.py `BASEDATA_ON_SD`)
+
+Maps from public data (`../mapgen`) carry no licence record, so they only load
+from the base map folder, which the firmware never licence-checks. Stock, that
+folder is `MSYS0:/basedata`, with about 85 MB free. These patches move it to
+`SD:/basedata`, so the card's size is the limit. `SD:\maps` and the internal
+drive's `maps\` keep their licence check.
+
+The firmware names the folder through one string. The map scans (0x3013568C,
+0x30143D60, 0x30145D5C...), the `.ybr` index scans (0x30144018, 0x301440EC,
+0x301441E0), the licence exemption prefix test (0x300AA338) and three path
+tables all point to it. The tide and time zone files (`MSYS0:/basedata/Tide.bin`,
+`WestTZ.bin`, `EastTZ.bin`) use their own strings and stay on MSYS0.
+
+| Patch | Where | What |
+|---|---|---|
+| folder name | 0x304D0C80 | `MSYS0:/basedata` -> `SD:/basedata` |
+| SD export: close maps | literal 0x300AAFB0 | prefix `SD:/maps` -> `SD:/` (0x305D2CCC), so `0x30313930` also closes the basedata maps |
+| SD export: keep catalogue | 0x300AAF78 | folder flags 6 -> 4 for `0x300A97C4` |
+| SD export: rescan | 0x300A753C | folder flags 6 -> 4 for `0x300A6E58` |
+
+Folder flags: 1 = `SD:/maps`, 2 = basedata, 4 = `MSYS2:/maps`. Stock, exporting
+the SD card keeps 6 (basedata + MSYS2). Basedata is now on the card, so it
+keeps 4. The deferred rescan after the export ends adds 2 itself (0x300A99B8).
+
+Setup: copy the whole stock folder (305 MB: the regional `.pm0` maps, their
+`.ybr` files, Tide/TZ) from `dumps\internal0_files\basedata` to
+`SD:\basedata`, then add generated maps there. Without the card there is no
+base map. The copies left in `MSYS0:/basedata` are no longer read; the
+bootloader's `SD:\update\0\basedata` route still writes there, so don't use it
+for maps any more. `BASEDATA_ON_SD = False` builds stock behaviour.
+
 ## Firmware facts used (fw.h / fw.ld)
 
 | Address | What |
