@@ -3,12 +3,7 @@
 Custom firmware mods for the **DeLorme Earthmate PN-40** handheld GPS (firmware
 2.9.6.70319). These mods add C code to the stock firmware, linked into unused NOR flash and
 hooked in with small, checked patches. The repo also holds the reverse-engineering notes,
-the bootloader analysis and the tools behind them.
-
-<p>
-<img src="new_graph.png" alt="Elevation profile page on the PN-40" height="440">
-<img src="new_fields.png" alt="Battery Volts, Total Ascent and Total Descent data fields" height="440">
-</p>
+the bootloader analysis and the tools behind them. [Screenshots](#screenshots) below.
 
 ## What it adds
 
@@ -34,7 +29,57 @@ the bootloader analysis and the tools behind them.
   names, route shields, water, points of interest) from OpenStreetMap, in DeLorme's
   vector format. The maps install into the built-in base map folder, which the mods
   build moves to `SD:\basedata` so the card's size is the limit.
-  [Before and after in Middletown, DE](mapgen/README.md#comparison-middletown-delaware).
+
+## Screenshots
+
+All taken on the PN-40 with its own screenshot button.
+
+### Elevation profile page
+
+<img src="new_graph.png" alt="Elevation profile page on the PN-40" height="440">
+
+A new page (it takes the place of Hunt/Fish): the elevation over the last 5 miles
+travelled, with "now" at the right edge. The scale fits itself to the data (here 13 to
+123 ft) and is never less than 20 m tall, so GPS noise doesn't look like hills. The bottom
+line shows the current elevation (107 ft) and the trip's total ascent and descent (+169
+/ -69 ft). ENTER switches between distance and time (the last 30 minutes to 12 hours),
+and ZOOM changes the span. The unit records a point every 12 seconds, whether the page is
+showing or not.
+
+### New data fields
+
+<img src="new_fields.png" alt="Battery Volts, Total Ascent and Total Descent data fields" height="440">
+
+Three data fields the stock firmware doesn't have, here on a page next to stock fields:
+- **Battery Volts** (3.06 V): the battery voltage the unit measures, more useful than
+  the stock four-step battery icon for judging how much is left.
+- **Total Ascent / Total Descent** (263 / 191 ft): how much the trip has climbed and
+  dropped. A deadband (3 m, or 10 m when the elevation comes from GPS) keeps noise
+  from adding up, and a jump guard ignores barometer recalibrations. The totals are
+  saved with the trip.
+
+### Up-to-date maps: Middletown, Delaware
+
+| DeLorme Topo 10 (about 2010) | OpenStreetMap (October 2026), `mapgen/make_vector.py` |
+|---|---|
+| <img src="mapgen/screenshots/middletown_delorme_topo10.png" alt="Middletown, DE on DeLorme's Topo 10 map" width="352"> | <img src="mapgen/screenshots/middletown_openstreetmap.png" alt="Middletown, DE on a map generated from OpenStreetMap" width="352"> |
+
+The same spot at the same zoom (0.5 mi scale), just west of Middletown, Delaware. Left
+is DeLorme's own Topo 10 map, whose data dates from around 2010. Right is a
+map this project builds from current OpenStreetMap data in DeLorme's own format, so the
+unit draws it with its own colours, label fonts, route shields and icons.
+
+Middletown has grown a lot since 2010, and only the new map shows it:
+- **Roads:** the US 301 toll road (opened 2019) runs through the middle of the new
+  map; the old map only has the old US 301 (red, left) and empty land.
+- **Neighbourhoods:** most of the subdivisions east of the toll road, and the streets
+  inside them, aren't on the old map.
+- **Places:** the businesses along DE 299 (Lidl, Royal Farms, Dunkin', Jersey Mike's,
+  Grotto Pizza and others) appear with DeLorme's icons. The old map shows a few
+  businesses from its 2010 directory (Food Lion, 301 Plaza).
+
+Map data on the right (c) OpenStreetMap contributors (ODbL). See
+[`mapgen/README.md`](mapgen/README.md) for how the maps are made.
 
 ## Layout
 
